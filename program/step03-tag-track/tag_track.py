@@ -10,7 +10,7 @@ def input_stderr(prompt):
     return sys.stdin.readline().strip()
 
 track_questions_dict = {
-    "instrument/type": "separed by , :",
+    "instrumentOrTypes": "instrument/type separed by , :",
     "expention": "introspection(0) -> expention(10):",
     "festive": "sad(0) -> festif(10):",
     "contact": "solo(0) -> contact(10):",
