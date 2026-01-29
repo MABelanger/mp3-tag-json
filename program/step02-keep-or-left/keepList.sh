@@ -10,8 +10,6 @@ fi
 ALL_LST=$1
 KEEP_LST=$2
 
-echo "$ALL_LST"
-
 for file in $(cat $ALL_LST); do
     ffplay $file 2>/dev/null &
     #sleep .5;

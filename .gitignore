@@ -3,5 +3,5 @@ mp3/*
 !mp3/.gitkeep
 
 # Keep the tmp folder but not is content
-tmp/*
-!tmp/.gitkeep
+program/tmp-step/*
+!program/tmp-step/.gitkeep
