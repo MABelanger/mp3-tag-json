@@ -1,9 +1,9 @@
 # Setup
 
-1. put your mp3 inside the mp3 folder (with or without subdirectory)
+1. put your mp3 inside the data/mp3 folder (with or without subdirectory)
 
 2. Start the runStep.sh
-   ./runStep.sh
+   ./mp3-tag-json-step/runStep.sh
 
 Choose between step :
 
