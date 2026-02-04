@@ -21,17 +21,18 @@ track_questions_dict = {
 }
 
 def check_nb_argv():
-    if len(sys.argv) != 4:
-        print("Usage: python3 tag_track.py <md5sum> <duration> <bpm>")
+    if len(sys.argv) != 5:
+        print("Usage: python3 tag_track.py <mp3RelativePath> <md5sum> <duration> <bpm>")
         sys.exit()
 
 check_nb_argv()
 
 def get_init_track_answer_dict():
     track_answers_dict = {}
-    track_answers_dict["md5sum"] = sys.argv[1]
-    track_answers_dict["duration"] = sys.argv[2]
-    track_answers_dict["bpm"] = sys.argv[3]
+    track_answers_dict["mp3RelativePath"] = sys.argv[1]
+    track_answers_dict["md5sum"] = sys.argv[2]
+    track_answers_dict["duration"] = sys.argv[3]
+    track_answers_dict["bpm"] = sys.argv[4]
     return track_answers_dict
 
 track_answers_dict = get_init_track_answer_dict()

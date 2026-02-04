@@ -1,3 +1,4 @@
 # Keep the mp3 folder but not is content
-data/mp3/*
+data/**
 !data/.gitkeep
+!data/mp3/.gitkeep

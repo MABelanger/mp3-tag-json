@@ -1,9 +1,11 @@
 # Setup
 
-1. put your mp3 inside the mp3 folder (with or without subdirectory)
+1. put your mp3 inside the data/mp3 folder (with or without subdirectory)
 
-2. Start the runStep.sh
-   ./runStep.sh
+2. Start the main.sh
+   ./main.sh
+
+3. Press enter to continue or q to quit
 
 Choose between step :
 
