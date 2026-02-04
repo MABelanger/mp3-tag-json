@@ -5,6 +5,8 @@
 2. Start the main.sh
    ./main.sh
 
+3. Press enter to continue or q to quit
+
 Choose between step :
 
 - Step1 : create a list of all mp3 inside of mp3 folder
