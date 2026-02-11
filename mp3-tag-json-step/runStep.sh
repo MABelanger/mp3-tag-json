@@ -13,7 +13,7 @@ STEP4_TMP_BUILD_JSON_TMP="$STEP1_TMP_DIR/step4_02_buildJson.json.tmp"
 STEP4_FINAL_JSON="$DATA_PATH/mp3-tag.json"
 
 # Define the menu options in an array
-OPTIONS=("Step 1: Create a all.list" "Step 2: Create a keep.list" "Step 3: Tag mp3" "Step 4: Create dj-project-list.json" "Quit")
+OPTIONS=("Step 1: Create a all.list" "Step 2: Create a keep.list" "Step 3: Tag mp3" "Step 4: Create dj-project-list.json" "Step 5: Run http server" "Quit")
 
 # Set the prompt string (PS3 is the built-in variable for the select prompt)
 PS3="Please enter your choice (1-3): "
@@ -46,6 +46,12 @@ do
             $SCRIPT_DIR/program/step04-json-group/02-buildJsonBd.sh $STEP4_TMP_FILES_JSON_FILES > $STEP4_TMP_BUILD_JSON_TMP
             $SCRIPT_DIR/program/step04-json-group/03-saveFinalJson.sh $STEP4_TMP_BUILD_JSON_TMP > $STEP4_FINAL_JSON
             echo "    Done step 4" >&2;
+            exit 0;
+            ;;
+        "Step 5: Run http server")
+            echo "    Execute step 5..." >&2;
+            $SCRIPT_DIR/program/step05-http-server/01-server.sh $DATA_PATH
+            echo "    Done step 5" >&2;
             exit 0;
             ;;
         "Quit")
