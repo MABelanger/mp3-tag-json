@@ -1,19 +1,23 @@
 import { useState } from "react";
-import { Player } from "./webvtt-player";
-
-import tags from "./data/tags.json";
+import { useMp3TagJson } from "./hooks/useMp3TagJson";
+import { Players } from "./player/Players";
 
 function App() {
-  console.log(tags);
+  const { mp3TagJson, isLoading, error } = useMp3TagJson();
+
+  if (isLoading) {
+    return <div>loading mp3-tag.json</div>;
+  }
+
+  if (error) {
+    return <pre>{error}</pre>;
+  }
+
+  console.log(mp3TagJson);
 
   return (
     <>
-      <Player
-        audio="https://umd-mith.github.io/webvtt-player/data/audio.mp3"
-        transcript="https://umd-mith.github.io/webvtt-player/data/transcript.vtt"
-      />
-      hello
-      <pre>{JSON.stringify(tags)}</pre>
+      <Players mp3TagJsons={mp3TagJson} />
     </>
   );
 }
