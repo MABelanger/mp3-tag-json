@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "id3js": "^2.1.1",
+    "jsmediatags": "^3.9.7",
+    "music-metadata": "^11.12.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "webvtt-player": "^0.0.16"
