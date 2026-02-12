@@ -1,7 +1,5 @@
 import { useEffect, useRef } from "react";
 import { AudioMetadataReader } from "./AudioMetadataReader";
-import { Image } from "./Image";
-
 import { Labels } from "./Labels";
 
 export function Player(props) {
@@ -43,7 +41,6 @@ export function Player(props) {
       onKeyDown={handleKeyDown}
       style={{ paddingBottom: "40px", width: "100%" }}
     >
-      <Image mp3RelativePath={"/api/" + mp3RelativePath} />
       <AudioMetadataReader audioUrl={"/api/" + mp3RelativePath} />
       {titleName}
       <audio controls style={{ width: "100%" }}>
