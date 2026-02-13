@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMp3TagJson } from "./hooks/useMp3TagJson";
-import { Players } from "./players/Players";
+import { Mp3Sections } from "./Mp3Sections";
 
 function App() {
   const { mp3TagJson, isLoading, error } = useMp3TagJson();
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <Players mp3TagJsons={mp3TagJson} />
+      <Mp3Sections mp3TagJsons={mp3TagJson} />
     </>
   );
 }

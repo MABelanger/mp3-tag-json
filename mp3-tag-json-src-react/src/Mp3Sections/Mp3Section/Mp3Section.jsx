@@ -1,31 +1,33 @@
 import { useEffect, useRef } from "react";
 import { AudioMetadataReader } from "./AudioMetadataReader";
 import { Labels } from "./Labels";
+import { Player } from "./Player";
+import { Title } from "./Title";
+import * as utils from "./utils";
 
-export function Player(props) {
+export function Mp3Section(props) {
   const { mp3RelativePath } = props.mp3TagJson;
-  const fileName = mp3RelativePath.split("/").pop();
-  const titleName = fileName.slice(0, -4);
+  const soundName = utils.getSoundName(mp3RelativePath);
 
-  const audioRef = useRef(null);
+  const mp3SectionRef = useRef(null);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.addEventListener("keydown", handleKeyDown);
+    if (mp3SectionRef.current) {
+      mp3SectionRef.current.addEventListener("keydown", handleKeyDown);
     }
 
     return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener("keydown", handleKeyDown);
+      if (mp3SectionRef.current) {
+        mp3SectionRef.current.removeEventListener("keydown", handleKeyDown);
       }
     };
-  }, [audioRef]);
+  }, [mp3SectionRef]);
 
   const handleKeyDown = (event) => {
     console.log("bibi");
     if (event.key === " ") {
       event.preventDefault(); // Prevent page scrolling
-      const audio = audioRef.current;
+      const audio = mp3SectionRef.current;
       if (audio.paused) {
         audio.play();
       } else {
@@ -36,17 +38,14 @@ export function Player(props) {
 
   return (
     <div
-      ref={audioRef}
+      ref={mp3SectionRef}
       tabIndex="0"
       onKeyDown={handleKeyDown}
       style={{ paddingBottom: "40px", width: "100%" }}
     >
       <AudioMetadataReader audioUrl={"/api/" + mp3RelativePath} />
-      {titleName}
-      <audio controls style={{ width: "100%" }}>
-        <source src={"/api/" + mp3RelativePath} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      <Title soundName={soundName} />
+      <Player audioUrl={"/api/" + mp3RelativePath} />
       <Labels mp3TagJson={props.mp3TagJson} />
     </div>
   );
