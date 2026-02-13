@@ -1,7 +1,7 @@
 import React from "react";
-import { useAudioMetadataReader } from "./hooks/useAudioMetadataReader";
+import { useAudioMetadataReader } from "../AudioMetadataReader";
 
-export function AudioMetadataReader(props) {
+export function CoverArt(props) {
   const { metadata, coverArt, fetchError } = useAudioMetadataReader(
     props.audioUrl
   );

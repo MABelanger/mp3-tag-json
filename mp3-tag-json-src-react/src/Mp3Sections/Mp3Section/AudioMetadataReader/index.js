@@ -1,1 +1,1 @@
-export { AudioMetadataReader } from "./AudioMetadataReader";
+export { useAudioMetadataReader } from "./hooks/useAudioMetadataReader";

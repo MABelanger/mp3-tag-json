@@ -1,13 +1,14 @@
 import { useEffect, useRef } from "react";
-import { AudioMetadataReader } from "./AudioMetadataReader";
-import { Labels } from "./Labels";
+import { InfoHeader } from "./InfoHeader";
+
 import { Player } from "./Player";
-import { Title } from "./Title";
+
 import * as utils from "./utils";
 
 export function Mp3Section(props) {
   const { mp3RelativePath } = props.mp3TagJson;
-  const soundName = utils.getSoundName(mp3RelativePath);
+
+  const audioUrl = utils.getAudioUrl(mp3RelativePath);
 
   const mp3SectionRef = useRef(null);
 
@@ -43,10 +44,8 @@ export function Mp3Section(props) {
       onKeyDown={handleKeyDown}
       style={{ paddingBottom: "40px", width: "100%" }}
     >
-      <AudioMetadataReader audioUrl={"/api/" + mp3RelativePath} />
-      <Title soundName={soundName} />
-      <Player audioUrl={"/api/" + mp3RelativePath} />
-      <Labels mp3TagJson={props.mp3TagJson} />
+      <InfoHeader mp3TagJson={props.mp3TagJson} />
+      <Player audioUrl={audioUrl} />
     </div>
   );
 }
