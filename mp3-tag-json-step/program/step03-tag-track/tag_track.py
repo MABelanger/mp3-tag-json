@@ -10,13 +10,14 @@ def input_stderr(prompt):
     return sys.stdin.readline().strip()
 
 track_questions_dict = {
-    "instrumentOrTypes": "instrument/type separed by , :",
-    "expention": "introspection(0) -> expention(10):",
-    "festive": "sad(0) -> festif(10):",
-    "contact": "solo(0) -> contact(10):",
-    "rythmic": "classic(0) -> rythmic(10):",
-    "bass": "high(0) -> bass(10):",
     "curve": "start(0) -> top(5) -> end(10):",
+    "rythmic": "classic(0) -> rythmic(10):",
+    "expention": "introspection(0) -> expention(10):",
+    "happy": "sad(0) -> happy(10):",
+    "contact": "solo(0) -> contact(10):",
+    "type": "House, Africain, Indigenous :",
+    "instrumentDom": "instrument/type separed by , :",
+    "bass": "high(0) -> bass(10):",
     "note": "notes:"
 }
 
