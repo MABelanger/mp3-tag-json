@@ -15,8 +15,8 @@ track_questions_dict = {
     "expention": "introspection(0) -> expention(10):",
     "happy": "sad(0) -> happy(10):",
     "contact": "solo(0) -> contact(10):",
-    "type": "House, Africain, Indigenous :",
-    "instrumentDom": "instrument/type separed by , :",
+    "type": "House, Africain, Indigenous epared by ,:",
+    "instrumentDom": "instrumentDom separed by ,:",
     "bass": "high(0) -> bass(10):",
     "note": "notes:"
 }
