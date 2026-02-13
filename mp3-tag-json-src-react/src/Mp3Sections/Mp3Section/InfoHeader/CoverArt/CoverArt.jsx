@@ -1,5 +1,5 @@
 import React from "react";
-import { useAudioMetadataReader } from "../AudioMetadataReader";
+import { useAudioMetadataReader } from "./hooks/AudioMetadataReaderHooks";
 
 export function CoverArt(props) {
   const { metadata, coverArt, fetchError } = useAudioMetadataReader(
