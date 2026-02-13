@@ -10,10 +10,16 @@ export function InfoHeader(props) {
   const audioUrl = getAudioUrl(mp3RelativePath);
 
   return (
-    <div>
-      <CoverArt audioUrl={audioUrl} />
-      <Title soundName={soundName} />
-      <Labels mp3TagJson={props.mp3TagJson} />
-    </div>
+    <table>
+      <tr>
+        <td>
+          <CoverArt audioUrl={audioUrl} />
+        </td>
+        <td>
+          <Title soundName={soundName} />
+          <Labels mp3TagJson={props.mp3TagJson} />
+        </td>
+      </tr>
+    </table>
   );
 }
