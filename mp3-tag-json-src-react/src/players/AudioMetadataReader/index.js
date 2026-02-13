@@ -1,0 +1,1 @@
+export { AudioMetadataReader } from "./AudioMetadataReader";

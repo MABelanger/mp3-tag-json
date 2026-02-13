@@ -1,10 +1,7 @@
 const cellStyle = {
-  padding: "10px",
-  fontSize: "13px",
-  whiteSpace: "nowrap", // Prevents values from wrapping awkwardly
+  padding: "5px",
+  fontSize: "18px",
   width: "200px",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
 };
 
 export function Body(props) {
