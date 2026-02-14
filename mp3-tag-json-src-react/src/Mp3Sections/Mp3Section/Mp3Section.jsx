@@ -55,8 +55,10 @@ export function Mp3Section(props) {
 
       className={`${styles.focusableDiv}`}
     >
-      <InfoHeader mp3TagJson={props.mp3TagJson} />
-      <Player audioUrl={audioUrl} />
+      <div>
+        <InfoHeader mp3TagJson={props.mp3TagJson} />
+        <Player audioUrl={audioUrl} />
+      </div>
     </div>
   );
 }
