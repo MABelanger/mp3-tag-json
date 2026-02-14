@@ -10,7 +10,7 @@ export function Header(props) {
         {props.headers.map((header) => (
           <th
             key={header}
-            style={{ padding: "12px", textAlign: "left", fontSize: "14px" }}
+            style={{ padding: "8px", textAlign: "left", fontSize: "14px" }}
           >
             {header}
           </th>

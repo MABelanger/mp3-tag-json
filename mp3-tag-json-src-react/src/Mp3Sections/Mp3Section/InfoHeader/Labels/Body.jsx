@@ -1,7 +1,7 @@
 const cellStyle = {
   padding: "5px",
   fontSize: "18px",
-  width: "200px",
+  width: "100px",
 };
 
 export function Body(props) {

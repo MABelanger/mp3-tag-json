@@ -16,7 +16,7 @@ export function CoverArt(props) {
               <img
                 src={coverArt}
                 alt="Album Art"
-                style={{ maxWidth: "200px" }}
+                style={{ width: "120px", height: "120px" }}
               />
             </div>
           ) : (

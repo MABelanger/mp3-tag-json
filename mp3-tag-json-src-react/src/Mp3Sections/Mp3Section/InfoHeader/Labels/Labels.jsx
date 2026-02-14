@@ -1,25 +1,23 @@
 import { Body } from "./Body";
 import { Header } from "./Header";
+import { Note } from "./Note";
 
 export function Labels(props) {
   const { mp3TagJson } = props;
   // Define headers for easy maintenance
   const dataKeys = [
     "bpm",
-    "instrumentOrTypes",
     "expention",
     "festive",
     "contact",
     "rythmic",
     "bass",
     "curve",
-    "note",
+    "instrumentOrTypes",
   ];
 
   return (
-    <div
-      style={{ overflowX: "auto", margin: "20px 0", border: "1px solid #ddd" }}
-    >
+    <div style={{ overflowX: "auto", border: "1px solid #ddd" }}>
       <table
         style={{
           width: "100%",
@@ -30,6 +28,7 @@ export function Labels(props) {
         <Header headers={dataKeys} />
         <Body dataKeys={dataKeys} mp3TagJson={mp3TagJson} />
       </table>
+      <Note note={mp3TagJson["note"]} />
     </div>
   );
 }
