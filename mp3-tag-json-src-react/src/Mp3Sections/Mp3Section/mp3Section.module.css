@@ -1,0 +1,12 @@
+/* In your CSS file (e.g., App.css) */
+.focusableDiv:focus {
+  border: 2px solid black; /* Add a 2px black border on focus */
+  outline: none; /* Optional: removes the default browser outline */
+}
+
+/* Optional: initial styles for the div */
+.focusableDiv {
+  padding: 10px;
+  border: 2px solid transparent; /* Maintain initial layout stability */
+  cursor: pointer;
+}

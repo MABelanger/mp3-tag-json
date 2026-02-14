@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { InfoHeader } from "./InfoHeader";
+import styles from "./mp3Section.module.css"; // Import the CSS module
 
 import { Player } from "./Player";
 
@@ -24,7 +25,7 @@ export function Mp3Section(props) {
     };
   }, [mp3SectionRef]);
 
-  const handleKeyDown = (event) => {
+  function handleKeyDown(event) {
     console.log("bibi");
     if (event.key === " ") {
       event.preventDefault(); // Prevent page scrolling
@@ -35,14 +36,24 @@ export function Mp3Section(props) {
         audio.pause();
       }
     }
-  };
+  }
+
+  function handleClickDiv() {
+    console.log("click");
+    // Access the DOM node and call the native focus() method
+    if (mp3SectionRef.current) {
+      mp3SectionRef.current.focus(); //
+    }
+  }
 
   return (
     <div
       ref={mp3SectionRef}
+      onClick={handleClickDiv}
       tabIndex="0"
-      onKeyDown={handleKeyDown}
-      style={{ paddingBottom: "40px", width: "100%" }}
+      //onKeyDown={handleKeyDown}
+
+      className={`${styles.focusableDiv}`}
     >
       <InfoHeader mp3TagJson={props.mp3TagJson} />
       <Player audioUrl={audioUrl} />
