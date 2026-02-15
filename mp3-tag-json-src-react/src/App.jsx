@@ -17,7 +17,7 @@ function App() {
   console.log(mp3TagJson);
 
   return (
-    <div style={{ backgroundColor: "black", color: "white" }}>
+    <div style={{ backgroundColor: "#1E1E1E", color: "#DDD" }}>
       <Mp3Sections mp3TagJsons={mp3TagJson} />
     </div>
   );

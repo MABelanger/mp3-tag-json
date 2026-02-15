@@ -1,3 +1,3 @@
 export function Note(props) {
-  return <div style={{ fontSize: "16px" }}>{props.note}</div>;
+  return <div style={{ fontSize: "20px", margin: "8px" }}>{props.note}</div>;
 }

@@ -8,7 +8,8 @@ export function Body(props) {
             padding: "5px",
             fontSize: "22px",
             width: index == lastElementIndex ? "300px" : "65px",
-            borderRight: "1px solid white",
+            borderRight: "1px solid #DDD",
+            borderBottom: "1px solid #DDD",
             textAlign: "center",
           };
           return (

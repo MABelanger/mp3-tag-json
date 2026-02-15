@@ -17,7 +17,7 @@ export function Header(props) {
                 padding: "8px",
                 textAlign: "left",
                 fontSize: "18px",
-                borderRight: "1px solid white",
+                borderRight: "1px solid #DDD",
                 textAlign: "center",
               }}
             >

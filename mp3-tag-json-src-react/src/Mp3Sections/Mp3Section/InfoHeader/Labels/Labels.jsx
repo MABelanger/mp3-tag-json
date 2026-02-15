@@ -28,7 +28,7 @@ export function Labels(props) {
         <Header headers={dataKeys} />
         <Body dataKeys={dataKeys} mp3TagJson={mp3TagJson} />
       </table>
-      <Note note={mp3TagJson["note"]} />
+      {mp3TagJson["note"] && <Note note={mp3TagJson["note"]} />}
     </div>
   );
 }
