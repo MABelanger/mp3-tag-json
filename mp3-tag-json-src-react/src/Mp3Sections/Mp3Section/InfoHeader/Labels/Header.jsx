@@ -3,7 +3,7 @@ export function Header(props) {
     <thead>
       <tr
         style={{
-          backgroundColor: "#f4f4f4",
+          backgroundColor: "RGB(11, 11, 11)",
           borderBottom: "2px solid #ccc",
         }}
       >

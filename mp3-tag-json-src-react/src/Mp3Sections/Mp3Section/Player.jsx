@@ -1,7 +1,15 @@
 import { useEffect, useRef } from "react";
+
 export function Player(props) {
   return (
-    <audio controls style={{ width: "100%" }}>
+    <audio
+      controls
+      style={{
+        width: "100%",
+        filter: "invert(100%) hue-rotate(180deg)",
+        WebkitFilter: "invert(100%) hue-rotate(180deg)",
+      }}
+    >
       <source src={props.audioUrl} type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>

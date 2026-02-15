@@ -52,7 +52,7 @@ export function Mp3Section(props) {
       onClick={handleClickDiv}
       tabIndex="0"
       //onKeyDown={handleKeyDown}
-
+      style={{}}
       className={`${styles.focusableDiv}`}
     >
       <div>
