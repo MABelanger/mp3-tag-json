@@ -3,16 +3,16 @@ import { InfoHeader } from "./InfoHeader";
 import styles from "./mp3Section.module.css"; // Import the CSS module
 
 import { Player } from "./Player";
-
 import * as utils from "./utils";
 
+const PLAY_PAUSE_KEY = " ";
+
 export function Mp3Section(props) {
-  const { mp3RelativePath } = props.mp3TagJson;
-
-  const audioUrl = utils.getAudioUrl(mp3RelativePath);
-
   const mp3SectionRef = useRef(null);
   const audioRef = useRef(null);
+
+  const { mp3RelativePath } = props.mp3TagJson;
+  const audioUrl = utils.getAudioUrl(mp3RelativePath);
 
   useEffect(() => {
     if (mp3SectionRef.current) {
@@ -26,25 +26,25 @@ export function Mp3Section(props) {
     };
   }, [mp3SectionRef]);
 
-  // useEffect(() => {
-  //   // Access the child's DOM node or exposed methods here after the component mounts
-  //   if (audioRef.current) {
-  //     audioRef.current.play(); // Example: calling a method on the child's element
-  //   }
-  // }, []);
+  useEffect(() => {
+    console.log(
+      `props.selectedIndex ${props.selectedIndex} == props.index ${props.index}`
+    );
+    if (props.selectedIndex == props.index) {
+      if (mp3SectionRef.current) {
+        mp3SectionRef.current.focus(); //
+      }
+    }
+  }, [props.selectedIndex]);
 
   function handleKeyDown(event) {
-    console.log("bibi");
-    if (event.key === " ") {
-      event.preventDefault(); // Prevent page scrolling
-      const audio = audioRef.current;
-      //audio.play();
-      console.log(audio.paused);
+    event.preventDefault(); // Prevent page scrolling
+    const audio = audioRef.current;
+
+    if (event.key === PLAY_PAUSE_KEY) {
       if (audio.paused) {
-        console.log("play");
         audio.play();
       } else {
-        console.log("pause");
         audio.pause();
       }
     }
@@ -63,7 +63,6 @@ export function Mp3Section(props) {
       ref={mp3SectionRef}
       onClick={handleClickDiv}
       tabIndex="0"
-      onKeyDown={handleKeyDown}
       style={{}}
       className={`${styles.focusableDiv}`}
     >
