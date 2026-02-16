@@ -15,7 +15,7 @@ export function Mp3Sections(props) {
           const current = prev + 1;
           return current;
         }
-        return 0;
+        return prev;
       });
     } else if (event.key === KEY_DOWN) {
       setSelectedIndex((prev) => {
@@ -23,7 +23,7 @@ export function Mp3Sections(props) {
         if (prev > 0) {
           return current;
         }
-        return 0;
+        return prev;
       });
     }
     console.log("handleKeyDown selectedIndex :", selectedIndex);
