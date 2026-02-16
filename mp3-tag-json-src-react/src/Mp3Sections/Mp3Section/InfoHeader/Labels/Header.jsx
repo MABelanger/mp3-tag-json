@@ -5,7 +5,6 @@ export function Header(props) {
     <thead>
       <tr
         style={{
-          backgroundColor: "RGB(11, 11, 11)",
           borderBottom: "2px solid #ccc",
         }}
       >

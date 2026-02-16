@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 
-export function Player(props) {
+export const Player = forwardRef((props, ref) => {
   return (
     <audio
       controls
+      ref={ref}
       style={{
         width: "100%",
         filter: "invert(100%) hue-rotate(180deg)",
@@ -14,4 +15,4 @@ export function Player(props) {
       Your browser does not support the audio element.
     </audio>
   );
-}
+});

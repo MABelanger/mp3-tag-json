@@ -12,6 +12,7 @@ export function Mp3Section(props) {
   const audioUrl = utils.getAudioUrl(mp3RelativePath);
 
   const mp3SectionRef = useRef(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     if (mp3SectionRef.current) {
@@ -25,14 +26,25 @@ export function Mp3Section(props) {
     };
   }, [mp3SectionRef]);
 
+  // useEffect(() => {
+  //   // Access the child's DOM node or exposed methods here after the component mounts
+  //   if (audioRef.current) {
+  //     audioRef.current.play(); // Example: calling a method on the child's element
+  //   }
+  // }, []);
+
   function handleKeyDown(event) {
     console.log("bibi");
     if (event.key === " ") {
       event.preventDefault(); // Prevent page scrolling
-      const audio = mp3SectionRef.current;
+      const audio = audioRef.current;
+      //audio.play();
+      console.log(audio.paused);
       if (audio.paused) {
+        console.log("play");
         audio.play();
       } else {
+        console.log("pause");
         audio.pause();
       }
     }
@@ -51,13 +63,13 @@ export function Mp3Section(props) {
       ref={mp3SectionRef}
       onClick={handleClickDiv}
       tabIndex="0"
-      //onKeyDown={handleKeyDown}
+      onKeyDown={handleKeyDown}
       style={{}}
       className={`${styles.focusableDiv}`}
     >
-      <div>
+      <div inert={true}>
         <InfoHeader mp3TagJson={props.mp3TagJson} />
-        <Player audioUrl={audioUrl} />
+        <Player ref={audioRef} audioUrl={audioUrl} />
       </div>
     </div>
   );
