@@ -4,8 +4,11 @@ import styles from "./mp3Section.module.css"; // Import the CSS module
 
 import { Player } from "./Player";
 import * as utils from "./utils";
+import * as audioUtils from "./audioUtils";
 
 const PLAY_PAUSE_KEY = " ";
+const SKIP_FORWARD = "l";
+const SKIP_BACKWARD = "h";
 
 export function Mp3Section(props) {
   const mp3SectionRef = useRef(null);
@@ -42,11 +45,11 @@ export function Mp3Section(props) {
     const audio = audioRef.current;
 
     if (event.key === PLAY_PAUSE_KEY) {
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
+      audioUtils.tooglePlayPause(audio);
+    } else if (event.key === SKIP_FORWARD) {
+      audioUtils.skipForward(audio);
+    } else if (event.key === SKIP_BACKWARD) {
+      audioUtils.skipBackward(audio);
     }
   }
 
