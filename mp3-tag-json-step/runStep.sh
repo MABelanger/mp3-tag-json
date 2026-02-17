@@ -2,12 +2,18 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-DATA_PATH="$SCRIPT_DIR/../data"
+function simplify_path() {
+    local dst="$1"
+    # Use a subshell to avoid changing the current working directory of the main shell
+    (cd -P -- "$(dirname -- "${dst}")" &> /dev/null && echo "$(pwd -P)/$(basename -- "${dst}")")
+}
+
+DATA_PATH=$(simplify_path "$SCRIPT_DIR/../data")
 STEP1_MP3_PATH="$DATA_PATH/mp3"
 STEP1_TMP_DIR="$SCRIPT_DIR/program/tmp-step"
-STEP1_TMP_ALL_FILES_PATH="$STEP1_TMP_DIR/step1_all.list"
+STEP1_TMP_ALL_FILES_PATH="$STEP1_TMP_DIR/step1_all.m3u"
 STEP1_FILE_FILTER=""
-STEP2_TMP_FILES_KEEP_PATH="$STEP1_TMP_DIR/step2_keep.list"
+STEP2_TMP_FILES_KEEP_PATH="$STEP1_TMP_DIR/step2_keep.m3u"
 STEP4_TMP_FILES_JSON_FILES="$STEP1_TMP_DIR/step4_01_jsonFiles.list"
 STEP4_TMP_BUILD_JSON_TMP="$STEP1_TMP_DIR/step4_02_buildJson.json.tmp"
 STEP4_FINAL_JSON="$DATA_PATH/mp3-tag.json"
