@@ -11,4 +11,4 @@ TMP_DIR=$(echo $PROGRAM_DIR/program/tmp-step)
 STEP2_TMP_FILES_KEEP_PATH="$TMP_DIR/step2_keep.m3u"
 
 
-lsof -F n +D "$DATA_DIR" | grep "\.mp3" | grep '^n/' | cut -c2- | head -n 1 >> $STEP2_TMP_FILES_KEEP_PATH
+lsof -F n -c vlc | grep "\.mp3" | grep '^n/' | cut -c2- | head -n 1 >> $STEP2_TMP_FILES_KEEP_PATH
