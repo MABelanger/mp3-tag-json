@@ -14,6 +14,11 @@ if [ -n "$1" ]; then
 fi
 
 STEP2_TMP_FILES_KEEP_PATH="$TMP_DIR/step2_keep$PREFIX_NAME.m3u"
+STEP2_TMP_LOG="$TMP_DIR/step2_keep_log.log"
 
 
 lsof -F n -c vlc | grep "\.mp3" | grep '^n/' | cut -c2- | head -n 1 >> $STEP2_TMP_FILES_KEEP_PATH
+
+# only for log
+NUMBER_OF_LINES=$(cat $STEP2_TMP_FILES_KEEP_PATH | wc -l) 
+echo "$STEP2_TMP_FILES_KEEP_PATH: $NUMBER_OF_LINES" >> $STEP2_TMP_LOG
