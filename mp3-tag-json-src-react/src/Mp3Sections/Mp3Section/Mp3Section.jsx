@@ -5,19 +5,14 @@ import styles from "./mp3Section.module.css"; // Import the CSS module
 import { Player } from "./Player";
 import * as utils from "./utils";
 import * as audioUtils from "./audioUtils";
-
-import {
-  COMMAND_PLAY_PAUSE,
-  COMMAND_SKIP_BACKWARD,
-  COMMAND_SKIP_FORWARD,
-} from "./commandConstant";
-import { useMp3SectionCommand } from "./useMp3SectionCommand";
+import { useMp3SectionCommand } from "./hooks/useMp3SectionCommand";
 
 export function Mp3Section(props) {
   const mp3SectionRef = useRef(null);
   const audioRef = useRef(null);
 
-  useMp3SectionCommand(mp3SectionRef, handleCommand);
+  const { COMMAND_PLAY_PAUSE, COMMAND_SKIP_BACKWARD, COMMAND_SKIP_FORWARD } =
+    useMp3SectionCommand(mp3SectionRef, handleCommand);
 
   const { mp3RelativePath } = props.mp3TagJson;
   const audioUrl = utils.getAudioUrl(mp3RelativePath);

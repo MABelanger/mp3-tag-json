@@ -52,4 +52,10 @@ export function useMp3SectionCommand(mp3SectionRef, onCommand) {
     const command = getCommand(event.key);
     onCommand(command);
   }
+
+  return {
+    COMMAND_PLAY_PAUSE,
+    COMMAND_SKIP_BACKWARD,
+    COMMAND_SKIP_FORWARD,
+  };
 }
