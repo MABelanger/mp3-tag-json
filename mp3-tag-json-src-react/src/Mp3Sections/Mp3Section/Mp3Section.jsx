@@ -18,15 +18,15 @@ export function Mp3Section(props) {
   const audioUrl = utils.getAudioUrl(mp3RelativePath);
 
   useEffect(() => {
-    if (props.selectedIndex == props.index) {
-      if (mp3SectionRef.current) {
-        mp3SectionRef.current.focus(); //
-      }
+    const isNeedToSelected = props.selectedIndex == props.index;
+    if (isNeedToSelected) {
+      handleSelect(mp3SectionRef);
     }
   }, [props.selectedIndex]);
 
   useEffect(() => {
-    if (props.playingIndex != props.index) {
+    const isNeedToPause = props.playingIndex != props.index;
+    if (isNeedToPause) {
       const audio = audioRef.current;
       audioUtils.pause(audio);
     }
@@ -45,9 +45,7 @@ export function Mp3Section(props) {
     }
   }
 
-  function handleClickDiv() {
-    console.log("click");
-    // Access the DOM node and call the native focus() method
+  function handleSelect(mp3SectionRef) {
     if (mp3SectionRef.current) {
       mp3SectionRef.current.focus(); //
     }
@@ -56,7 +54,7 @@ export function Mp3Section(props) {
   return (
     <div
       ref={mp3SectionRef}
-      onClick={handleClickDiv}
+      onClick={() => props.onClick(props.index)}
       tabIndex="0"
       style={{}}
       className={`${styles.focusableDiv}`}

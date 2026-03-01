@@ -4,8 +4,8 @@ import {
   COMMAND_SELECT_PREVIOUS,
 } from "./commandConstant";
 
-const SELECT_NEXT_KEY = "k";
-const SELECT_PREVIOUS_KEY = "j";
+const SELECT_NEXT_KEY = "j";
+const SELECT_PREVIOUS_KEY = "k";
 
 const SELECT_NEXT_ARROW = "ArrowDown";
 const SELECT_PREVIOUS_ARROW = "ArrowUp";
@@ -48,11 +48,11 @@ export function useMp3SectionsCommand(numberOfSection) {
         return prev;
       });
     }
-    console.log("handleKeyDown selectedIndex :", selectedIndex);
   }
 
   return {
     onKeyDown,
     selectedIndex,
+    setSelectedIndex,
   };
 }
