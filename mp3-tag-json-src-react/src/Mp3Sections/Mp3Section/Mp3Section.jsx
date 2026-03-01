@@ -7,17 +7,16 @@ import * as utils from "./utils";
 import { UseMp3Section } from "./hooks/UseMp3Section";
 
 export function Mp3Section(props) {
-  const { mp3RelativePath } = props.mp3TagJson;
-
-  const audioUrl = utils.getAudioUrl(mp3RelativePath);
-  const isPlayingIndex = props.playingIndex == props.index;
-
   const { mp3SectionRef, audioRef } = UseMp3Section(
     props.index,
     props.onPlay,
     props.selectedIndex,
     props.playingIndex
   );
+
+  const { mp3RelativePath } = props.mp3TagJson;
+  const audioUrl = utils.getAudioUrl(mp3RelativePath);
+  const isPlayingIndex = props.playingIndex == props.index;
 
   return (
     <div
