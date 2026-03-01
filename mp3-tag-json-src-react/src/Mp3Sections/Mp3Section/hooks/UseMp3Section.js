@@ -6,6 +6,7 @@ export function UseMp3Section(index, onPlay, selectedIndex, playingIndex) {
   const mp3SectionRef = useRef(null);
   const audioRef = useRef(null);
 
+  // Need to use a ref because the handleCommand do not get the playingIndex proprely
   const playingIndexRef = useRef(playingIndex);
 
   const { COMMAND_PLAY_PAUSE, COMMAND_SKIP_BACKWARD, COMMAND_SKIP_FORWARD } =

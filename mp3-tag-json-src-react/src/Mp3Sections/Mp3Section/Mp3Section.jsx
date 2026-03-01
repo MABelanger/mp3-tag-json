@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { InfoHeader } from "./InfoHeader";
 import styles from "./mp3Section.module.css"; // Import the CSS module
 
