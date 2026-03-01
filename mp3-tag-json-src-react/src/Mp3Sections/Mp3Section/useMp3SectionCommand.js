@@ -6,10 +6,10 @@ import {
 } from "./commandConstant";
 
 const PLAY_PAUSE_KEY = " ";
-const SKIP_FORWARD_KEY = "l";
-const SKIP_FORWARD_ARROW = "ArrowRight";
-const SKIP_BACKWARD_KEY = "h";
-const SKIP_BACKWARD_ARROW = "ArrowLeft";
+const SKIP_PLAY_FORWARD_KEY = "l";
+const SKIP_PLAY_FORWARD_ARROW = "ArrowRight";
+const SKIP_PLAY_BACKWARD_KEY = "h";
+const SKIP_PLAY_BACKWARD_ARROW = "ArrowLeft";
 
 export function useMp3SectionCommand(mp3SectionRef, onCommand) {
   useEffect(() => {
@@ -31,14 +31,14 @@ export function useMp3SectionCommand(mp3SectionRef, onCommand) {
     }
 
     const isKeySkipForward =
-      key === SKIP_FORWARD_KEY || key === SKIP_FORWARD_ARROW;
+      key === SKIP_PLAY_FORWARD_KEY || key === SKIP_PLAY_FORWARD_ARROW;
 
     if (isKeySkipForward) {
       return COMMAND_SKIP_FORWARD;
     }
 
     const isKeySkipBackward =
-      key === SKIP_BACKWARD_KEY || key === SKIP_BACKWARD_ARROW;
+      key === SKIP_PLAY_BACKWARD_KEY || key === SKIP_PLAY_BACKWARD_ARROW;
 
     if (isKeySkipBackward) {
       return COMMAND_SKIP_BACKWARD;
