@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   COMMAND_PLAY_PAUSE,
   COMMAND_SKIP_BACKWARD,
@@ -7,9 +7,33 @@ import {
 
 const PLAY_PAUSE_KEY = " ";
 const SKIP_PLAY_FORWARD_KEY = "l";
-const SKIP_PLAY_FORWARD_ARROW = "ArrowRight";
 const SKIP_PLAY_BACKWARD_KEY = "h";
+
+const SKIP_PLAY_FORWARD_ARROW = "ArrowRight";
 const SKIP_PLAY_BACKWARD_ARROW = "ArrowLeft";
+
+function getCommand(key) {
+  const isKeyPlayPause = key === PLAY_PAUSE_KEY;
+  if (isKeyPlayPause) {
+    return COMMAND_PLAY_PAUSE;
+  }
+
+  const isKeySkipForward =
+    key === SKIP_PLAY_FORWARD_KEY || key === SKIP_PLAY_FORWARD_ARROW;
+
+  if (isKeySkipForward) {
+    return COMMAND_SKIP_FORWARD;
+  }
+
+  const isKeySkipBackward =
+    key === SKIP_PLAY_BACKWARD_KEY || key === SKIP_PLAY_BACKWARD_ARROW;
+
+  if (isKeySkipBackward) {
+    return COMMAND_SKIP_BACKWARD;
+  }
+
+  return null;
+}
 
 export function useMp3SectionCommand(mp3SectionRef, onCommand) {
   useEffect(() => {
@@ -23,29 +47,6 @@ export function useMp3SectionCommand(mp3SectionRef, onCommand) {
       }
     };
   }, [mp3SectionRef]);
-
-  function getCommand(key) {
-    const isKeyPlayPause = key === PLAY_PAUSE_KEY;
-    if (isKeyPlayPause) {
-      return COMMAND_PLAY_PAUSE;
-    }
-
-    const isKeySkipForward =
-      key === SKIP_PLAY_FORWARD_KEY || key === SKIP_PLAY_FORWARD_ARROW;
-
-    if (isKeySkipForward) {
-      return COMMAND_SKIP_FORWARD;
-    }
-
-    const isKeySkipBackward =
-      key === SKIP_PLAY_BACKWARD_KEY || key === SKIP_PLAY_BACKWARD_ARROW;
-
-    if (isKeySkipBackward) {
-      return COMMAND_SKIP_BACKWARD;
-    }
-
-    return null;
-  }
 
   function handleKeyDown(event) {
     event.preventDefault(); // Prevent page scrolling
