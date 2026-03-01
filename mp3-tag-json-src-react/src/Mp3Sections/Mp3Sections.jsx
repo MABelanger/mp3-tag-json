@@ -6,7 +6,7 @@ export function Mp3Sections(props) {
   const KEY_UP = "j";
   const numberOfSection = props.mp3TagJsons.length - 1;
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [currentPlayingIndex, setCurrentPlayingIndex] = useState(null);
+  const [playingIndex, setplayingIndex] = useState(null);
 
   const handleKeyDown = (event) => {
     event.preventDefault(); // Prevent page scrolling
@@ -32,7 +32,7 @@ export function Mp3Sections(props) {
 
   function handlePlay(index) {
     console.log("handlePlay", index);
-    setCurrentPlayingIndex(index);
+    setplayingIndex(index);
   }
 
   const mp3SectionsWrapperRef = useRef(null);
@@ -61,7 +61,7 @@ export function Mp3Sections(props) {
           index={i}
           selectedIndex={selectedIndex}
           onPlay={handlePlay}
-          currentPlayingIndex={currentPlayingIndex}
+          playingIndex={playingIndex}
           mp3TagJson={mp3TagJson}
         />
       </div>

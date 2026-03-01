@@ -22,5 +22,5 @@ document.addEventListener("keydown", (event) => {
 
 ## TODO
 
-1. Stop all player when other player start
-2. skip faward/backward 10 seg
+1. Stop all player when other player start (done)
+2. skip faward/backward 10 seg (done)

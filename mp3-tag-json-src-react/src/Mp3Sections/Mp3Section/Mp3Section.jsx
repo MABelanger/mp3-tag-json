@@ -6,28 +6,21 @@ import { Player } from "./Player";
 import * as utils from "./utils";
 import * as audioUtils from "./audioUtils";
 
-const PLAY_PAUSE_KEY = " ";
-const SKIP_FORWARD = "l";
-const SKIP_BACKWARD = "h";
+import {
+  COMMAND_PLAY_PAUSE,
+  COMMAND_SKIP_BACKWARD,
+  COMMAND_SKIP_FORWARD,
+} from "./commandConstant";
+import { useMp3SectionCommand } from "./useMp3SectionCommand";
 
 export function Mp3Section(props) {
   const mp3SectionRef = useRef(null);
   const audioRef = useRef(null);
 
+  useMp3SectionCommand(mp3SectionRef, handleCommand);
+
   const { mp3RelativePath } = props.mp3TagJson;
   const audioUrl = utils.getAudioUrl(mp3RelativePath);
-
-  useEffect(() => {
-    if (mp3SectionRef.current) {
-      mp3SectionRef.current.addEventListener("keydown", handleKeyDown);
-    }
-
-    return () => {
-      if (mp3SectionRef.current) {
-        mp3SectionRef.current.removeEventListener("keydown", handleKeyDown);
-      }
-    };
-  }, [mp3SectionRef]);
 
   useEffect(() => {
     if (props.selectedIndex == props.index) {
@@ -38,23 +31,21 @@ export function Mp3Section(props) {
   }, [props.selectedIndex]);
 
   useEffect(() => {
-    if (props.currentPlayingIndex != props.index) {
+    if (props.playingIndex != props.index) {
       const audio = audioRef.current;
       audioUtils.pause(audio);
     }
-  }, [props.currentPlayingIndex]);
+  }, [props.playingIndex]);
 
-  function handleKeyDown(event) {
-    event.preventDefault(); // Prevent page scrolling
+  function handleCommand(command) {
     const audio = audioRef.current;
-
-    if (event.key === PLAY_PAUSE_KEY) {
+    if (command === COMMAND_PLAY_PAUSE) {
       audioUtils.tooglePlayPause(audio, () => {
         props.onPlay(props.index);
       });
-    } else if (event.key === SKIP_FORWARD) {
+    } else if (command === COMMAND_SKIP_FORWARD) {
       audioUtils.skipForward(audio);
-    } else if (event.key === SKIP_BACKWARD) {
+    } else if (command === COMMAND_SKIP_BACKWARD) {
       audioUtils.skipBackward(audio);
     }
   }
