@@ -10,20 +10,7 @@ export function Mp3Sections(props) {
   const { onKeyDown, selectedIndex, setSelectedIndex } =
     useMp3SectionsCommand(numberOfSection);
 
-  // function handlePlay(index) {
-  //   console.log("handlePlay", index);
-
-  //   setPlayingIndex(index);
-  //   console.log("playingIndex", playingIndex);
-  // }
-
-  console.log("playingIndex", playingIndex);
-
   const mp3SectionsWrapperRef = useRef(null);
-
-  function handleClickSection(index) {
-    setSelectedIndex(index);
-  }
 
   const mp3Sections = props.mp3TagJsons.map((mp3TagJson, i) => {
     return (
@@ -31,8 +18,8 @@ export function Mp3Sections(props) {
         <Mp3Section
           index={i}
           selectedIndex={selectedIndex}
-          onClick={handleClickSection}
-          onPlay={setPlayingIndex}
+          onClick={() => setSelectedIndex(i)}
+          onPlay={() => setPlayingIndex(i)}
           playingIndex={playingIndex}
           mp3TagJson={mp3TagJson}
         />

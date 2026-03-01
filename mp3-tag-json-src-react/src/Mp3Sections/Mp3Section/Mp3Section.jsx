@@ -39,17 +39,12 @@ export function Mp3Section(props) {
 
   function handleCommand(command) {
     const isPlayingIndex = playingIndexRef.current == props.index;
-    console.log("isPlayingIndex", isPlayingIndex);
-    console.log(
-      "props.playingIndex , props.index",
-      playingIndexRef.current,
-      props.index
-    );
+
     const audio = audioRef.current;
     if (command === COMMAND_PLAY_PAUSE) {
       const isPlaying = audioUtils.tooglePlayPause(audio);
       if (isPlaying) {
-        props.onPlay(props.index);
+        props.onPlay();
       }
     } else if (command === COMMAND_SKIP_FORWARD && isPlayingIndex) {
       audioUtils.skipForward(audio);
@@ -69,7 +64,7 @@ export function Mp3Section(props) {
   return (
     <div
       ref={mp3SectionRef}
-      onClick={() => props.onClick(props.index)}
+      onClick={props.onClick}
       tabIndex="0"
       style={{}}
       className={`${styles.focusableDiv}`}
