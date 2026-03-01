@@ -1,6 +1,15 @@
-export function tooglePlayPause(audio) {
+export function pause(audio) {
+  audio.pause();
+}
+
+export function play() {
+  audio.play();
+}
+
+export function tooglePlayPause(audio, onPlay) {
   if (audio.paused) {
     audio.play();
+    onPlay();
   } else {
     audio.pause();
   }

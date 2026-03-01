@@ -30,9 +30,6 @@ export function Mp3Section(props) {
   }, [mp3SectionRef]);
 
   useEffect(() => {
-    console.log(
-      `props.selectedIndex ${props.selectedIndex} == props.index ${props.index}`
-    );
     if (props.selectedIndex == props.index) {
       if (mp3SectionRef.current) {
         mp3SectionRef.current.focus(); //
@@ -40,12 +37,21 @@ export function Mp3Section(props) {
     }
   }, [props.selectedIndex]);
 
+  useEffect(() => {
+    if (props.currentPlayingIndex != props.index) {
+      const audio = audioRef.current;
+      audioUtils.pause(audio);
+    }
+  }, [props.currentPlayingIndex]);
+
   function handleKeyDown(event) {
     event.preventDefault(); // Prevent page scrolling
     const audio = audioRef.current;
 
     if (event.key === PLAY_PAUSE_KEY) {
-      audioUtils.tooglePlayPause(audio);
+      audioUtils.tooglePlayPause(audio, () => {
+        props.onPlay(props.index);
+      });
     } else if (event.key === SKIP_FORWARD) {
       audioUtils.skipForward(audio);
     } else if (event.key === SKIP_BACKWARD) {
