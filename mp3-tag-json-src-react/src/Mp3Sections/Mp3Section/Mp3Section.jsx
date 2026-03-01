@@ -11,12 +11,7 @@ export function Mp3Section(props) {
   const mp3SectionRef = useRef(null);
   const audioRef = useRef(null);
 
-  const latestPropsRef = useRef(props);
-
-  useEffect(() => {
-    // Update the ref whenever props change
-    latestPropsRef.current = props;
-  }, [props]); // This hook keeps the ref current
+  const playingIndexRef = useRef(props.playingIndex);
 
   const { COMMAND_PLAY_PAUSE, COMMAND_SKIP_BACKWARD, COMMAND_SKIP_FORWARD } =
     useMp3SectionCommand(mp3SectionRef, handleCommand);
@@ -33,27 +28,28 @@ export function Mp3Section(props) {
   }, [props.selectedIndex]);
 
   useEffect(() => {
+    playingIndexRef.current = props.playingIndex;
     const isNeedToPause = props.playingIndex != props.index;
     if (isNeedToPause) {
       const audio = audioRef.current;
+
       audioUtils.pause(audio);
     }
   }, [props.playingIndex]);
 
   function handleCommand(command) {
-    const lastestProps = latestPropsRef.current;
-    const isPlayingIndex = lastestProps.playingIndex == lastestProps.index;
+    const isPlayingIndex = playingIndexRef.current == props.index;
     console.log("isPlayingIndex", isPlayingIndex);
     console.log(
       "props.playingIndex , props.index",
-      lastestProps.playingIndex,
-      lastestProps.index
+      playingIndexRef.current,
+      props.index
     );
     const audio = audioRef.current;
     if (command === COMMAND_PLAY_PAUSE) {
       const isPlaying = audioUtils.tooglePlayPause(audio);
       if (isPlaying) {
-        lastestProps.onPlay(props.index);
+        props.onPlay(props.index);
       }
     } else if (command === COMMAND_SKIP_FORWARD && isPlayingIndex) {
       audioUtils.skipForward(audio);
