@@ -5,14 +5,19 @@ import { Mp3Section } from "./Mp3Section";
 export function Mp3Sections(props) {
   const numberOfSection = props.mp3TagJsons.length - 1;
 
-  const [playingIndex, setplayingIndex] = useState(null);
+  const [playingIndex, setPlayingIndex] = useState(0);
 
   const { onKeyDown, selectedIndex, setSelectedIndex } =
     useMp3SectionsCommand(numberOfSection);
 
-  function handlePlay(index) {
-    setplayingIndex(index);
-  }
+  // function handlePlay(index) {
+  //   console.log("handlePlay", index);
+
+  //   setPlayingIndex(index);
+  //   console.log("playingIndex", playingIndex);
+  // }
+
+  console.log("playingIndex", playingIndex);
 
   const mp3SectionsWrapperRef = useRef(null);
 
@@ -27,7 +32,7 @@ export function Mp3Sections(props) {
           index={i}
           selectedIndex={selectedIndex}
           onClick={handleClickSection}
-          onPlay={handlePlay}
+          onPlay={setPlayingIndex}
           playingIndex={playingIndex}
           mp3TagJson={mp3TagJson}
         />

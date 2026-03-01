@@ -6,12 +6,13 @@ export function play() {
   audio.play();
 }
 
-export function tooglePlayPause(audio, onPlay) {
+export function tooglePlayPause(audio) {
   if (audio.paused) {
     audio.play();
-    onPlay();
+    return true;
   } else {
     audio.pause();
+    return false;
   }
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { InfoHeader } from "./InfoHeader";
 import styles from "./mp3Section.module.css"; // Import the CSS module
 
@@ -11,10 +11,18 @@ export function Mp3Section(props) {
   const mp3SectionRef = useRef(null);
   const audioRef = useRef(null);
 
+  const latestPropsRef = useRef(props);
+
+  useEffect(() => {
+    // Update the ref whenever props change
+    latestPropsRef.current = props;
+  }, [props]); // This hook keeps the ref current
+
   const { COMMAND_PLAY_PAUSE, COMMAND_SKIP_BACKWARD, COMMAND_SKIP_FORWARD } =
     useMp3SectionCommand(mp3SectionRef, handleCommand);
 
   const { mp3RelativePath } = props.mp3TagJson;
+
   const audioUrl = utils.getAudioUrl(mp3RelativePath);
 
   useEffect(() => {
@@ -33,14 +41,23 @@ export function Mp3Section(props) {
   }, [props.playingIndex]);
 
   function handleCommand(command) {
+    const lastestProps = latestPropsRef.current;
+    const isPlayingIndex = lastestProps.playingIndex == lastestProps.index;
+    console.log("isPlayingIndex", isPlayingIndex);
+    console.log(
+      "props.playingIndex , props.index",
+      lastestProps.playingIndex,
+      lastestProps.index
+    );
     const audio = audioRef.current;
     if (command === COMMAND_PLAY_PAUSE) {
-      audioUtils.tooglePlayPause(audio, () => {
-        props.onPlay(props.index);
-      });
-    } else if (command === COMMAND_SKIP_FORWARD) {
+      const isPlaying = audioUtils.tooglePlayPause(audio);
+      if (isPlaying) {
+        lastestProps.onPlay(props.index);
+      }
+    } else if (command === COMMAND_SKIP_FORWARD && isPlayingIndex) {
       audioUtils.skipForward(audio);
-    } else if (command === COMMAND_SKIP_BACKWARD) {
+    } else if (command === COMMAND_SKIP_BACKWARD && isPlayingIndex) {
       audioUtils.skipBackward(audio);
     }
   }
@@ -50,6 +67,8 @@ export function Mp3Section(props) {
       mp3SectionRef.current.focus(); //
     }
   }
+
+  const isPlayingIndex = props.playingIndex == props.index;
 
   return (
     <div
@@ -61,7 +80,11 @@ export function Mp3Section(props) {
     >
       <div inert={true}>
         <InfoHeader mp3TagJson={props.mp3TagJson} />
-        <Player ref={audioRef} audioUrl={audioUrl} />
+        <Player
+          ref={audioRef}
+          isPlayingIndex={isPlayingIndex}
+          audioUrl={audioUrl}
+        />
       </div>
     </div>
   );

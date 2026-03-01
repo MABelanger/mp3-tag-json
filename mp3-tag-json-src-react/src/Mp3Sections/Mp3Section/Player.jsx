@@ -6,6 +6,7 @@ export const Player = forwardRef((props, ref) => {
       controls
       ref={ref}
       style={{
+        display: props.isPlayingIndex ? "inherit" : "none",
         width: "100%",
         filter: "invert(100%) hue-rotate(180deg)",
         WebkitFilter: "invert(100%) hue-rotate(180deg)",
