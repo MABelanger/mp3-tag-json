@@ -4,62 +4,20 @@ import styles from "./mp3Section.module.css"; // Import the CSS module
 
 import { Player } from "./Player";
 import * as utils from "./utils";
-import * as audioUtils from "./audioUtils";
-import { useMp3SectionCommand } from "./hooks/useMp3SectionCommand";
+import { UseMp3Section } from "./hooks/UseMp3Section";
 
 export function Mp3Section(props) {
-  const mp3SectionRef = useRef(null);
-  const audioRef = useRef(null);
-
-  const playingIndexRef = useRef(props.playingIndex);
-
-  const { COMMAND_PLAY_PAUSE, COMMAND_SKIP_BACKWARD, COMMAND_SKIP_FORWARD } =
-    useMp3SectionCommand(mp3SectionRef, handleCommand);
-
   const { mp3RelativePath } = props.mp3TagJson;
 
   const audioUrl = utils.getAudioUrl(mp3RelativePath);
-
-  useEffect(() => {
-    const isNeedToSelected = props.selectedIndex == props.index;
-    if (isNeedToSelected) {
-      handleSelect(mp3SectionRef);
-    }
-  }, [props.selectedIndex]);
-
-  useEffect(() => {
-    playingIndexRef.current = props.playingIndex;
-    const isNeedToPause = props.playingIndex != props.index;
-    if (isNeedToPause) {
-      const audio = audioRef.current;
-
-      audioUtils.pause(audio);
-    }
-  }, [props.playingIndex]);
-
-  function handleCommand(command) {
-    const isPlayingIndex = playingIndexRef.current == props.index;
-
-    const audio = audioRef.current;
-    if (command === COMMAND_PLAY_PAUSE) {
-      const isPlaying = audioUtils.tooglePlayPause(audio);
-      if (isPlaying) {
-        props.onPlay();
-      }
-    } else if (command === COMMAND_SKIP_FORWARD && isPlayingIndex) {
-      audioUtils.skipForward(audio);
-    } else if (command === COMMAND_SKIP_BACKWARD && isPlayingIndex) {
-      audioUtils.skipBackward(audio);
-    }
-  }
-
-  function handleSelect(mp3SectionRef) {
-    if (mp3SectionRef.current) {
-      mp3SectionRef.current.focus(); //
-    }
-  }
-
   const isPlayingIndex = props.playingIndex == props.index;
+
+  const { mp3SectionRef, audioRef } = UseMp3Section(
+    props.index,
+    props.onPlay,
+    props.selectedIndex,
+    props.playingIndex
+  );
 
   return (
     <div
