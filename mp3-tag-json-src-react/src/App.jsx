@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useMp3TagJson } from "./hooks/useMp3TagJson";
 import { Mp3Sections } from "./Mp3Sections";
-import "./App.css";
+import { Header } from "./Header";
+import styles from "./App.module.css";
 
 function App() {
   const { mp3TagJson, isLoading, error } = useMp3TagJson();
@@ -14,8 +15,10 @@ function App() {
     return <pre>{error}</pre>;
   }
 
+  // div style={{ backgroundColor: "#1E1E1E", color: "#DDD" }}>
   return (
-    <div style={{ backgroundColor: "#1E1E1E", color: "#DDD" }}>
+    <div className={styles.darkTheme}>
+      <Header />
       <Mp3Sections mp3TagJsons={mp3TagJson} />
     </div>
   );

@@ -1,0 +1,72 @@
+[
+  {
+    "mp3RelativePath": "./mp3/new01/Norah Jones - Sunrise.mp3",
+    "md5sum": "99d08e8691b0c6aea94eba4d93900b78",
+    "duration": "03:28",
+    "bpm": "+-76",
+    "instrumentOrTypes": "piano",
+    "expention": "5",
+    "festive": "6",
+    "contact": "4",
+    "rythmic": "4",
+    "bass": "4",
+    "curve": "8",
+    "note": "hello world i tray some thing new i would like to know if is ok maybe i want the text bigger"
+  },
+  {
+    "mp3RelativePath": "./mp3/new01/Norah Jones - Don't Know Why.mp3",
+    "md5sum": "7dcc3acc11096877187018fddb82f5a5",
+    "duration": "03:03",
+    "bpm": "+-89",
+    "instrumentOrTypes": "Piano, jazz",
+    "expention": "3",
+    "festive": "4",
+    "contact": "4",
+    "rythmic": "3",
+    "bass": "3",
+    "curve": "2",
+    "note": ""
+  },
+  {
+    "mp3RelativePath": "./mp3/new2/Half Moon Run - Crawl Back In (live from the Treehouse).mp3",
+    "md5sum": "a3a531f7dc5e50ca0dd519d9217cb9d9",
+    "duration": "03:26",
+    "bpm": "+-83",
+    "instrumentOrTypes": "guitar",
+    "expention": "0",
+    "festive": "3",
+    "contact": "5",
+    "rythmic": "3",
+    "bass": "2",
+    "curve": "10",
+    "note": "Voix et guit cool"
+  },
+  {
+    "mp3RelativePath": "./mp3/new01/Norah Jones - Don't Know Why.mp3",
+    "md5sum": "7dcc3acc11096877187018fddb82f5a5",
+    "duration": "03:03",
+    "bpm": "+-89",
+    "instrumentOrTypes": "Piano, jazz",
+    "expention": "3",
+    "festive": "4",
+    "contact": "4",
+    "rythmic": "3",
+    "bass": "3",
+    "curve": "2",
+    "note": ""
+  },
+  {
+    "mp3RelativePath": "./mp3/new2/Half Moon Run - Crawl Back In (live from the Treehouse).mp3",
+    "md5sum": "a3a531f7dc5e50ca0dd519d9217cb9d9",
+    "duration": "03:26",
+    "bpm": "+-83",
+    "instrumentOrTypes": "guitar",
+    "expention": "0",
+    "festive": "3",
+    "contact": "5",
+    "rythmic": "3",
+    "bass": "2",
+    "curve": "10",
+    "note": "Voix et guit cool"
+  }
+]

@@ -7,12 +7,15 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "filter:test": "nodemon ./src/Header/Filters/filterLogicUtils/test.js"
   },
   "dependencies": {
     "id3js": "^2.1.1",
     "jsmediatags": "^3.9.7",
     "music-metadata": "^11.12.0",
+    "nodemon": "^3.1.14",
+    "rc-select": "^14.16.8",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "vite-plugin-svgr": "^4.5.0",

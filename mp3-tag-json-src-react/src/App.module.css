@@ -1,0 +1,20 @@
+/* App.module.css */
+.app {
+  /* Light theme variables (default) */
+  --select-bg: white;
+  --select-text: black;
+  --select-border: #ccc;
+  --select-menu-bg: white;
+  --select-option-hover-bg: #f5f5f5;
+  --select-option-active-bg: #e0e0e0;
+}
+
+.darkTheme {
+  /* Dark theme variables (applied when body has this class) */
+  --select-bg: #333;
+  --select-text: yellow;
+  --select-border: #555;
+  --select-menu-bg: #444;
+  --select-option-hover-bg: #555;
+  --select-option-active-bg: #666;
+}

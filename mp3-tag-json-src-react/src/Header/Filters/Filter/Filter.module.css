@@ -1,0 +1,20 @@
+/* Select.module.css */
+.customSelect :global(.rc-select-selector) {
+  background-color: var(--select-bg) !important;
+  border-color: var(--select-border) !important;
+  color: var(--select-text);
+}
+
+.customSelect :global(.rc-select-selection-item) {
+  color: var(--select-text);
+}
+
+/* Target the dropdown menu */
+.customDropdown :global(.rc-select-item) {
+  background-color: var(--select-bg);
+  color: var(--select-text);
+}
+
+.customDropdown :global(.rc-select-item-option-active) {
+  background-color: var(--select-border);
+}

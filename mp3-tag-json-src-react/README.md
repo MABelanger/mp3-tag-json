@@ -24,3 +24,4 @@ document.addEventListener("keydown", (event) => {
 
 1. Stop all player when other player start (done)
 2. skip faward/backward 10 seg (done)
+3. Filter BPM
