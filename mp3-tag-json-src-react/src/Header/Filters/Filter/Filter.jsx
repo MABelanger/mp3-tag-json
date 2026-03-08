@@ -1,5 +1,6 @@
 import Select, { Option } from "rc-select";
 import "rc-select/assets/index.css";
+
 import styles from "./Filter.module.css";
 
 export function Filter(props) {

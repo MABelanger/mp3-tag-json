@@ -1,4 +1,16 @@
 /* Select.module.css */
+
+.customSelect {
+  display: inline;
+  padding-right: 15px;
+}
+
+.customDropdown:global(.rc-select-dropdown) {
+  border: 1px solid black;
+  min-height: 24px;
+  background: var(--select-bg);
+}
+
 .customSelect :global(.rc-select-selector) {
   background-color: var(--select-bg) !important;
   border-color: var(--select-border) !important;
