@@ -33,13 +33,12 @@
   --select-border: #cccccc; /* UI Borders */
   --select-active-text: #ffffff; /* Pure Highlight White */
 }
-/*
+
 :global(:root) {
-  --select-bg: #333;
-  --select-text: #a3a3a3;
-  --select-border: #555;
-  --select-menu-bg: #444;
-  --select-option-hover-bg: #555;
-  --select-option-active-bg: #666;
+  html {
+    font-size: 62.5%; /* Makes 1rem = 10px, easier to calculate */
+  }
+  body {
+    font-size: 1.6rem; /* 16px body text */
+  }
 }
-*/

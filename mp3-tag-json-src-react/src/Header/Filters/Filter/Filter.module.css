@@ -1,24 +1,18 @@
-/* Select.module.css */
-
+/* root customSelect */
 .customSelect {
   display: inline;
-  padding-right: 15px;
+  margin: 1.5rem;
 }
 
 .customDropdown:global(.rc-select-dropdown) {
-  border: 1px solid black;
-  min-height: 24px;
+  border: 0.1rem solid black;
+  min-height: 2.4rem;
   background: var(--select-bg);
 }
 
 .customSelect :global(.rc-select-focused) :global(.rc-select-selector) {
-  /* VS Code active border color */
   border-color: var(--select-border) !important;
-
-  /* Remove default blue shadows if they exist */
-  box-shadow: 0 0 0 1px var(--select-border) !important;
-
-  /* Ensure the transition is smooth */
+  box-shadow: 0 0 0 0.1rem var(--select-border) !important;
   transition: all 0.1s ease;
 }
 
@@ -26,8 +20,8 @@
   background-color: var(--select-bg) !important;
   border-color: var(--select-border) !important;
   color: var(--select-text);
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
 }
 
 .customSelect :global(.rc-select-selection-item) {
@@ -43,8 +37,8 @@
 .customSelect
   :global(.rc-select-single:not(.rc-select-customize-input))
   :global(.rc-select-selection-search-input) {
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
   border-color: var(--select-border) !important;
   color: var(--select-text);
   background-color: var(--select-bg) !important;
