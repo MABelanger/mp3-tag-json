@@ -3,6 +3,8 @@
   background-color: var(--select-bg) !important;
   border-color: var(--select-border) !important;
   color: var(--select-text);
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .customSelect :global(.rc-select-selection-item) {
@@ -15,18 +17,14 @@
   color: var(--select-text);
 }
 
-.customDropdown :global(.rc-select-item-option-active) {
-  background-color: var(--select-border);
-}
-
 .customSelect
   :global(.rc-select-single:not(.rc-select-customize-input))
   :global(.rc-select-selection-search-input) {
-  /* Your styles here */
+  font-size: 16px;
+  line-height: 24px;
   border-color: var(--select-border) !important;
   color: var(--select-text);
   background-color: var(--select-bg) !important;
-  font-weight: bold;
 }
 
 /* Each items */
@@ -36,7 +34,12 @@
 }
 
 .customDropdown :global(.rc-select-item-option-active) {
-  background-color: var(--select-bg) !important;
+  background-color: var(--select-option-active-bg) !important;
+  color: var(--select-text);
+}
+
+.customDropdown :global(.rc-select-item-option-selected) {
+  background-color: var(--select-option-selected-bg) !important;
   color: var(--select-text);
 }
 

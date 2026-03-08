@@ -2,14 +2,14 @@
 .lightTheme {
   /* Light theme variables (default) */
   --select-bg: white;
-  --select-text: yellow;
+  --select-text: black;
   --select-border: #ccc;
   --select-menu-bg: white;
   --select-option-hover-bg: #f5f5f5;
   --select-option-active-bg: #e0e0e0;
 }
 
-.darkTheme {
+.darkThemeOld {
   /* Dark theme variables (applied when body has this class) */
   --select-bg: #333;
   --select-text: #a3a3a3;
@@ -18,7 +18,28 @@
   --select-option-hover-bg: #555;
   --select-option-active-bg: #666;
 }
+.darkTheme {
+  /* Editor Background (Deep Charcoal) */
+  --select-bg: #1e1e1e;
 
+  /* Primary Text (Soft White/Gray) */
+  --select-text: #cccccc;
+
+  /* Menu/Dropdown Background (Slightly Darker than Editor) */
+  --select-menu-bg: #252526;
+
+  /* Borders (Subtle Contrast) */
+  --select-border: #3e3e42;
+
+  /* Item Hover (Lighter Gray) */
+  --select-option-selected-bg: #5b6163;
+
+  /* Item Active/Selected (VS Code Blue) */
+  --select-option-active-bg: #383d3f;
+
+  /* Selected Item Text */
+  --select-active-text: #ffffff;
+}
 /*
 :global(:root) {
   --select-bg: #333;
