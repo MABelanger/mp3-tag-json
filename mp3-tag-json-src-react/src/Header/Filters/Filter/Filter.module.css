@@ -1,15 +1,17 @@
 /* root customSelect */
 .customSelect {
-  display: inline;
-  margin: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Space between label and select */
 }
 
-.customDropdown:global(.rc-select-dropdown) {
-  border: 0.1rem solid black;
-  min-height: 2.4rem;
-  background: var(--select-bg);
+.label {
+  font-size: 1rem; /* Relative size */
+  font-weight: 500;
+  color: var(--select-text);
 }
 
+/* On focus the selector with tab */
 .customSelect :global(.rc-select-focused) :global(.rc-select-selector) {
   border-color: var(--select-border) !important;
   box-shadow: 0 0 0 0.1rem var(--select-border) !important;
@@ -28,12 +30,6 @@
   color: var(--select-text);
 }
 
-/* Target the dropdown menu */
-.customDropdown :global(.rc-select-item) {
-  background-color: var(--select-bg);
-  color: var(--select-text);
-}
-
 .customSelect
   :global(.rc-select-single:not(.rc-select-customize-input))
   :global(.rc-select-selection-search-input) {
@@ -44,17 +40,34 @@
   background-color: var(--select-bg) !important;
 }
 
+/* Target the dropdown menu */
+.customDropdown :global(.rc-select-item) {
+  background-color: var(--select-bg);
+  color: var(--select-text);
+}
+
+/* Dropdown empty */
+.customDropdown:global(.rc-select-dropdown) {
+  border: 0.1rem solid var(--select-border);
+  min-height: 2.4rem;
+  background: var(--select-bg);
+}
+
 /* Each items */
 .customDropdown :global(.rc-select-item-option) {
   background-color: var(--select-menu-bg) !important;
   color: var(--select-text);
+  font-size: 1.6rem;
+  line-height: 2.4rem;
 }
 
+/* Each items mouse over */
 .customDropdown :global(.rc-select-item-option-active) {
   background-color: var(--select-option-active-bg) !important;
   color: var(--select-text);
 }
 
+/* Item selected */
 .customDropdown :global(.rc-select-item-option-selected) {
   background-color: var(--select-option-selected-bg) !important;
   color: var(--select-text);

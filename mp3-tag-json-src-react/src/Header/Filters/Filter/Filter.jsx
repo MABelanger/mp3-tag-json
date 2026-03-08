@@ -6,18 +6,22 @@ import styles from "./Filter.module.css";
 export function Filter(props) {
   return (
     <div className={styles.customSelect}>
+      <label htmlFor="bpm-select" className={styles.label}>
+        BPM
+      </label>
       <Select
-        defaultValue="apple"
+        id="bpm-select"
         showSearch
-        style={{ width: 200 }}
+        style={{ width: "8rem" }}
         dropdownClassName={styles.customDropdown}
-        placeholder="Select a fruit or vegetable"
+        placeholder="<BPM>"
         // className={styles.rcSelectControl}
       >
-        <Option value="apple">🍎 Apple</Option>
-        <Option value="banana">🍌 Banana</Option>
-        <Option value="carrot">🥕 Carrot</Option>
-        <Option value="broccoli">🥦 Broccoli</Option>
+        <Option value="*">*</Option>
+        <Option value="80-85">80-85</Option>
+        <Option value="85-90">85-90</Option>
+        <Option value="90-95">90-95</Option>
+        <Option value="95-100">95-100</Option>
       </Select>
     </div>
   );

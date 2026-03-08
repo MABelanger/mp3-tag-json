@@ -20,7 +20,10 @@ export function CoverArt(props) {
               />
             </div>
           ) : (
-            <p>No cover art found.</p>
+            <p style={{ width: "120px" }}>
+              No cover <br />
+              art found.
+            </p>
           )}
         </div>
       )}

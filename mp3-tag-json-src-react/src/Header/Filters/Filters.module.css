@@ -1,3 +1,8 @@
-.FilterMarginBottom {
-  margin-bottom: 1.5rem;
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 3.5rem; /* Space between the two select groups */
+  flex-wrap: wrap; /* Allows them to stack on mobile if the screen is too small */
+  align-items: flex-end; /* Ensures they align at the bottom if labels have different heights */
+  margin-bottom: 2rem;
 }
