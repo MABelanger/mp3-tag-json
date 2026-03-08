@@ -11,6 +11,17 @@
   background: var(--select-bg);
 }
 
+.customSelect :global(.rc-select-focused) :global(.rc-select-selector) {
+  /* VS Code active border color */
+  border-color: var(--select-border) !important;
+
+  /* Remove default blue shadows if they exist */
+  box-shadow: 0 0 0 1px var(--select-border) !important;
+
+  /* Ensure the transition is smooth */
+  transition: all 0.1s ease;
+}
+
 .customSelect :global(.rc-select-selector) {
   background-color: var(--select-bg) !important;
   border-color: var(--select-border) !important;

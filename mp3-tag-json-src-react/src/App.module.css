@@ -19,26 +19,19 @@
   --select-option-active-bg: #666;
 }
 .darkTheme {
-  /* Editor Background (Deep Charcoal) */
-  --select-bg: #1e1e1e;
+  /* 1. Darkest (Backgrounds) */
+  --select-bg: #1e1e1e; /* Deepest Charcoal */
+  --select-menu-bg: #252526; /* Panel Background */
 
-  /* Primary Text (Soft White/Gray) */
-  --select-text: #cccccc;
+  /* 2. Medium (State & Interaction) */
+  --select-option-active-bg: #383d3f; /* Hover/Keyboard Focus */
 
-  /* Menu/Dropdown Background (Slightly Darker than Editor) */
-  --select-menu-bg: #252526;
+  --select-option-selected-bg: #5b6163; /* Selected Item */
 
-  /* Borders (Subtle Contrast) */
-  --select-border: #3e3e42;
-
-  /* Item Hover (Lighter Gray) */
-  --select-option-selected-bg: #5b6163;
-
-  /* Item Active/Selected (VS Code Blue) */
-  --select-option-active-bg: #383d3f;
-
-  /* Selected Item Text */
-  --select-active-text: #ffffff;
+  /* 3. Lightest (Text) */
+  --select-text: #cccccc; /* Primary Foreground */
+  --select-border: #cccccc; /* UI Borders */
+  --select-active-text: #ffffff; /* Pure Highlight White */
 }
 /*
 :global(:root) {

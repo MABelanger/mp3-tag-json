@@ -26,7 +26,7 @@ function App() {
 
   // div style={{ backgroundColor: "#1E1E1E", color: "#DDD" }}>
   return (
-    <div>
+    <div style={{ backgroundColor: "#1E1E1E", color: "#DDD" }}>
       <Header />
       <Mp3Sections mp3TagJsons={mp3TagJson} />
     </div>
