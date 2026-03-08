@@ -18,3 +18,30 @@
 .customDropdown :global(.rc-select-item-option-active) {
   background-color: var(--select-border);
 }
+
+.customSelect
+  :global(.rc-select-single:not(.rc-select-customize-input))
+  :global(.rc-select-selection-search-input) {
+  /* Your styles here */
+  border-color: var(--select-border) !important;
+  color: var(--select-text);
+  background-color: var(--select-bg) !important;
+  font-weight: bold;
+}
+
+/* Each items */
+.customDropdown :global(.rc-select-item-option) {
+  background-color: var(--select-menu-bg) !important;
+  color: var(--select-text);
+}
+
+.customDropdown :global(.rc-select-item-option-active) {
+  background-color: var(--select-bg) !important;
+  color: var(--select-text);
+}
+
+/*
+  --select-menu-bg: #444;
+  --select-option-hover-bg: #555;
+  --select-option-active-bg: #666;
+*/
