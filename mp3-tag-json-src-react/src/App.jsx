@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useMp3TagJson } from "./hooks/useMp3TagJson";
 import { Mp3Sections } from "./Mp3Sections";
 import { Header } from "./Header";
+import themeStyles from "./AppTheme.module.css";
 import styles from "./App.module.css";
 
 function App() {
@@ -10,9 +11,12 @@ function App() {
   const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    const theme = isDark ? styles.darkTheme : styles.lightTheme;
+    const theme = isDark ? themeStyles.darkTheme : themeStyles.lightTheme;
 
-    document.body.classList.remove(styles.darkTheme, styles.lightTheme);
+    document.body.classList.remove(
+      themeStyles.darkTheme,
+      themeStyles.lightTheme
+    );
     document.body.classList.add(theme);
   }, [isDark]);
 
@@ -26,7 +30,7 @@ function App() {
 
   // div style={{ backgroundColor: "#1E1E1E", color: "#DDD" }}>
   return (
-    <div style={{ backgroundColor: "#1E1E1E", color: "#DDD" }}>
+    <div className={styles.genericText}>
       <Header />
       <Mp3Sections mp3TagJsons={mp3TagJson} />
     </div>
