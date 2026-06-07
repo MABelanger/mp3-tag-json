@@ -6,7 +6,9 @@
   --select-border: #ccc;
   --select-menu-bg: white;
   --select-option-hover-bg: #f5f5f5;
-  --select-option-active-bg: #e0e0e0;
+  --select-option-active-bg: gray;
+  --select-option-selected-bg: black;
+  --select-active-text: white;
 }
 
 .darkThemeOld {
@@ -22,12 +24,9 @@
   /* 1. Darkest (Backgrounds) */
   --select-bg: #1e1e1e; /* Deepest Charcoal */
   --select-menu-bg: #252526; /* Panel Background */
-
   /* 2. Medium (State & Interaction) */
   --select-option-active-bg: #383d3f; /* Hover/Keyboard Focus */
-
   --select-option-selected-bg: #5b6163; /* Selected Item */
-
   /* 3. Lightest (Text) */
   --select-text: #ccc; /* Primary Foreground */
   --select-border: #ccc; /* UI Borders */

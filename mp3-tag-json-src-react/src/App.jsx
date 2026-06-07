@@ -8,7 +8,7 @@ import styles from "./App.module.css";
 function App() {
   const { mp3TagJson, isLoading, error } = useMp3TagJson();
 
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     const theme = isDark ? themeStyles.darkTheme : themeStyles.lightTheme;
