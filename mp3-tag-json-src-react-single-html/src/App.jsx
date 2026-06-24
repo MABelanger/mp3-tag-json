@@ -4,6 +4,7 @@ import { Mp3Section } from "./Mp3Section";
 import { useLocalFileFlag } from "./hooks/useLocalFileFlag";
 import { getFilePath, getMp3FilesArray } from "./utils/fileUtils";
 import { LocalDirectoryLister } from "./LocalDirectoryLister";
+import { DirectoryWriter } from "./DirectoryWriter/DirectoryWriter";
 
 export function App(props) {
   const [playingIndex, setPlayingIndex] = useState(0);
@@ -49,6 +50,7 @@ export function App(props) {
           </div>
         );
       })}
+      <DirectoryWriter />
       <LocalDirectoryLister mp3FilesArray={mp3FilesArray} />
     </div>
   );
