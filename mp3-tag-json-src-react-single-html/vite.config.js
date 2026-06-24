@@ -1,10 +1,30 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+import sirv from "sirv";
+import path from "path";
 import { resolve } from "path";
 
 export default defineConfig({
-  plugins: [react(), cssInjectedByJsPlugin()],
+  plugins: [
+    react(),
+    cssInjectedByJsPlugin(),
+    {
+      name: "serve-external-folder",
+      configureServer(server) {
+        // Serves the folder /Users/name/Pictures under the site root directly
+        server.middlewares.use(
+          "/",
+          sirv(
+            path.resolve("/home/data/my_data/dev/dj-project/mp3-tag-json/"),
+            {
+              dev: true,
+            }
+          )
+        );
+      },
+    },
+  ],
   define: {
     "process.env.NODE_ENV": JSON.stringify("production"),
   },
