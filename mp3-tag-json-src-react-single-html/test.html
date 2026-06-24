@@ -90,6 +90,13 @@
         }
       });
     </script>
-    <script type="module" src="./dist/my-react-widget.js"></script>
+
+    <script type="module">
+      // DEVELOPMENT PATH: Point directly to your source entry file
+      import { mountWidget } from "./dist/my-react-widget.js";
+
+      // Mounts instantly via Vite's dev server
+      mountWidget("root", { param1: "hello" });
+    </script>
   </body>
 </html>
