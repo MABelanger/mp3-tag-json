@@ -2,3 +2,8 @@
 data/**
 !data/.gitkeep
 !data/mp3/.gitkeep
+
+
+public/**
+!public/.gitkeep
+!public/mp3/.gitkeep

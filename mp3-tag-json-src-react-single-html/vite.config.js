@@ -1,29 +1,30 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/react-plugin"; // If using the standard React plugin
+import react from "@vitejs/plugin-react";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import { resolve } from "path";
 
 export default defineConfig({
-  plugins: [
-    react(),
-    cssInjectedByJsPlugin(), // Combines CSS into the single JS output
-  ],
+  plugins: [react(), cssInjectedByJsPlugin()],
+  define: {
+    "process.env.NODE_ENV": JSON.stringify("production"),
+  },
   build: {
     lib: {
-      // Path to your main component/export file
-      entry: resolve(__dirname, "src/index.jsx"),
+      entry: resolve(__dirname, "src/main.jsx"),
       name: "MyReactWidget",
+      // Provide a fallback name here, but rollupOptions will strictly override it
       fileName: "my-react-widget",
-      formats: ["es"], // Emits a clean ES Module (.js) file
+      formats: ["es"],
     },
     rollupOptions: {
-      // Exclude React from the bundle if the hosting app already provides it
-      external: ["react", "react-dom"],
+      // external: ["react", "react-dom"],
       output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
+        // This forces Vite/Rollup to use exactly this file name
+        entryFileNames: "my-react-widget.js",
+        // globals: {
+        //   react: "React",
+        //   "react-dom": "ReactDOM",
+        // },
       },
     },
   },
