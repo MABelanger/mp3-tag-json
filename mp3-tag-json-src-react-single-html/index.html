@@ -2,18 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tmp-test</title>
+    <title>Local Directory File Lister</title>
   </head>
   <body>
     <div id="root"></div>
+    <h2>Local Directory File Lister</h2>
+    brave --allow-file-access-from-files
+    <p>
+      Click the button below to pick a folder from your hard drive and list its
+      files.
+    </p>
+
+    <!-- Hidden native directory input trick -->
+    <label class="btn">
+      📁 Select Folder to List Files
+      <input
+        type="file"
+        id="directoryPicker"
+        webkitdirectory
+        directory
+        multiple
+        style="display: none"
+      />
+    </label>
+
     <script type="module">
       // DEVELOPMENT PATH: Point directly to your source entry file
-      import { mountWidget } from "/src/main.jsx";
+      import { mountWidget } from "./dist/my-react-widget.js";
 
-      // Mounts instantly via Vite's dev server
-      mountWidget("root", { param1: "hello" });
+      const directoryPicker = document.getElementById("directoryPicker");
+
+      directoryPicker.addEventListener("change", (event) => {
+        const files = event.target.files;
+
+        mountWidget("files", { files });
+      });
     </script>
   </body>
 </html>

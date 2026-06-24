@@ -3,38 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>Local Directory File Lister</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        padding: 20px;
-        background: #f4f4f9;
-      }
-      .btn {
-        padding: 10px 20px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      .btn:hover {
-        background: #0056b3;
-      }
-      ul {
-        margin-top: 20px;
-        background: white;
-        padding: 20px;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      li {
-        padding: 5px 0;
-        border-bottom: 1px solid #eee;
-        font-family: monospace;
-        list-style: none;
-      }
-    </style>
   </head>
   <body>
     <div id="root"></div>
@@ -58,50 +26,17 @@
       />
     </label>
 
-    <ul id="fileList">
-      <li style="color: #666">No folder selected yet.</li>
-    </ul>
-
     <script type="module">
       // DEVELOPMENT PATH: Point directly to your source entry file
       import { mountWidget } from "./dist/my-react-widget.js";
 
       const directoryPicker = document.getElementById("directoryPicker");
-      const fileList = document.getElementById("fileList");
 
       directoryPicker.addEventListener("change", (event) => {
         const files = event.target.files;
 
-        // Clear out the placeholder text
-        fileList.innerHTML = "";
-
-        if (files.length === 0) {
-          fileList.innerHTML = "<li>No files found or action canceled.</li>";
-          return;
-        }
-
-        mountWidget("root", { param1: files });
-
-        // Loop through all found items inside the folder structure
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const li = document.createElement("li");
-
-          // webkitRelativePath provides the folder structure layout (e.g., "myfolder/sub/data.txt")
-          li.textContent = `📄 ${file.webkitRelativePath} (${(
-            file.size / 1024
-          ).toFixed(1)} KB)`;
-          fileList.appendChild(li);
-        }
+        mountWidget("files", { files });
       });
     </script>
-
-    <!-- <script type="module">
-      // DEVELOPMENT PATH: Point directly to your source entry file
-      import { mountWidget } from "./dist/my-react-widget.js";
-
-      // Mounts instantly via Vite's dev server
-      mountWidget("root", { param1: "hello" });
-    </script> -->
   </body>
 </html>
