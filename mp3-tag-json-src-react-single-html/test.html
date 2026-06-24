@@ -62,7 +62,10 @@
       <li style="color: #666">No folder selected yet.</li>
     </ul>
 
-    <script>
+    <script type="module">
+      // DEVELOPMENT PATH: Point directly to your source entry file
+      import { mountWidget } from "./dist/my-react-widget.js";
+
       const directoryPicker = document.getElementById("directoryPicker");
       const fileList = document.getElementById("fileList");
 
@@ -76,6 +79,8 @@
           fileList.innerHTML = "<li>No files found or action canceled.</li>";
           return;
         }
+
+        mountWidget("root", { param1: files });
 
         // Loop through all found items inside the folder structure
         for (let i = 0; i < files.length; i++) {
@@ -91,12 +96,12 @@
       });
     </script>
 
-    <script type="module">
+    <!-- <script type="module">
       // DEVELOPMENT PATH: Point directly to your source entry file
       import { mountWidget } from "./dist/my-react-widget.js";
 
       // Mounts instantly via Vite's dev server
       mountWidget("root", { param1: "hello" });
-    </script>
+    </script> -->
   </body>
 </html>
