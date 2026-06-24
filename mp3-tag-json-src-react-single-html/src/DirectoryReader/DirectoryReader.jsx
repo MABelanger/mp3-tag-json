@@ -1,122 +1,151 @@
 import React, { useState } from "react";
 
-export default function DirectoryReader() {
-  const [fileList, setFileList] = useState([]);
+export default function DeepDirectoryScanner() {
+  const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("Ready to scan.");
 
+  // The core recursive scanner function
   const scanFolderRecursively = async (directoryHandle, currentPath = "") => {
-    let fileList = [];
+    let results = [];
 
     for await (const entry of directoryHandle.values()) {
-      // Combine names to track the folder structure (e.g., "Music/Rock")
+      // Construct the relative path (e.g., "Config/SubFolder/settings.json")
       const relativePath = currentPath
         ? `${currentPath}/${entry.name}`
         : entry.name;
 
       if (entry.kind === "file") {
-        const file = await entry.getFile();
+        const fileData = await entry.getFile();
+        let jsonContent = null;
 
-        // If you want to read the raw text string inside the file:
-        // const fileText = await file.text();
+        // If the file extension matches .json, read and parse it immediately
+        if (fileData.name.toLowerCase().endsWith(".json")) {
+          try {
+            const text = await fileData.text();
+            jsonContent = JSON.parse(text);
+          } catch (err) {
+            jsonContent = { error: `Failed to parse JSON: ${err.message}` };
+          }
+        }
 
-        // Push whatever string or object metadata you want to track
-        fileList.push(relativePath);
+        // Store the file information object
+        results.push({
+          name: entry.name,
+          path: relativePath,
+          isJson: fileData.name.toLowerCase().endsWith(".json"),
+          content: jsonContent,
+        });
       } else if (entry.kind === "directory") {
-        // Pass the updated folder path down into the next deep layer
-        const subFolderFiles = await scanFolderRecursively(entry, relativePath);
-
-        // Merge the results of the subfolder into our main list
-        fileList = fileList.concat(subFolderFiles);
+        // Recurse deeper into the sub-directory
+        const deepFiles = await scanFolderRecursively(entry, relativePath);
+        results = results.concat(deepFiles);
       }
     }
 
-    console.log("fileList", fileList);
-
-    return fileList; // Returns a flat array of strings to the original caller
+    return results;
   };
 
-  const handleOpenFolder = async () => {
+  const handleScanClick = async () => {
     try {
       setLoading(true);
-      // 1. Trigger the native OS directory select interface
-      const dirHandle = await window.showDirectoryPicker();
-      const dirHandleRecursive = await scanFolderRecursively(dirHandle);
-      const filesArray = [];
+      setStatus("Opening system picker native dialog...");
 
-      // 2. Loop through all immediate items inside the folder handle
-      for await (const entry of dirHandleRecursive) {
-        if (entry.kind === "file") {
-          // 3. Resolve the actual native File object metadata
-          const fileData = await entry.getFile();
+      const rootHandle = await window.showDirectoryPicker();
+      setStatus(`Scanning deep folder structure for: "${rootHandle.name}"...`);
 
-          // --- Reading File Contents (Example: Parsing JSON Files) ---
-          if (fileData.name.endsWith(".json")) {
-            try {
-              const textContent = await fileData.text();
-              const parsedJson = JSON.parse(textContent);
-              console.log(`Contents of ${fileData.name}:`, parsedJson);
-            } catch (err) {
-              console.warn(`Could not read/parse ${fileData.name}:`, err);
-            }
-          }
+      const allDiscoveredFiles = await scanFolderRecursively(rootHandle);
 
-          filesArray.push({
-            name: fileData.name,
-            size: fileData.size,
-            type: fileData.type,
-            lastModified: fileData.lastModifiedDate,
-          });
-        }
-      }
-
-      setFileList(filesArray);
+      setFiles(allDiscoveredFiles);
+      setStatus(
+        `Scan complete! Discovered ${allDiscoveredFiles.length} total files.`
+      );
     } catch (error) {
-      console.error("Directory read failed:", error);
+      console.error(error);
+      setStatus(`Scan cancelled or rejected: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h2>Local Directory File Scanner</h2>
+    <div style={styles.container}>
+      <h2>Recursive File Discovery & JSON Reader</h2>
+      <p style={styles.statusMsg}>
+        <strong>Status:</strong> {status}
+      </p>
 
-      <button onClick={handleOpenFolder} disabled={loading} style={styles.btn}>
-        {loading ? "Reading Folder..." : "📁 Choose Directory"}
+      <button onClick={handleScanClick} disabled={loading} style={styles.btn}>
+        {loading
+          ? "Reading Folder Structure..."
+          : "📁 Select Folder to Deep Scan"}
       </button>
 
-      <ul style={styles.ul}>
-        {fileList.length === 0 && <li>No folder loaded yet.</li>}
-        {fileList.map((file, i) => (
-          <li key={i} style={styles.li}>
-            📄 <strong>{file.name}</strong> - {(file.size / 1024).toFixed(2)} KB
-          </li>
+      <div style={{ marginTop: "20px" }}>
+        {files.map((file, idx) => (
+          <div key={idx} style={styles.fileCard}>
+            <div style={styles.filePath}>
+              {file.isJson ? "📄 [JSON File] " : "📝 [File] "} {file.path}
+            </div>
+
+            {file.isJson && file.content && (
+              <pre style={styles.jsonBox}>
+                {JSON.stringify(file.content, null, 2)}
+              </pre>
+            )}
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
 
+// Scoped inline styles for complete styling autonomy
 const styles = {
+  container: {
+    maxWidth: "900px",
+    margin: "0 auto",
+    fontFamily: "system-ui, -apple-system, sans-serif",
+    color: "#0f172a",
+    padding: "20px",
+  },
   btn: {
-    padding: "10px 20px",
-    background: "#007bff",
+    padding: "12px 24px",
+    background: "#3b82f6",
     color: "white",
     border: "none",
-    borderRadius: "4px",
+    borderRadius: "6px",
     cursor: "pointer",
+    fontSize: "16px",
+    fontWeight: "600",
   },
-  ul: {
-    marginTop: "20px",
-    background: "#fff",
-    padding: "15px",
-    borderRadius: "4px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+  fileCard: {
+    background: "white",
+    marginTop: "15px",
+    padding: "16px",
+    borderRadius: "8px",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+    border: "1px solid #e2e8f0",
   },
-  li: {
-    listStyle: "none",
-    padding: "6px 0",
-    borderBottom: "1px solid #eee",
+  filePath: {
     fontFamily: "monospace",
+    fontWeight: "bold",
+    color: "#1e293b",
+  },
+  jsonBox: {
+    marginTop: "10px",
+    background: "#0f172a",
+    color: "#38bdf8",
+    padding: "14px",
+    borderRadius: "6px",
+    overflowX: "auto",
+    fontFamily: "'Courier New', monospace",
+    fontSize: "13px",
+    whiteApace: "pre-wrap",
+  },
+  statusMsg: {
+    margin: "15px 0",
+    fontWeight: "500",
+    color: "#64748b",
   },
 };
