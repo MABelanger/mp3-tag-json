@@ -8,3 +8,14 @@ export function getFilePath(relativePath) {
 
   return baseLocalPath + relativePath;
 }
+
+export function getMp3FilesArray(fileListObj) {
+  const filesArray = Array.from(fileListObj);
+
+  const mp3FilesArray = filesArray.filter(
+    (file) =>
+      file.type === "audio/mpeg" || file.name.toLowerCase().endsWith(".mp3")
+  );
+
+  return mp3FilesArray;
+}

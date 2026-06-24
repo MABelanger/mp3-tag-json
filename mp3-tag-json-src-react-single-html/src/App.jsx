@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Mp3Section } from "./Mp3Section";
 
 import { useLocalFileFlag } from "./hooks/useLocalFileFlag";
-import { getFilePath } from "./utils/fileUtils";
+import { getFilePath, getMp3FilesArray } from "./utils/fileUtils";
 import { LocalDirectoryLister } from "./LocalDirectoryLister";
 
 export function App(props) {
@@ -27,6 +27,8 @@ export function App(props) {
     note: "hello world i tray some thing new i would like to know if is ok maybe i want the text bigger",
   };
 
+  const mp3FilesArray = getMp3FilesArray(props.fileListObj);
+
   const srcPath = getFilePath(
     "/data/mp3/new01/Norah Jones - Don't Know Why.mp3"
   );
@@ -38,7 +40,7 @@ export function App(props) {
         <source src={srcPath} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
-      <LocalDirectoryLister files={props.files} />
+      <LocalDirectoryLister mp3FilesArray={mp3FilesArray} />
     </div>
   );
 }

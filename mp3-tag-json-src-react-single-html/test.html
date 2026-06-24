@@ -33,9 +33,9 @@
       const directoryPicker = document.getElementById("directoryPicker");
 
       directoryPicker.addEventListener("change", (event) => {
-        const files = event.target.files;
+        const fileListObj = event.target.files;
 
-        mountWidget("root", { files });
+        mountWidget("root", { fileListObj });
       });
     </script>
   </body>

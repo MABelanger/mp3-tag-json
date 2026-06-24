@@ -40,19 +40,10 @@ const styles = {
 };
 
 export function LocalDirectoryLister(props) {
-  console.log("props2", props);
-
-  const filesArray = Array.from(props.files);
-
-  const mp3Files = filesArray.filter(
-    (file) =>
-      file.type === "audio/mpeg" || file.name.toLowerCase().endsWith(".mp3")
-  );
-
   return (
     <div style={styles.body}>
       <ul style={styles.ul}>
-        {mp3Files.map((file, index) => (
+        {props.mp3FilesArray.map((file, index) => (
           <li key={index} style={styles.li}>
             📄 {file.webkitRelativePath || file.name} (
             {(file.size / 1024).toFixed(1)} KB)
