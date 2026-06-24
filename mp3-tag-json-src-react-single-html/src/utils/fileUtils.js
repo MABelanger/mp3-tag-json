@@ -10,6 +10,9 @@ export function getFilePath(relativePath) {
 }
 
 export function getMp3FilesArray(fileListObj) {
+  if (!fileListObj) {
+    return [];
+  }
   const filesArray = Array.from(fileListObj);
 
   const mp3FilesArray = filesArray.filter(
