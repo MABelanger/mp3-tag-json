@@ -29,17 +29,26 @@ export function App(props) {
 
   const mp3FilesArray = getMp3FilesArray(props.fileListObj);
 
-  const srcPath = getFilePath(
-    "/data/mp3/new01/Norah Jones - Don't Know Why.mp3"
-  );
+  // const srcPath = getFilePath(
+  //   "/data/mp3/new01/Norah Jones - Don't Know Why.mp3"
+  // );
 
-  console.log("srcPath", srcPath);
+  // console.log("srcPath", srcPath);
   return (
     <div>
-      <audio controls>
-        <source src={srcPath} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      hello
+      {mp3FilesArray.map((mp3File, index) => {
+        const src = getFilePath("/" + mp3File.webkitRelativePath);
+        console.log("src", src);
+        return (
+          <div key={index}>
+            <audio controls>
+              <source src={src} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        );
+      })}
       <LocalDirectoryLister mp3FilesArray={mp3FilesArray} />
     </div>
   );
