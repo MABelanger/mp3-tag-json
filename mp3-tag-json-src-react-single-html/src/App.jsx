@@ -3,7 +3,7 @@ import { Mp3Section } from "./Mp3Section";
 
 import { useLocalFileFlag } from "./hooks/useLocalFileFlag";
 import { getFilePath } from "./utils/fileUtils";
-import LocalDirectoryLister from "./LocalDirectoryLister/LocalDirectoryLister";
+import { LocalDirectoryLister } from "./LocalDirectoryLister";
 
 export function App(props) {
   const [playingIndex, setPlayingIndex] = useState(0);

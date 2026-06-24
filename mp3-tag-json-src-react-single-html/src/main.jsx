@@ -17,7 +17,7 @@ import { App } from "./App.jsx";
 let activeRoot = null;
 
 export function mountWidget(targetId, props = {}) {
-  console.log("props", props);
+  console.log("main");
   const container = document.getElementById(targetId);
   if (!container) return;
 

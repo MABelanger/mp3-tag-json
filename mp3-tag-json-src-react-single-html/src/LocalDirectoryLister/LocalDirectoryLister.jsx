@@ -39,19 +39,20 @@ const styles = {
   },
 };
 
-export default function LocalDirectoryLister(props) {
-  const hasFiles = props.list.length > 0;
+export function LocalDirectoryLister(props) {
+  console.log("props", props);
+
+  const filesArray = Array.from(props.files);
+
+  // for (let i = 0; i < files.length; i++) {
+  //   const file = files[i];
+  //   console.log(file);
+  // }
 
   return (
     <div style={styles.body}>
       <ul style={styles.ul}>
-        {!hasFiles && (
-          <li style={{ ...styles.li, color: "#666" }}>
-            No folder selected yet.
-          </li>
-        )}
-
-        {props.files.map((file, index) => (
+        {filesArray.map((file, index) => (
           <li key={index} style={styles.li}>
             {file.webkitRelativePath || file.name}
           </li>

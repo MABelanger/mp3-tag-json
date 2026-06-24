@@ -28,14 +28,14 @@
 
     <script type="module">
       // DEVELOPMENT PATH: Point directly to your source entry file
-      import { mountWidget } from "./dist/my-react-widget.js";
+      import { mountWidget } from "./src/main.jsx";
 
       const directoryPicker = document.getElementById("directoryPicker");
 
       directoryPicker.addEventListener("change", (event) => {
         const files = event.target.files;
 
-        mountWidget("files", { files });
+        mountWidget("root", { files });
       });
     </script>
   </body>
