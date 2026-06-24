@@ -1,26 +1,27 @@
 import React, { useState } from "react";
 
-export default function DeepDirectoryScanner() {
+export default function MediaDirectoryScanner() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("Ready to scan.");
 
-  // The core recursive scanner function
+  // The recursive scanner function
   const scanFolderRecursively = async (directoryHandle, currentPath = "") => {
     let results = [];
 
     for await (const entry of directoryHandle.values()) {
-      // Construct the relative path (e.g., "Config/SubFolder/settings.json")
       const relativePath = currentPath
         ? `${currentPath}/${entry.name}`
         : entry.name;
+      const lowerName = entry.name.toLowerCase();
 
       if (entry.kind === "file") {
         const fileData = await entry.getFile();
         let jsonContent = null;
+        let audioUrl = null;
 
-        // If the file extension matches .json, read and parse it immediately
-        if (fileData.name.toLowerCase().endsWith(".json")) {
+        // 1. Process JSON files
+        if (lowerName.endsWith(".json")) {
           try {
             const text = await fileData.text();
             jsonContent = JSON.parse(text);
@@ -29,15 +30,20 @@ export default function DeepDirectoryScanner() {
           }
         }
 
-        // Store the file information object
+        // 2. Process MP3 files -> Create a local memory object URL
+        if (lowerName.endsWith(".mp3")) {
+          audioUrl = URL.createObjectURL(fileData);
+        }
+
         results.push({
           name: entry.name,
           path: relativePath,
-          isJson: fileData.name.toLowerCase().endsWith(".json"),
+          isJson: lowerName.endsWith(".json"),
+          isMp3: lowerName.endsWith(".mp3"),
           content: jsonContent,
+          src: audioUrl, // Pass the generated blob URL to the player
         });
       } else if (entry.kind === "directory") {
-        // Recurse deeper into the sub-directory
         const deepFiles = await scanFolderRecursively(entry, relativePath);
         results = results.concat(deepFiles);
       }
@@ -49,20 +55,18 @@ export default function DeepDirectoryScanner() {
   const handleScanClick = async () => {
     try {
       setLoading(true);
-      setStatus("Opening system picker native dialog...");
+      setStatus("Opening system picker...");
 
       const rootHandle = await window.showDirectoryPicker();
-      setStatus(`Scanning deep folder structure for: "${rootHandle.name}"...`);
+      setStatus(`Scanning: "${rootHandle.name}"...`);
 
       const allDiscoveredFiles = await scanFolderRecursively(rootHandle);
 
       setFiles(allDiscoveredFiles);
-      setStatus(
-        `Scan complete! Discovered ${allDiscoveredFiles.length} total files.`
-      );
+      setStatus(`Scan complete! Loaded ${allDiscoveredFiles.length} files.`);
     } catch (error) {
       console.error(error);
-      setStatus(`Scan cancelled or rejected: ${error.message}`);
+      setStatus(`Scan failed: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -70,28 +74,39 @@ export default function DeepDirectoryScanner() {
 
   return (
     <div style={styles.container}>
-      <h2>Recursive File Discovery & JSON Reader</h2>
+      <h2>Recursive Folder Media Player & Reader</h2>
       <p style={styles.statusMsg}>
         <strong>Status:</strong> {status}
       </p>
 
       <button onClick={handleScanClick} disabled={loading} style={styles.btn}>
-        {loading
-          ? "Reading Folder Structure..."
-          : "📁 Select Folder to Deep Scan"}
+        {loading ? "Reading Media..." : "📁 Select Folder to Deep Scan"}
       </button>
 
       <div style={{ marginTop: "20px" }}>
         {files.map((file, idx) => (
           <div key={idx} style={styles.fileCard}>
             <div style={styles.filePath}>
-              {file.isJson ? "📄 [JSON File] " : "📝 [File] "} {file.path}
+              {file.isJson && "📄 [JSON File] "}
+              {file.isMp3 && "🎵 [Audio File] "}
+              {!file.isJson && !file.isMp3 && "📝 [File] "}
+              {file.path}
             </div>
 
+            {/* Render interactive JSON code box */}
             {file.isJson && file.content && (
               <pre style={styles.jsonBox}>
                 {JSON.stringify(file.content, null, 2)}
               </pre>
+            )}
+
+            {/* Render dynamic HTML5 native audio controller */}
+            {file.isMp3 && file.src && (
+              <div style={styles.audioWrapper}>
+                <audio controls src={file.src} style={styles.audioPlayer}>
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
             )}
           </div>
         ))}
@@ -100,12 +115,11 @@ export default function DeepDirectoryScanner() {
   );
 }
 
-// Scoped inline styles for complete styling autonomy
 const styles = {
   container: {
     maxWidth: "900px",
     margin: "0 auto",
-    fontFamily: "system-ui, -apple-system, sans-serif",
+    fontFamily: "system-ui, sans-serif",
     color: "#0f172a",
     padding: "20px",
   },
@@ -127,11 +141,7 @@ const styles = {
     boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
     border: "1px solid #e2e8f0",
   },
-  filePath: {
-    fontFamily: "monospace",
-    fontWeight: "bold",
-    color: "#1e293b",
-  },
+  filePath: { fontFamily: "monospace", fontWeight: "bold", color: "#1e293b" },
   jsonBox: {
     marginTop: "10px",
     background: "#0f172a",
@@ -139,13 +149,11 @@ const styles = {
     padding: "14px",
     borderRadius: "6px",
     overflowX: "auto",
-    fontFamily: "'Courier New', monospace",
+    fontFamily: "monospace",
     fontSize: "13px",
-    whiteApace: "pre-wrap",
+    whiteSpace: "pre-wrap",
   },
-  statusMsg: {
-    margin: "15px 0",
-    fontWeight: "500",
-    color: "#64748b",
-  },
+  audioWrapper: { marginTop: "12px" },
+  audioPlayer: { width: "100%", maxHeight: "40px" },
+  statusMsg: { margin: "15px 0", fontWeight: "500", color: "#64748b" },
 };
