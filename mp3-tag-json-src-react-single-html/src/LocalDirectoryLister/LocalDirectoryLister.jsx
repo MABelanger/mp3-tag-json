@@ -54,7 +54,8 @@ export function LocalDirectoryLister(props) {
       <ul style={styles.ul}>
         {mp3Files.map((file, index) => (
           <li key={index} style={styles.li}>
-            {file.webkitRelativePath || file.name}
+            📄 {file.webkitRelativePath || file.name} (
+            {(file.size / 1024).toFixed(1)} KB)
           </li>
         ))}
       </ul>
