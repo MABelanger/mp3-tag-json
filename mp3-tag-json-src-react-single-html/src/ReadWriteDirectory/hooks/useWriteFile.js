@@ -34,4 +34,6 @@ export function useWriteFile() {
       throw error;
     }
   }
+
+  return { writeNestedFile };
 }

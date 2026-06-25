@@ -47,7 +47,7 @@ const recursiveScanFolder = async (directoryHandle, currentDirectory = "") => {
 export function useScanFiles() {
   const [scannedFiles, setScannedFiles] = useState([]);
   const [isScanning, setIsScanning] = useState(false);
-  async function scanFiles(dirHandle) {
+  async function doScanFiles(dirHandle) {
     setIsScanning(true);
     const scannedFiles = await recursiveScanFolder(dirHandle);
     setScannedFiles(scannedFiles);
@@ -55,7 +55,7 @@ export function useScanFiles() {
   }
 
   return {
-    scanFiles,
+    doScanFiles,
     isScanning,
     scannedFiles,
   };
