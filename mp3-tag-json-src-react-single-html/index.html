@@ -6,37 +6,18 @@
   </head>
   <body>
     <div id="root"></div>
-    <h2>Local Directory File Lister</h2>
-    brave --allow-file-access-from-files
-    <p>
-      Click the button below to pick a folder from your hard drive and list its
-      files.
-    </p>
-
-    <!-- Hidden native directory input trick -->
-    <label class="btn">
-      📁 Select Folder to List Files
-      <input
-        type="file"
-        id="directoryPicker"
-        webkitdirectory
-        directory
-        multiple
-        style="display: none"
-      />
-    </label>
 
     <script type="module">
       // DEVELOPMENT PATH: Point directly to your source entry file
       import { mountWidget } from "./src/main.jsx";
 
-      const directoryPicker = document.getElementById("directoryPicker");
+      // const directoryPicker = document.getElementById("directoryPicker");
 
-      directoryPicker.addEventListener("change", (event) => {
-        const fileListObj = event.target.files;
+      // directoryPicker.addEventListener("change", (event) => {
+      //   const fileListObj = event.target.files;
 
-        mountWidget("root", { fileListObj });
-      });
+      //   mountWidget("root", { fileListObj });
+      // });
       mountWidget("root", {});
     </script>
   </body>

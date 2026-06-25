@@ -6,6 +6,7 @@ import { getFilePath, getMp3FilesArray } from "./utils/fileUtils";
 import { LocalDirectoryLister } from "./LocalDirectoryLister";
 import { DirectoryWriter } from "./DirectoryWriter/DirectoryWriter";
 import DirectoryReader from "./DirectoryReader/DirectoryReader";
+import { ReadWriteDirectory } from "./ReadWriteDirectory/ReadWriteDirectory";
 
 export function App(props) {
   const [playingIndex, setPlayingIndex] = useState(0);
@@ -38,22 +39,7 @@ export function App(props) {
   // console.log("srcPath", srcPath);
   return (
     <div>
-      hello
-      {mp3FilesArray.map((mp3File, index) => {
-        const src = getFilePath("/" + mp3File.webkitRelativePath);
-        console.log("src", src);
-        return (
-          <div key={index}>
-            <audio controls>
-              <source src={src} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
-          </div>
-        );
-      })}
-      <DirectoryWriter />
-      <DirectoryReader />
-      <LocalDirectoryLister mp3FilesArray={mp3FilesArray} />
+      <ReadWriteDirectory />
     </div>
   );
 }
