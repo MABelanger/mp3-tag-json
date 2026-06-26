@@ -9,14 +9,14 @@ export function App(props) {
     setScannedFiles(scannedFiles);
   }
 
-  const tracks = scannedFiles.filter((scannedFile) => {
+  const mp3Tracks = scannedFiles.filter((scannedFile) => {
     return scannedFile.fileType == "mp3";
   });
 
   return (
     <div>
       <ReadWriteDirectory onScannedFiles={handleScannedFiles} />
-      <DirectoryPlayer tracks={tracks} />
+      <DirectoryPlayer tracks={mp3Tracks} />
       <pre>{JSON.stringify(scannedFiles, null, 3)}</pre>
     </div>
   );
