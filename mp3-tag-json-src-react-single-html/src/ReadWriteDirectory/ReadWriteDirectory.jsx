@@ -1,13 +1,14 @@
+import { useState } from "react";
+
 import { useShowDirectoryPicker } from "./hooks/useShowDirectoryPicker";
 import { useScanFiles } from "./hooks/useScanFiles";
-import { useState } from "react";
 import { useWriteFile } from "./hooks/useWriteFile";
 
 export function ReadWriteDirectory() {
   const [dirHandle, setDirHandle] = useState(null);
   const { showDirectoryPicker } = useShowDirectoryPicker();
   const { doScanFiles, isScanning, scannedFiles } = useScanFiles();
-  const { writeNestedFile } = useWriteFile();
+  const { writeNestedFile, isSaving } = useWriteFile();
 
   async function handleClickScan() {
     const dirHandle = await showDirectoryPicker();

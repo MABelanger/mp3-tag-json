@@ -1,7 +1,3 @@
-// 1. Recursive scan that flags MP3 metadata cleanly without eating RAM
-
-import { useState } from "react";
-
 function getFileType(entryName) {
   const lowerName = entryName.toLowerCase();
 
@@ -22,7 +18,10 @@ function getRelativePath(entryName, currentDirectory) {
   return entryName;
 }
 
-const recursiveScanFolder = async (directoryHandle, currentDirectory = "") => {
+export const recursiveScanFolder = async (
+  directoryHandle,
+  currentDirectory = ""
+) => {
   let scannedFiles = [];
 
   for await (const entry of directoryHandle.values()) {
@@ -43,20 +42,3 @@ const recursiveScanFolder = async (directoryHandle, currentDirectory = "") => {
   }
   return scannedFiles;
 };
-
-export function useScanFiles() {
-  const [scannedFiles, setScannedFiles] = useState([]);
-  const [isScanning, setIsScanning] = useState(false);
-  async function doScanFiles(dirHandle) {
-    setIsScanning(true);
-    const scannedFiles = await recursiveScanFolder(dirHandle);
-    setScannedFiles(scannedFiles);
-    setIsScanning(false);
-  }
-
-  return {
-    doScanFiles,
-    isScanning,
-    scannedFiles,
-  };
-}

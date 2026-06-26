@@ -1,6 +1,10 @@
+import { useState } from "react";
+
 export function useWriteFile() {
+  const [isSaving, setIsSaving] = useState(false);
   async function writeNestedFile(rootHandle, pathString, fileContent) {
     try {
+      setIsSaving(true);
       // 1. Split the path into individual pieces and clean empty segments
       const pathParts = pathString
         .split("/")
@@ -29,11 +33,13 @@ export function useWriteFile() {
       await writable.close();
 
       console.log(`Successfully created: ${pathString}`);
+      setIsSaving(false);
     } catch (error) {
+      setIsSaving(false);
       console.error(`Failed to write path "${pathString}":`, error);
       throw error;
     }
   }
 
-  return { writeNestedFile };
+  return { writeNestedFile, isSaving };
 }
