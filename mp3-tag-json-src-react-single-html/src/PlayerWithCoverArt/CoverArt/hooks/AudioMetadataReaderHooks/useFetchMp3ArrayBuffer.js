@@ -23,7 +23,7 @@ export function useFetchMp3ArrayBuffer(audioUrl) {
 
   useEffect(() => {
     doFetchMp3ArrayBuffer();
-  }, []);
+  }, [audioUrl]);
 
   return { arrayBuffer, fetchError: error };
 }
