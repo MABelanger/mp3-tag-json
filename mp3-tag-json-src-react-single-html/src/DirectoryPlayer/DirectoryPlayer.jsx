@@ -1,62 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 
-export function DirectoryPlayer() {
-  const [tracks, setTracks] = useState([]);
+export function DirectoryPlayer(props) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
   const [activeAudioSrc, setActiveAudioSrc] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("No library folder loaded.");
+  const [status, setStatus] = useState("");
 
   const audioPlayerRef = useRef(null);
 
-  // 1. Recursive scan that flags MP3 metadata cleanly without eating RAM
-  const scanFolderForAudio = async (directoryHandle, currentPath = "") => {
-    let results = [];
-
-    for await (const entry of directoryHandle.values()) {
-      const relativePath = currentPath
-        ? `${currentPath}/${entry.name}`
-        : entry.name;
-      const lowerName = entry.name.toLowerCase();
-
-      if (entry.kind === "file" && lowerName.endsWith(".mp3")) {
-        results.push({
-          name: entry.name,
-          path: relativePath,
-          handle: entry, // Keep the raw handle reference to pull file bytes lazily later
-        });
-      } else if (entry.kind === "directory") {
-        const deepTracks = await scanFolderForAudio(entry, relativePath);
-        results = results.concat(deepTracks);
-      }
-    }
-    return results;
-  };
-
-  const handleLoadLibrary = async () => {
-    try {
-      setLoading(true);
-      setStatus("Opening browser folder picker...");
-      const rootHandle = await window.showDirectoryPicker();
-
-      setStatus("Scanning directories for audio assets...");
-      const discoveredTracks = await scanFolderForAudio(rootHandle);
-
-      setTracks(discoveredTracks);
-      setCurrentTrackIndex(null);
-      setActiveAudioSrc("");
-      setStatus(`Successfully indexed ${discoveredTracks.length} tracks.`);
-    } catch (error) {
-      console.error(error);
-      setStatus(`Library load rejected: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
+  function initLibrary() {
+    setCurrentTrackIndex(null);
+    setActiveAudioSrc("");
+  }
 
   // 2. Lazy memory generation strategy triggered on user click or track progression
   const playTrack = async (index) => {
-    if (index < 0 || index >= tracks.length) return;
+    if (index < 0 || index >= props.tracks.length) return;
 
     try {
       // Free memory allocation belonging to the prior track
@@ -64,8 +22,9 @@ export function DirectoryPlayer() {
         URL.revokeObjectURL(activeAudioSrc);
       }
 
-      const targetTrack = tracks[index];
+      const targetTrack = props.tracks[index];
       const fileData = await targetTrack.handle.getFile();
+      console.log("fileData", fileData);
 
       // Generate a temporary execution stream link for exactly one file
       const dynamicUrl = URL.createObjectURL(fileData);
@@ -73,13 +32,17 @@ export function DirectoryPlayer() {
       setCurrentTrackIndex(index);
       setActiveAudioSrc(dynamicUrl);
     } catch (err) {
+      console.log(err);
       setStatus(`Failed to read track file: ${err.message}`);
     }
   };
 
   // 3. Sequential automation engine
   const handleTrackEnded = () => {
-    if (currentTrackIndex !== null && currentTrackIndex + 1 < tracks.length) {
+    if (
+      currentTrackIndex !== null &&
+      currentTrackIndex + 1 < props.tracks.length
+    ) {
       // Advance execution index count step by one forward
       playTrack(currentTrackIndex + 1);
     } else {
@@ -99,25 +62,21 @@ export function DirectoryPlayer() {
     }
   }, [activeAudioSrc]);
 
+  useEffect(() => {
+    initLibrary();
+  }, []);
+
   const activeTrack =
-    currentTrackIndex !== null ? tracks[currentTrackIndex] : null;
+    currentTrackIndex !== null ? props.tracks[currentTrackIndex] : null;
 
   return (
     <div style={styles.appLayout}>
       {/* LEFT SIDEBAR: Library & Queue Listings */}
       <div style={styles.sidebar}>
         <h3 style={styles.sidebarTitle}>🎵 My Music App</h3>
-        <button
-          onClick={handleLoadLibrary}
-          disabled={loading}
-          style={styles.scanBtn}
-        >
-          {loading ? "Indexing Files..." : "📁 Load Music Directory"}
-        </button>
-        <div style={styles.statusBox}>{status}</div>
 
         <div style={styles.trackListContainer}>
-          {tracks.map((track, i) => (
+          {props.tracks.map((track, i) => (
             <div
               key={i}
               onClick={() => playTrack(i)}
@@ -213,13 +172,6 @@ const styles = {
     fontWeight: "600",
     cursor: "pointer",
     fontSize: "14px",
-  },
-  statusBox: {
-    margin: "10px 0",
-    fontSize: "11px",
-    color: "#94a3b8",
-    fontStyle: "italic",
-    wordBreak: "break-all",
   },
   trackListContainer: {
     flex: 1,
