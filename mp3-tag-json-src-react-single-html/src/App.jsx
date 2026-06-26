@@ -10,7 +10,7 @@ export function App(props) {
   return (
     <div>
       <ReadWriteDirectory onScannedFiles={handleScannedFiles} />
-      <pre>{JSON.stringify(scannedFiles)}</pre>
+      <pre>{JSON.stringify(scannedFiles, null, 3)}</pre>
     </div>
   );
 }
