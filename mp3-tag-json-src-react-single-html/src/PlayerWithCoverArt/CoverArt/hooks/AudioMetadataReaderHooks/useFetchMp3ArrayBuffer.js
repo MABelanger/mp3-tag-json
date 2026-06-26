@@ -13,7 +13,6 @@ export function useFetchMp3ArrayBuffer(audioUrl) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const arrayBuffer = await response.arrayBuffer();
-      console.log("arrayBuffer", arrayBuffer);
       setArrayBuffer(arrayBuffer);
     } catch (err) {
       console.error("Error fetching or parsing metadata:", err);
