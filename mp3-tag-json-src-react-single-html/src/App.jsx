@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DirectoryPlayer } from "./DirectoryPlayer/DirectoryPlayer";
+import { PlayerWithCoverArt } from "./PlayerWithCoverArt";
 
 import { ReadWriteDirectory } from "./ReadWriteDirectory/ReadWriteDirectory";
 
@@ -16,7 +16,7 @@ export function App(props) {
   return (
     <div>
       <ReadWriteDirectory onScannedFiles={handleScannedFiles} />
-      <DirectoryPlayer tracks={mp3Tracks} />
+      <PlayerWithCoverArt tracks={mp3Tracks} />
       <pre>{JSON.stringify(scannedFiles, null, 3)}</pre>
     </div>
   );

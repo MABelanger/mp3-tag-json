@@ -8,10 +8,10 @@ export function useCoverArt(metadata) {
     if (metadata.picture && metadata.picture.length > 0) {
       const picture = metadata.picture[0];
       // Convert the raw image data (Buffer/Uint8Array) to a Base64 string
-      const base64String = btoa(
-        String.fromCharCode(...new Uint8Array(picture.data))
-      );
-      const imageUrl = `data:${picture.format};base64,${base64String}`;
+      const blob = new Blob([new Uint8Array(picture.data)], {
+        type: "image/jpeg",
+      });
+      const imageUrl = URL.createObjectURL(blob);
       setCoverArt(imageUrl);
     } else {
       setCoverArt(null);

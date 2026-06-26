@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { AudioHtmlPlayer } from "./PlayerWithCoverArt/AudioHtmlPlayer";
+import { CoverArt } from "./CoverArt";
+import { AudioHtmlPlayer } from "./AudioHtmlPlayer";
 
-export function DirectoryPlayer(props) {
+export function PlayerWithCoverArt(props) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
   const [activeAudioSrc, setActiveAudioSrc] = useState("");
   const [status, setStatus] = useState("");
@@ -24,7 +25,6 @@ export function DirectoryPlayer(props) {
 
       const targetTrack = props.tracks[index];
       const fileData = await targetTrack.handle.getFile();
-      console.log("fileData", fileData);
 
       // Generate a temporary execution stream link for exactly one file
       const dynamicUrl = URL.createObjectURL(fileData);
@@ -34,19 +34,6 @@ export function DirectoryPlayer(props) {
     } catch (err) {
       console.log(err);
       setStatus(`Failed to read track file: ${err.message}`);
-    }
-  };
-
-  // 3. Sequential automation engine
-  const handleTrackEnded = () => {
-    if (
-      currentTrackIndex !== null &&
-      currentTrackIndex + 1 < props.tracks.length
-    ) {
-      // Advance execution index count step by one forward
-      playTrack(currentTrackIndex + 1);
-    } else {
-      setStatus("Playlist queue finished.");
     }
   };
 
@@ -107,13 +94,13 @@ export function DirectoryPlayer(props) {
 
       {/* MAIN LAYOUT CONTENT PANELS & INTEGRATED MEDIA DECK BAR */}
       <div style={styles.mainPanel}>
-        <div style={styles.statusBox}>hello{status}</div>
+        <div style={styles.statusBox}>{status}</div>
         <div style={styles.workspaceDisplay}>
           {activeTrack ? (
             <div style={styles.nowPlayingCard}>
               <div style={styles.vinylIcon}>💿</div>
               <h2 style={{ margin: "10px 0 5px 0" }}>{activeTrack.name}</h2>
-              <p
+              <div
                 style={{
                   color: "#64748b",
                   margin: 0,
@@ -121,7 +108,8 @@ export function DirectoryPlayer(props) {
                 }}
               >
                 {activeTrack.path}
-              </p>
+                <CoverArt audioUrl={activeAudioSrc} />
+              </div>
             </div>
           ) : (
             <div style={styles.emptyState}>
