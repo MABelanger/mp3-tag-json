@@ -1,45 +1,16 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Mp3Section } from "./Mp3Section";
+import { useState } from "react";
 
-import { useLocalFileFlag } from "./hooks/useLocalFileFlag";
-import { getFilePath, getMp3FilesArray } from "./utils/fileUtils";
-import { LocalDirectoryLister } from "./LocalDirectoryLister";
-import { DirectoryWriter } from "./DirectoryWriter/DirectoryWriter";
-import DirectoryReader from "./DirectoryReader/DirectoryReader";
 import { ReadWriteDirectory } from "./ReadWriteDirectory/ReadWriteDirectory";
 
 export function App(props) {
-  const [playingIndex, setPlayingIndex] = useState(0);
-  const { isLocalFileFlag } = useLocalFileFlag();
-
-  console.log("isLocalFileFlag", isLocalFileFlag);
-
-  const mp3TagJson = {
-    mp3RelativePath:
-      "file:///home/data/my_data/dev/dj-project/mp3-tag-json/data/mp3/new01/Norah Jones - Don't Know Why.mp3",
-    md5sum: "99d08e8691b0c6aea94eba4d93900b78",
-    duration: "03:28",
-    bpm: "+-76",
-    instrumentOrTypes: "piano",
-    expention: "5",
-    festive: "6",
-    contact: "4",
-    rythmic: "4",
-    bass: "4",
-    curve: "8",
-    note: "hello world i tray some thing new i would like to know if is ok maybe i want the text bigger",
-  };
-
-  const mp3FilesArray = getMp3FilesArray(props.fileListObj);
-
-  // const srcPath = getFilePath(
-  //   "/data/mp3/new01/Norah Jones - Don't Know Why.mp3"
-  // );
-
-  // console.log("srcPath", srcPath);
+  const [scannedFiles, setScannedFiles] = useState();
+  function handleScannedFiles(scannedFiles) {
+    setScannedFiles(scannedFiles);
+  }
   return (
     <div>
-      <ReadWriteDirectory />
+      <ReadWriteDirectory onScannedFiles={handleScannedFiles} />
+      <pre>{JSON.stringify(scannedFiles)}</pre>
     </div>
   );
 }

@@ -37,7 +37,6 @@ export function useWriteFile() {
     } catch (error) {
       setIsSaving(false);
       console.error(`Failed to write path "${pathString}":`, error);
-      throw error;
     }
   }
 

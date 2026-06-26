@@ -3,17 +3,29 @@ import { useState } from "react";
 import { useShowDirectoryPicker } from "./hooks/useShowDirectoryPicker";
 import { useScanFiles } from "./hooks/useScanFiles";
 import { useWriteFile } from "./hooks/useWriteFile";
+import { useEffectEvent } from "react";
 
-export function ReadWriteDirectory() {
+export function ReadWriteDirectory(props) {
   const [dirHandle, setDirHandle] = useState(null);
   const { showDirectoryPicker } = useShowDirectoryPicker();
-  const { doScanFiles, isScanning, scannedFiles } = useScanFiles();
+  const { doScanFiles, isScanning } = useScanFiles();
   const { writeNestedFile, isSaving } = useWriteFile();
+
+  //   const onScannedFilesEvent = useEffectEvent((scannedFiles) => {
+  //     // This always has the freshest reference to 'onConnected'
+  //     // without ever forcing the useEffect below to re-trigger
+  //     props.onScannedFiles(scannedFiles);
+  //   });
+
+  //   useEffect(() => {
+  //     onScannedFilesEvent(scannedFiles);
+  //   }, [scannedFiles]);
 
   async function handleClickScan() {
     const dirHandle = await showDirectoryPicker();
     setDirHandle(dirHandle);
-    await doScanFiles(dirHandle);
+    const scannedFiles = await doScanFiles(dirHandle);
+    props.onScannedFiles(scannedFiles);
   }
 
   async function handleWriteFile() {
@@ -25,7 +37,6 @@ export function ReadWriteDirectory() {
   }
   return (
     <div>
-      <pre>{JSON.stringify(scannedFiles)}</pre>
       <button onClick={handleClickScan} disabled={isScanning}>
         {isScanning ? "Reading Media..." : "📁 Select Folder to Deep Scan"}
       </button>
