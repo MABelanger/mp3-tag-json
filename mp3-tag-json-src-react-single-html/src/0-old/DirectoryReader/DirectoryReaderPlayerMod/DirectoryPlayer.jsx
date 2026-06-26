@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { AudioHtmlPlayer } from "./PlayerWithCoverArt/AudioHtmlPlayer";
 
 export function DirectoryPlayer(props) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
   const [activeAudioSrc, setActiveAudioSrc] = useState("");
   const [status, setStatus] = useState("");
+
   const audioPlayerRef = useRef(null);
 
   function initLibrary() {
@@ -135,7 +135,15 @@ export function DirectoryPlayer(props) {
         </div>
 
         {/* BOTTOM GLOBAL MEDIA REGULATION DOCKBAR CONTAINER */}
-        <AudioHtmlPlayer ref={audioPlayerRef} audioSrc={activeAudioSrc} />
+        <div style={styles.bottomPlaybackDock}>
+          <audio
+            ref={audioPlayerRef}
+            src={activeAudioSrc}
+            controls
+            onEnded={handleTrackEnded}
+            style={styles.globalNativeController}
+          />
+        </div>
       </div>
     </div>
   );
@@ -221,4 +229,14 @@ const styles = {
   emptyState: { textAlign: "center", color: "#64748b", maxWidth: "400px" },
   nowPlayingCard: { textAlign: "center", animation: "fadeIn 0.5s ease" },
   vinylIcon: { fontSize: "80px", animation: "spin 4s linear infinite" },
+  bottomPlaybackDock: {
+    height: "80px",
+    backgroundColor: "#ffffff",
+    borderTop: "1px solid #e2e8f0",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "0 40px",
+  },
+  globalNativeController: { width: "100%", maxWidth: "700px" },
 };
