@@ -1,14 +1,3 @@
-// import { StrictMode } from "react";
-// import { createRoot } from "react-dom/client";
-// import { App } from "./App.jsx";
-
-// createRoot(document.getElementById("root")).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>
-// );
-
-// src/index.jsx
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.jsx";
@@ -17,7 +6,6 @@ import { App } from "./App.jsx";
 let activeRoot = null;
 
 export function mountWidget(targetId, props = {}) {
-  console.log("main");
   const container = document.getElementById(targetId);
   if (!container) return;
 

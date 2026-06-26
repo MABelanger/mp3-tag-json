@@ -107,13 +107,18 @@ export function DirectoryPlayer(props) {
 
       {/* MAIN LAYOUT CONTENT PANELS & INTEGRATED MEDIA DECK BAR */}
       <div style={styles.mainPanel}>
+        <div style={styles.statusBox}>hello{status}</div>
         <div style={styles.workspaceDisplay}>
           {activeTrack ? (
             <div style={styles.nowPlayingCard}>
               <div style={styles.vinylIcon}>💿</div>
               <h2 style={{ margin: "10px 0 5px 0" }}>{activeTrack.name}</h2>
               <p
-                style={{ color: "#64748b", margin: 0, fontFamily: "monospace" }}
+                style={{
+                  color: "#64748b",
+                  margin: 0,
+                  fontFamily: "monospace",
+                }}
               >
                 {activeTrack.path}
               </p>
@@ -172,6 +177,13 @@ const styles = {
     fontWeight: "600",
     cursor: "pointer",
     fontSize: "14px",
+  },
+  statusBox: {
+    margin: "10px 0",
+    fontSize: "11px",
+    color: "#94a3b8",
+    fontStyle: "italic",
+    wordBreak: "break-all",
   },
   trackListContainer: {
     flex: 1,
