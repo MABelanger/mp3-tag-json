@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useShowDirectoryPicker } from "./hooks/useShowDirectoryPicker";
 import { useScanFiles } from "./hooks/useScanFiles";
 import { useWriteFile } from "./hooks/useWriteFile";
-import { useEffectEvent } from "react";
 
 export function ReadWriteDirectory(props) {
   const [dirHandle, setDirHandle] = useState(null);
@@ -25,7 +24,7 @@ export function ReadWriteDirectory(props) {
     const dirHandle = await showDirectoryPicker();
     setDirHandle(dirHandle);
     const scannedFiles = await doScanFiles(dirHandle);
-    props.onScannedFiles(scannedFiles);
+    props.onScannedFiles(scannedFiles, dirHandle);
   }
 
   async function handleWriteFile() {

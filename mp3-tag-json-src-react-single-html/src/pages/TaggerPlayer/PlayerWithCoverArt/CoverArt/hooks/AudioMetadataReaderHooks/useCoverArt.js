@@ -14,7 +14,6 @@ export function useCoverArt(metadata) {
           type: "image/jpeg",
         });
         imageUrl = URL.createObjectURL(blob);
-        console.log("set coverArt", imageUrl);
         setCoverArt(imageUrl);
       } else {
         setCoverArt(null);
@@ -23,7 +22,6 @@ export function useCoverArt(metadata) {
     // 4. Return cleanup function to revoke memory
     return () => {
       if (imageUrl) {
-        console.log("cleanup coverArt", imageUrl);
         URL.revokeObjectURL(imageUrl);
       }
     };
