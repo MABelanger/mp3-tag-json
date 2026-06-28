@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import { FormTagSection } from "./FormTagSection";
 import { PlayerWithCoverArt } from "./PlayerWithCoverArt";
 
 export function TaggerPlayerPage(props) {
@@ -12,6 +13,7 @@ export function TaggerPlayerPage(props) {
   return (
     <div>
       <PlayerWithCoverArt tracks={mp3Tracks} />
+      <FormTagSection dirHandle={dirHandle} />
     </div>
   );
 }
