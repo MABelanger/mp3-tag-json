@@ -15,6 +15,7 @@ export function useWriteFile() {
 
       // 3. Traverse and create the directory chain
       let currentDirHandle = rootHandle;
+
       for (const folderName of pathParts) {
         currentDirHandle = await currentDirHandle.getDirectoryHandle(
           folderName,
