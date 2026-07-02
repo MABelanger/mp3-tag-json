@@ -27,7 +27,6 @@ export const DynamicForm = ({ config }) => {
   };
 
   const containerStyle = {
-    maxWidth: "450px",
     margin: "2rem auto",
     fontFamily: "system-ui, sans-serif",
   };
