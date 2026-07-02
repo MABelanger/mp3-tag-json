@@ -13,6 +13,7 @@
     "music-metadata": "^11.13.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "react-hook-form": "^7.80.0",
     "react-router-dom": "^7.18.0",
     "sirv": "^3.0.2",
     "vite-plugin-css-injected-by-js": "^5.0.1"
