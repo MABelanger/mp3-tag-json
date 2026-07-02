@@ -37,7 +37,7 @@ const FormDropdowns = ({ fields, range }) => {
     borderRadius: "4px",
     border: "1px solid #ccc",
     fontSize: "1rem",
-    width: "50px", // Locks down the element width strictly to 50px
+    width: "90px", // Locks down the element width strictly to 50px
     boxSizing: "border-box", // Fixes issues where padding adds to element width
   };
 
