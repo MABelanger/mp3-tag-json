@@ -43,14 +43,33 @@ export const DynamicForm = ({ config }) => {
     marginTop: "1rem",
   };
 
+  // Add this new style rule to your component styles
+  const rowContainerStyle = {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap", // Allows graceful wrapping to a new line on narrow/mobile screens
+    gap: "2.5rem", // Adjust this value to control the blank space between the two sections
+    alignItems: "flex-start",
+    marginBottom: "1rem",
+  };
+
+  // ... inside your ConfigurableForm component render:
   return (
     <div style={containerStyle}>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <FormDropdowns fields={dropdowns} range={dropdownRange} />
+          {/* New Shared Row Layout Wrapper */}
+          <div style={rowContainerStyle}>
+            <div style={{ flex: "0 0 auto" }}>
+              <FormDropdowns fields={dropdowns} range={dropdownRange} />
+            </div>
 
-          <FormTextInputs fields={textInputs} />
+            <div style={{ flex: "0 0 auto" }}>
+              <FormTextInputs fields={textInputs} />
+            </div>
+          </div>
 
+          {/* This stays below on its own row */}
           <FormHashTags fields={hashTags} />
 
           <button type="submit" style={buttonStyle}>
