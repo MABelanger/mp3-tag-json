@@ -16,7 +16,6 @@ export function FormTagSection(props) {
   }
   return (
     <div>
-      <h2 style={{ textAlign: "center" }}>Dynamic Config Instance</h2>
       <DynamicForm config={configData} onSave={handleSave} />
     </div>
   );

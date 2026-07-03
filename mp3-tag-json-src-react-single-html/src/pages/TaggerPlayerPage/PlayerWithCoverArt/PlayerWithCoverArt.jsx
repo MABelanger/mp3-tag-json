@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { CoverArt } from "./CoverArt";
 import { AudioHtmlPlayer } from "./AudioHtmlPlayer";
+import { FormTagSection } from "./FormTagSection";
 
 export function PlayerWithCoverArt(props) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
@@ -98,8 +99,7 @@ export function PlayerWithCoverArt(props) {
         <div style={styles.workspaceDisplay}>
           {activeTrack ? (
             <div style={styles.nowPlayingCard}>
-              <div style={styles.vinylIcon}>💿</div>
-              <h2 style={{ margin: "10px 0 5px 0" }}>{activeTrack.name}</h2>
+              <h3 style={{ margin: "10px 0 5px 0" }}>{activeTrack.path}</h3>
               <div
                 style={{
                   color: "#64748b",
@@ -107,8 +107,12 @@ export function PlayerWithCoverArt(props) {
                   fontFamily: "monospace",
                 }}
               >
-                {activeTrack.path}
                 <CoverArt audioUrl={activeAudioSrc} />
+                <AudioHtmlPlayer
+                  ref={audioPlayerRef}
+                  audioSrc={activeAudioSrc}
+                />
+                <FormTagSection dirHandle={props.dirHandle} />
               </div>
             </div>
           ) : (
@@ -121,9 +125,6 @@ export function PlayerWithCoverArt(props) {
             </div>
           )}
         </div>
-
-        {/* BOTTOM GLOBAL MEDIA REGULATION DOCKBAR CONTAINER */}
-        <AudioHtmlPlayer ref={audioPlayerRef} audioSrc={activeAudioSrc} />
       </div>
     </div>
   );

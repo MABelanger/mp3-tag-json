@@ -71,12 +71,6 @@ const FormDropdowns = ({ fields, range }) => {
 
   return (
     <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
-      <legend
-        style={{ fontSize: "1.2rem", fontWeight: "bold", marginBottom: "1rem" }}
-      >
-        Metrics
-      </legend>
-
       <div style={gridContainerStyle}>
         {fields.map((name) => (
           <div key={name} style={fieldStyle}>

@@ -1,13 +1,13 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
-const FormHashTags = ({ fields }) => {
+const FormTextInputs = ({ fields }) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  // Balanced row arrangement copying your Dropdowns/Text layout setup
+  // Balanced row arrangement copying your Dropdowns layout setup
   const gridContainerStyle = {
     display: "flex",
     flexDirection: "row",
@@ -33,7 +33,7 @@ const FormHashTags = ({ fields }) => {
     borderRadius: "4px",
     border: "1px solid #ccc",
     fontSize: "1rem",
-    width: "400px", // Sized up slightly to account for typing lists of tags
+    width: "140px", // Sized up slightly from 90px so typed input words have enough canvas space
     boxSizing: "border-box", // Prevents inner padding values from breaking the absolute width constraint
   };
 
@@ -41,33 +41,22 @@ const FormHashTags = ({ fields }) => {
     color: "#dc2626",
     fontSize: "0.85rem",
     marginTop: "0.25rem",
-    maxWidth: "400px",
+    maxWidth: "140px",
   };
 
   if (!fields.length) return null;
 
   return (
     <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
-      <legend
-        style={{
-          fontSize: "1.2rem",
-          fontWeight: "bold",
-          marginBottom: "1rem",
-          marginTop: "1rem",
-        }}
-      >
-        Tags
-      </legend>
-
-      {/* Structural layout wrapper mapping hashtag nodes side-by-side */}
+      {/* Structural layout wrapper mapping text nodes side-by-side */}
       <div style={gridContainerStyle}>
         {fields.map((name) => (
           <div key={name} style={fieldStyle}>
-            <label style={labelStyle}>#{name}</label>
+            <label style={labelStyle}>{name === "bpm" ? "BPM" : name}</label>
             <input
-              type="text"
-              {...register(name)}
-              placeholder="e.g. ambient, tech"
+              type={name === "bpm" ? "number" : "text"}
+              {...register(name, { valueAsNumber: name === "bpm" })}
+              placeholder={`Enter ${name}...`}
               style={{
                 ...inputStyle,
                 borderColor: errors[name] ? "#dc2626" : "#ccc",
@@ -83,4 +72,4 @@ const FormHashTags = ({ fields }) => {
   );
 };
 
-export default FormHashTags;
+export default FormTextInputs;
