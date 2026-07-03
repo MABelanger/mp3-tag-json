@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 export function useSettings(dirHandle) {
-  const [settings, setSettings] = useState();
+  const [settings, setSettings] = useState({});
   async function getSettingsAsync() {
     // Assume 'dirHandle' is your existing FileSystemDirectoryHandle
     // Assume 'filename' is your string (e.g., "notes.txt")
@@ -31,8 +31,9 @@ export function useSettings(dirHandle) {
   }
 
   async function doGetSettings() {
-    const settings = await getSettingsAsync();
-    setSettings(settings);
+    const jsonSettings = await getSettingsAsync();
+    const objSettings = JSON.parse(jsonSettings);
+    setSettings(objSettings);
   }
   useEffect(() => {
     doGetSettings();

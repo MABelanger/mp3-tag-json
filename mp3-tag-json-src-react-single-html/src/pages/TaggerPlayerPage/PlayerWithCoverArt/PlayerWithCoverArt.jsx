@@ -112,7 +112,10 @@ export function PlayerWithCoverArt(props) {
                   ref={audioPlayerRef}
                   audioSrc={activeAudioSrc}
                 />
-                <FormTagSection dirHandle={props.dirHandle} />
+                <FormTagSection
+                  filePath={activeTrack.path}
+                  dirHandle={props.dirHandle}
+                />
               </div>
             </div>
           ) : (
