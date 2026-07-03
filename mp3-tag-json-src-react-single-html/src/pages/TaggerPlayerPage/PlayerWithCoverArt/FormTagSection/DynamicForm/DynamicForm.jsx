@@ -3,16 +3,17 @@ import { useForm, FormProvider } from "react-hook-form";
 import FormDropdowns from "./FormDropdowns";
 import FormTextInputs from "./FormTextInputs";
 import FormHashTags from "./FormHashTags";
+import { useEffect } from "react";
 
 export const DynamicForm = (props) => {
-  if (!props.config) return <p>No configuration provided.</p>;
+  if (!props.settings) return <p>No configuration provided.</p>;
 
   const {
     dropdownRange,
     dropdowns = [],
     textInputs = [],
     hashTags = [],
-  } = props.config;
+  } = props.settings;
 
   // Compute base fallbacks directly from config shapes
   const defaultValues = {};
@@ -20,7 +21,11 @@ export const DynamicForm = (props) => {
   textInputs.forEach((key) => (defaultValues[key] = key === "bpm" ? 0 : ""));
   hashTags.forEach((key) => (defaultValues[key] = ""));
 
-  const methods = useForm({ defaultValues });
+  const useFormmethods = useForm({ defaultValues });
+
+  useEffect(() => {
+    useFormmethods.reset(props.initFormData); // Initializes form once data arrives
+  }, [useFormmethods.reset, props.initFormData]);
 
   const handleSave = (data) => {
     props.onSave(data);
@@ -56,8 +61,8 @@ export const DynamicForm = (props) => {
   // ... inside your ConfigurableForm component render:
   return (
     <div style={containerStyle}>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleSave)}>
+      <FormProvider {...useFormmethods}>
+        <form onSubmit={useFormmethods.handleSubmit(handleSave)}>
           {/* New Shared Row Layout Wrapper */}
           <div style={rowContainerStyle}>
             <div style={{ flex: "0 0 auto" }}>

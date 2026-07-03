@@ -41,7 +41,7 @@ export function SettingsPage(props) {
       null,
       2
     );
-    writeNestedFile(location.state?.dirHandle, "setting.json", data);
+    writeNestedFile(location.state?.dirHandle, "settings.json", data);
   }
 
   function handleNext() {

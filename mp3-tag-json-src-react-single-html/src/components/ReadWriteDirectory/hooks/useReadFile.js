@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-export function useSettings(dirHandle) {
-  const [settings, setSettings] = useState({});
+export function useReadFile(dirHandle, filePath) {
+  const [fileData, setFileData] = useState({});
   async function getSettingsAsync() {
     // Assume 'dirHandle' is your existing FileSystemDirectoryHandle
     // Assume 'filename' is your string (e.g., "notes.txt")
 
-    const filename = "setting.json";
     try {
       // 1. Get the file handle from the directory using the filename
-      const fileHandle = await dirHandle.getFileHandle(filename, {
+      const fileHandle = await dirHandle.getFileHandle(filePath, {
         create: false,
       });
 
@@ -19,7 +18,7 @@ export function useSettings(dirHandle) {
 
       // 3. Read the contents as text
       const contents = await file.text();
-      console.log(contents);
+      console.log("contents", contents);
       return contents;
     } catch (error) {
       if (error.name === "NotFoundError") {
@@ -30,14 +29,15 @@ export function useSettings(dirHandle) {
     }
   }
 
-  async function doGetSettings() {
+  async function doGetFile() {
     const jsonSettings = await getSettingsAsync();
     const objSettings = JSON.parse(jsonSettings);
-    setSettings(objSettings);
+    setFileData(objSettings);
   }
   useEffect(() => {
-    doGetSettings();
-  }, []);
+    doGetFile();
+  }, [dirHandle, filePath]);
 
-  return { settings };
+  console.log("fileData", fileData);
+  return { fileData };
 }
