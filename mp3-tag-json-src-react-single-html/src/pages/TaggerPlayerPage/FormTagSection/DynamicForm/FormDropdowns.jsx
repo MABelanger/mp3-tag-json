@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 const FormDropdowns = ({ fields, range }) => {
@@ -7,23 +7,41 @@ const FormDropdowns = ({ fields, range }) => {
     formState: { errors },
   } = useFormContext();
 
+  // Track mobile state for absolute responsive control
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Triggers vertical stack if screen width drops below 600px
+      setIsMobile(window.innerWidth < 600);
+    };
+
+    // Set initial layout state
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const min = range?.min ?? 0;
   const max = range?.max ?? 10;
   const options = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
-  // New Flex Container Style to wrap item columns side-by-side
   const gridContainerStyle = {
     display: "flex",
-    flexDirection: "row",
+    // Automatically switches layout direction to stack vertically on small screens
+    flexDirection: isMobile ? "column" : "row",
     flexWrap: "wrap",
-    gap: "1.5rem", // Generates uniform spacing between components
+    gap: "1.5rem",
     marginBottom: "1rem",
   };
 
   const fieldStyle = {
     display: "flex",
     flexDirection: "column",
-    marginBottom: "0.5rem", // Managed separation using container gap instead
+    marginBottom: "0.5rem",
+    // Forces the field container to span full width on mobile viewports
+    width: isMobile ? "100%" : "auto",
   };
 
   const labelStyle = {
@@ -37,8 +55,9 @@ const FormDropdowns = ({ fields, range }) => {
     borderRadius: "4px",
     border: "1px solid #ccc",
     fontSize: "1rem",
-    width: "90px", // Locks down the element width strictly to 50px
-    boxSizing: "border-box", // Fixes issues where padding adds to element width
+    // Scales to full width on mobile so it is touch-friendly, stays 90px on desktop
+    width: isMobile ? "100%" : "90px",
+    boxSizing: "border-box",
   };
 
   const errorStyle = {
@@ -58,7 +77,6 @@ const FormDropdowns = ({ fields, range }) => {
         Metrics
       </legend>
 
-      {/* Dynamic Grid Layout Wrapper */}
       <div style={gridContainerStyle}>
         {fields.map((name) => (
           <div key={name} style={fieldStyle}>
