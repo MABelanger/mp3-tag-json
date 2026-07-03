@@ -5,6 +5,8 @@ import FormTextInputs from "./FormTextInputs";
 import FormHashTags from "./FormHashTags";
 import { useEffect } from "react";
 
+const getIsObjEmpty = (obj) => Object.keys(obj).length === 0;
+
 export const DynamicForm = (props) => {
   if (!props.settings) return <p>No configuration provided.</p>;
 
@@ -24,7 +26,14 @@ export const DynamicForm = (props) => {
   const useFormmethods = useForm({ defaultValues });
 
   useEffect(() => {
-    useFormmethods.reset(props.initFormData); // Initializes form once data arrives
+    console.log("props.initFormData", props.initFormData);
+    const isObjEmpty = getIsObjEmpty(props.initFormData);
+
+    if (isObjEmpty) {
+      useFormmethods.reset(defaultValues);
+    } else {
+      useFormmethods.reset(props.initFormData); // Initializes form once data arrives
+    }
   }, [useFormmethods.reset, props.initFormData]);
 
   const handleSave = (data) => {

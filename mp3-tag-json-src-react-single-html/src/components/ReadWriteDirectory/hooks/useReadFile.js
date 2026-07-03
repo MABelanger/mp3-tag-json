@@ -18,20 +18,21 @@ export function useReadFile(dirHandle, filePath) {
 
       // 3. Read the contents as text
       const contents = await file.text();
-      console.log("contents", contents);
-      return contents;
+      const contentsObj = JSON.parse(contents);
+      return contentsObj;
     } catch (error) {
       if (error.name === "NotFoundError") {
         console.error("The file does not exist in this directory.");
+        return {};
       } else {
         console.error("Error reading file:", error);
       }
+      return;
     }
   }
 
   async function doGetFile() {
-    const jsonSettings = await getSettingsAsync();
-    const objSettings = JSON.parse(jsonSettings);
+    const objSettings = await getSettingsAsync();
     setFileData(objSettings);
   }
   useEffect(() => {
