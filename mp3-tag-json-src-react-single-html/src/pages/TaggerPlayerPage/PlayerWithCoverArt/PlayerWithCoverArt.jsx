@@ -113,7 +113,8 @@ export function PlayerWithCoverArt(props) {
                   audioSrc={activeAudioSrc}
                 />
                 <FormTagSection
-                  filePath={activeTrack.path}
+                  mp3FilePath={activeTrack.path}
+                  jsonFilePath={activeTrack.path + ".json"}
                   dirHandle={props.dirHandle}
                 />
               </div>

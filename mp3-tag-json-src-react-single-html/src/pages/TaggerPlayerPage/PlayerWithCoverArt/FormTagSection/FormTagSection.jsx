@@ -6,6 +6,11 @@ export function FormTagSection(props) {
   const { writeNestedFile, isSaving } = useWriteFile();
   const { fileData: settings } = useReadFile(props.dirHandle, "settings.json");
 
+  const { fileData: initFormData } = useReadFile(
+    props.dirHandle,
+    props.jsonFilePath
+  );
+
   // const configData = {
   //   dropdownRange: { min: 0, max: 10 },
   //   dropdowns: ["expention", "festive", "contact", "rythmic", "bass", "curve"],
@@ -13,22 +18,22 @@ export function FormTagSection(props) {
   //   hashTags: ["instruments", "cues"],
   // };
 
-  const initFormData = {
-    expention: 3,
-    festive: 2,
-    contact: 2,
-    rythmic: 2,
-    bass: 2,
-    curve: 2,
-    bpm: 2,
-    notes: "2",
-    instruments: "voix,citare,darbouka",
-    cues: "tropical",
-  };
+  // const initFormData = {
+  //   expention: 3,
+  //   festive: 2,
+  //   contact: 2,
+  //   rythmic: 2,
+  //   bass: 2,
+  //   curve: 2,
+  //   bpm: 2,
+  //   notes: "2",
+  //   instruments: "voix,citare,darbouka",
+  //   cues: "tropical",
+  // };
 
   function handleSave(data) {
     const jsonData = JSON.stringify(data, null, 2);
-    const jsonFilePath = props.filePath + ".json";
+    const jsonFilePath = props.jsonFilePath;
     writeNestedFile(props.dirHandle, jsonFilePath, jsonData);
   }
 
