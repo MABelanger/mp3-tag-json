@@ -16,11 +16,11 @@ export function CoverArt(props) {
               <img
                 src={coverArt}
                 alt="Album Art"
-                style={{ width: "400px", height: "400px" }}
+                style={{ width: "200px", height: "200px" }}
               />
             </div>
           ) : (
-            <p style={{ width: "400px" }}>
+            <p style={{ width: "200px" }}>
               No cover <br />
               art found.
             </p>

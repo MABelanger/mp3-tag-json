@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { CoverArt } from "./CoverArt";
 import { AudioHtmlPlayer } from "./AudioHtmlPlayer";
 import { FormTagSection } from "./FormTagSection";
+import TapTempo from "./TapTempo/TapTempo";
 
 export function PlayerWithCoverArt(props) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
@@ -112,6 +113,7 @@ export function PlayerWithCoverArt(props) {
                   ref={audioPlayerRef}
                   audioSrc={activeAudioSrc}
                 />
+                <TapTempo />
                 <FormTagSection
                   mp3FilePath={activeTrack.path}
                   jsonFilePath={activeTrack.path + ".json"}
