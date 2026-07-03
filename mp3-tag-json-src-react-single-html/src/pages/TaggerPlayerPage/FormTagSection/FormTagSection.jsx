@@ -11,10 +11,13 @@ export function FormTagSection(props) {
     hashTags: ["instruments", "cues"],
   };
 
+  function handleSave(data) {
+    console.log("data", data);
+  }
   return (
     <div>
       <h2 style={{ textAlign: "center" }}>Dynamic Config Instance</h2>
-      <DynamicForm config={configData} />
+      <DynamicForm config={configData} onSave={handleSave} />
     </div>
   );
 }

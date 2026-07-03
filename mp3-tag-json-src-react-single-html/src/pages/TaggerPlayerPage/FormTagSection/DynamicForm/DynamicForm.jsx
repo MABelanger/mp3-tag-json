@@ -4,26 +4,26 @@ import FormDropdowns from "./FormDropdowns";
 import FormTextInputs from "./FormTextInputs";
 import FormHashTags from "./FormHashTags";
 
-export const DynamicForm = ({ config }) => {
-  if (!config) return <p>No configuration provided.</p>;
+export const DynamicForm = (props) => {
+  if (!props.config) return <p>No configuration provided.</p>;
 
   const {
     dropdownRange,
     dropdowns = [],
     textInputs = [],
     hashTags = [],
-  } = config;
+  } = props.config;
 
   // Compute base fallbacks directly from config shapes
   const defaultValues = {};
   dropdowns.forEach((key) => (defaultValues[key] = dropdownRange?.min ?? 0));
-  textInputs.forEach((key) => (defaultValues[key] = key === "bpm" ? 120 : ""));
+  textInputs.forEach((key) => (defaultValues[key] = key === "bpm" ? 0 : ""));
   hashTags.forEach((key) => (defaultValues[key] = ""));
 
   const methods = useForm({ defaultValues });
 
-  const onSubmit = (data) => {
-    console.log("React Hook Form Submission Payload:", data);
+  const handleSave = (data) => {
+    props.onSave(data);
   };
 
   const containerStyle = {
@@ -57,7 +57,7 @@ export const DynamicForm = ({ config }) => {
   return (
     <div style={containerStyle}>
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <form onSubmit={methods.handleSubmit(handleSave)}>
           {/* New Shared Row Layout Wrapper */}
           <div style={rowContainerStyle}>
             <div style={{ flex: "0 0 auto" }}>
