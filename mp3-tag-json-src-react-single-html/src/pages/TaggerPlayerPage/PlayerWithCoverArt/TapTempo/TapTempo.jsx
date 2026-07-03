@@ -77,8 +77,8 @@ const styles = {
     gap: "20px",
   },
   button: {
-    width: "200px",
-    height: "200px",
+    width: "100px",
+    height: "100px",
     borderRadius: "50%",
     border: "none",
     backgroundColor: "#007bff",
