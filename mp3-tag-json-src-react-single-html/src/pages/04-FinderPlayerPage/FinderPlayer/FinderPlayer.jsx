@@ -5,10 +5,18 @@ import { Header } from "./Header";
 import themeStyles from "./AppTheme.module.css";
 import styles from "./App.module.css";
 
-export function FinderPlayer() {
-  return <div>FinderPlayer</div>;
+export function FinderPlayer(props) {
+  return (
+    <pre>
+      TODO : <br />
+      * Find a way to concatenate all json to do the search <br />
+      * From that result, pass array obj of (linkMp3 + linkJson)
+      <br />
+      * Result maximum 50 results ?<br />
+    </pre>
+  );
 }
-// export function FinderPlayer() {
+// export function FinderPlayer(props) {
 //   const { mp3TagJson, isLoading, error } = useMp3TagJson();
 
 //   const [isDark, setIsDark] = useState(false);
@@ -35,7 +43,10 @@ export function FinderPlayer() {
 //   return (
 //     <div className={styles.genericText}>
 //       <Header />
-//       <Mp3Sections mp3TagJsons={mp3TagJson} />
+//       <Mp3Sections
+//         mp3Tracks={props.mp3Tracks}
+//         dirRootHandle={props.dirRootHandle}
+//       />
 //     </div>
 //   );
 // }
