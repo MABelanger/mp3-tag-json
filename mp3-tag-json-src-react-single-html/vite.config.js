@@ -29,6 +29,7 @@ export default defineConfig({
     "process.env.NODE_ENV": JSON.stringify("production"),
   },
   build: {
+    cssCodeSplit: false,
     lib: {
       entry: resolve(__dirname, "src/main.jsx"),
       name: "MyReactWidget",
@@ -39,6 +40,7 @@ export default defineConfig({
     rollupOptions: {
       // external: ["react", "react-dom"],
       output: {
+        inlineDynamicImports: true,
         // This forces Vite/Rollup to use exactly this file name
         entryFileNames: "my-react-widget.js",
         // globals: {
