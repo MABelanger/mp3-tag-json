@@ -5,7 +5,12 @@ import FormTextInputs from "./FormTextInputs";
 import FormHashTags from "./FormHashTags";
 import { useEffect } from "react";
 
-const getIsObjEmpty = (obj) => Object.keys(obj).length === 0;
+function getIsObjEmpty(obj) {
+  if (!obj) {
+    return true;
+  }
+  return Object.keys(obj).length === 0;
+}
 
 export const DynamicForm = (props) => {
   if (!props.settings) return <p>No configuration provided.</p>;

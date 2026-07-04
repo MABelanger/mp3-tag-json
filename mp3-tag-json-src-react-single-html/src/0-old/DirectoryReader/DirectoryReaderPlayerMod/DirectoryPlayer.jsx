@@ -24,7 +24,6 @@ export function DirectoryPlayer(props) {
 
       const targetTrack = props.tracks[index];
       const fileData = await targetTrack.handle.getFile();
-      console.log("fileData", fileData);
 
       // Generate a temporary execution stream link for exactly one file
       const dynamicUrl = URL.createObjectURL(fileData);

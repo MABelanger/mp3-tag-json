@@ -1,10 +1,6 @@
 function getFileType(entryName) {
   const lowerName = entryName.toLowerCase();
-  console.log("lowerName", lowerName);
-
   const dotIndex = lowerName.lastIndexOf(".");
-
-  console.log("dotIndex", dotIndex);
 
   // If no dot exists or it is the very first character (hidden file), return an empty string
   if (dotIndex <= 0) {
@@ -12,7 +8,6 @@ function getFileType(entryName) {
   }
 
   const fileType = lowerName.slice(dotIndex).slice(1); // Exclude the dot (e.g., ".json" => json)
-  console.log("fileType", fileType);
   return fileType;
 }
 
@@ -42,7 +37,9 @@ export const recursiveScanFolder = async (
         handle: entry, // Keep the raw handle reference to pull file bytes lazily later
       });
     } else if (entry.kind === "directory") {
+      console.error(entry.kind);
       const deepFiles = await recursiveScanFolder(entry, relativePath);
+      console.log("deepFiles", deepFiles);
       scannedFiles = scannedFiles.concat(deepFiles);
     }
   }

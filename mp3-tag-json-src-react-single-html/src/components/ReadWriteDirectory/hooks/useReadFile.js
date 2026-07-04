@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export function useReadFile(dirHandle, filePath) {
   const [fileData, setFileData] = useState({});
-  async function getSettingsAsync() {
+  async function getFileDataAsync() {
     // Assume 'dirHandle' is your existing FileSystemDirectoryHandle
     // Assume 'filename' is your string (e.g., "notes.txt")
 
@@ -32,8 +32,8 @@ export function useReadFile(dirHandle, filePath) {
   }
 
   async function doGetFile() {
-    const objSettings = await getSettingsAsync();
-    setFileData(objSettings);
+    const fileDataAsync = await getFileDataAsync();
+    setFileData(fileDataAsync);
   }
   useEffect(() => {
     doGetFile();
