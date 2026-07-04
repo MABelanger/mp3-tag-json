@@ -5,7 +5,7 @@ import { useScanFiles } from "./hooks/useScanFiles";
 import { useWriteFile } from "./hooks/useWriteFile";
 
 export function ReadWriteDirectory(props) {
-  const [dirHandle, setDirHandle] = useState(null);
+  const [dirRootHandle, setDirHandle] = useState(null);
   const { showDirectoryPicker } = useShowDirectoryPicker();
   const { doScanFiles, isScanning } = useScanFiles();
   const { writeNestedFile, isSaving } = useWriteFile();
@@ -21,15 +21,15 @@ export function ReadWriteDirectory(props) {
   //   }, [scannedFiles]);
 
   async function handleClickScan() {
-    const dirHandle = await showDirectoryPicker();
-    setDirHandle(dirHandle);
-    const scannedFiles = await doScanFiles(dirHandle);
-    props.onScannedFiles(scannedFiles, dirHandle);
+    const dirRootHandle = await showDirectoryPicker();
+    setDirHandle(dirRootHandle);
+    const scannedFiles = await doScanFiles(dirRootHandle);
+    props.onScannedFiles(scannedFiles, dirRootHandle);
   }
 
   async function handleWriteFile() {
     writeNestedFile(
-      dirHandle,
+      dirRootHandle,
       "mp3/new01/Norah Jones - Sunrise.mp3.txt",
       "test"
     );

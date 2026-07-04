@@ -1,17 +1,28 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { getFileHandleFromPath } from "./fileHandleUtils";
 
-export function useReadFile(dirHandle, filePath) {
+export function useReadFile(dirRootHandle, filePath) {
   const [fileData, setFileData] = useState({});
   async function getFileDataAsync() {
-    // Assume 'dirHandle' is your existing FileSystemDirectoryHandle
+    // Assume 'dirRootHandle' is your existing FileSystemDirectoryHandle
     // Assume 'filename' is your string (e.g., "notes.txt")
 
     try {
       // 1. Get the file handle from the directory using the filename
-      const fileHandle = await dirHandle.getFileHandle(filePath, {
-        create: false,
-      });
+      // const fileHandleOld = await dirRootHandle.getFileHandle(filePath, {
+      //   create: false,
+      // });
+
+      const fileHandle = await getFileHandleFromPath(
+        dirRootHandle,
+        filePath,
+        false
+      );
+
+      // const fileHandle = await getFileHandleFromPath(dirRootHandle, filePath, {
+      //   create: false,
+      // });
 
       // 2. Get the File object containing the data
       const file = await fileHandle.getFile();
@@ -22,7 +33,9 @@ export function useReadFile(dirHandle, filePath) {
       return contentsObj;
     } catch (error) {
       if (error.name === "NotFoundError") {
-        console.log(`The file "${dirHandle.name}/${filePath}" does not exist"`);
+        console.log(
+          `The file "${dirRootHandle.name}/${filePath}" does not exist"`
+        );
         return {};
       } else {
         console.error("Error reading file:", error);
@@ -37,7 +50,7 @@ export function useReadFile(dirHandle, filePath) {
   }
   useEffect(() => {
     doGetFile();
-  }, [dirHandle, filePath]);
+  }, [dirRootHandle, filePath]);
 
   console.log("fileData", fileData);
   return { fileData };

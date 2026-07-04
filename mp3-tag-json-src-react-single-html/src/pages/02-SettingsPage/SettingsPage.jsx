@@ -41,14 +41,14 @@ export function SettingsPage(props) {
       null,
       2
     );
-    writeNestedFile(location.state?.dirHandle, "settings.json", data);
+    writeNestedFile(location.state?.dirRootHandle, "settings.json", data);
   }
 
   function handleNext() {
     navigate("/taggerPlayer", {
       state: {
         scannedFiles: location.state?.scannedFiles,
-        dirHandle: location.state?.dirHandle,
+        dirRootHandle: location.state?.dirRootHandle,
       },
     });
   }
@@ -58,7 +58,7 @@ export function SettingsPage(props) {
       {
         //JSON.stringify(scannedFiles, null, 3)
       }
-      dirHandle : {JSON.stringify(location.state?.dirHandle, null, 3)}
+      dirRootHandle : {JSON.stringify(location.state?.dirRootHandle, null, 3)}
       <button onClick={handleWrite}> write </button>
       <button onClick={handleNext}>Next</button>
     </div>

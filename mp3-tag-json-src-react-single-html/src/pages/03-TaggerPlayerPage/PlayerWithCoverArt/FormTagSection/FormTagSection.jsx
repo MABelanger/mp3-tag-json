@@ -4,10 +4,13 @@ import { DynamicForm } from "./DynamicForm";
 
 export function FormTagSection(props) {
   const { writeNestedFile, isSaving } = useWriteFile();
-  const { fileData: settings } = useReadFile(props.dirHandle, "settings.json");
+  const { fileData: settings } = useReadFile(
+    props.dirRootHandle,
+    "settings.json"
+  );
 
   const { fileData: initFormData } = useReadFile(
-    props.dirHandle,
+    props.dirRootHandle,
     props.jsonFilePath
   );
 
@@ -34,7 +37,7 @@ export function FormTagSection(props) {
   function handleSave(data) {
     const jsonData = JSON.stringify(data, null, 2);
     const jsonFilePath = props.jsonFilePath;
-    writeNestedFile(props.dirHandle, jsonFilePath, jsonData);
+    writeNestedFile(props.dirRootHandle, jsonFilePath, jsonData);
   }
 
   return (

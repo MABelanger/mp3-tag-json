@@ -4,14 +4,14 @@ import { PlayerWithCoverArt } from "./PlayerWithCoverArt";
 export function TaggerPlayerPage(props) {
   const location = useLocation();
   const scannedFiles = location.state?.scannedFiles;
-  const dirHandle = location.state?.dirHandle;
+  const dirRootHandle = location.state?.dirRootHandle;
 
   const mp3Tracks = scannedFiles.filter((scannedFile) => {
     return (scannedFile.fileType = "mp3");
   });
   return (
     <div>
-      <PlayerWithCoverArt tracks={mp3Tracks} dirHandle={dirHandle} />
+      <PlayerWithCoverArt tracks={mp3Tracks} dirRootHandle={dirRootHandle} />
     </div>
   );
 }

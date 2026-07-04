@@ -3,9 +3,9 @@ import { ReadWriteDirectory } from "../../components/ReadWriteDirectory";
 
 export function OpenDirectoryPage(props) {
   const navigate = useNavigate();
-  function handleScannedFiles(scannedFiles, dirHandle) {
+  function handleScannedFiles(scannedFiles, dirRootHandle) {
     navigate("/settings", {
-      state: { scannedFiles, dirHandle },
+      state: { scannedFiles, dirRootHandle },
     });
     // navigate("/settings");
   }

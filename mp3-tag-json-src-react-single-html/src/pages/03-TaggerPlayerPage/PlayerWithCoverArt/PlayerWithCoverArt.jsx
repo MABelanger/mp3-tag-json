@@ -116,8 +116,8 @@ export function PlayerWithCoverArt(props) {
                 <TapTempo />
                 <FormTagSection
                   mp3FilePath={activeTrack.path}
-                  jsonFilePath={activeTrack.name + ".json"}
-                  dirHandle={props.dirHandle}
+                  jsonFilePath={activeTrack.path + ".json"}
+                  dirRootHandle={props.dirRootHandle}
                 />
               </div>
             </div>

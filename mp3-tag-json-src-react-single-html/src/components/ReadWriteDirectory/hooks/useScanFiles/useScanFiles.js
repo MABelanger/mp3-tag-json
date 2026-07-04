@@ -3,11 +3,11 @@ import { recursiveScanFolder } from "./scanFilesUtils";
 
 export function useScanFiles() {
   const [isScanning, setIsScanning] = useState(false);
-  async function doScanFiles(dirHandle) {
+  async function doScanFiles(dirRootHandle) {
     setIsScanning(true);
-    if (dirHandle) {
+    if (dirRootHandle) {
       try {
-        const scannedFiles = await recursiveScanFolder(dirHandle);
+        const scannedFiles = await recursiveScanFolder(dirRootHandle);
         setIsScanning(false);
         return scannedFiles;
       } catch (error) {
