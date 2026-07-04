@@ -1,38 +1,17 @@
-import { useEffect, useState } from "react";
-import { useMp3TagJson } from "./hooks/useMp3TagJson";
-import { Mp3Sections } from "./Mp3Sections";
-import { Header } from "./Header";
-import themeStyles from "./AppTheme.module.css";
-import styles from "./App.module.css";
+import { useLocation } from "react-router-dom";
+import { FinderPlayer } from "./FinderPlayer";
 
-export function FinderPlayerPage() {
-  const { mp3TagJson, isLoading, error } = useMp3TagJson();
+export function FinderPlayerPage(props) {
+  const location = useLocation();
+  const scannedFiles = location.state?.scannedFiles;
+  const dirRootHandle = location.state?.dirRootHandle;
 
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const theme = isDark ? themeStyles.darkTheme : themeStyles.lightTheme;
-
-    document.body.classList.remove(
-      themeStyles.darkTheme,
-      themeStyles.lightTheme
-    );
-    document.body.classList.add(theme);
-  }, [isDark]);
-
-  if (isLoading) {
-    return <div>loading mp3-tag.json</div>;
-  }
-
-  if (error) {
-    return <pre>{error}</pre>;
-  }
-
-  // div style={{ backgroundColor: "#1E1E1E", color: "#DDD" }}>
+  const mp3Tracks = scannedFiles.filter((scannedFile) => {
+    return (scannedFile.fileType = "mp3");
+  });
   return (
-    <div className={styles.genericText}>
-      <Header />
-      <Mp3Sections mp3TagJsons={mp3TagJson} />
+    <div>
+      <FinderPlayer tracks={mp3Tracks} dirRootHandle={dirRootHandle} />
     </div>
   );
 }
