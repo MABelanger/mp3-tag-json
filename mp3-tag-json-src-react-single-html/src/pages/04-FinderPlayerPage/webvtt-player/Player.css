@@ -1,0 +1,30 @@
+.webvtt-player .media {
+  width: 100%;
+  border: thin solid #ccc;
+  margin-right: auto;
+}
+
+.webvtt-player audio {
+  width: 100%;
+  background-color: #ccc;
+}
+
+.webvtt-player audio::-webkit-media-controls-panel {
+  background-color: #ccc;
+}
+
+.webvtt-player .tracks {
+  display: flex;
+}
+
+.webvtt-player .controls {
+  padding: 5px;
+  text-align: center;
+  vertical-align: text-top;
+  background-color: #ccc;
+}
+
+.webvtt-player .seekBar {
+  vertical-align: middle;
+  width: 70%;
+}

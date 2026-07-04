@@ -1,0 +1,4 @@
+.genericText {
+  color: var(--select-text);
+  background-color: var(--select-bg);
+}

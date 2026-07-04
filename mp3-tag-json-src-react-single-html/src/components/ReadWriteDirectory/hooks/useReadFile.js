@@ -22,7 +22,9 @@ export function useReadFile(dirHandle, filePath) {
       return contentsObj;
     } catch (error) {
       if (error.name === "NotFoundError") {
-        console.error("The file does not exist in this directory.");
+        console.error(
+          `The file "${filePath}" does not exist in the directory "${dirHandle.name}"`
+        );
         return {};
       } else {
         console.error("Error reading file:", error);

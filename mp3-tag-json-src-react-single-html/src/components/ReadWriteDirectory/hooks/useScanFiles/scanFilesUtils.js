@@ -1,13 +1,19 @@
 function getFileType(entryName) {
   const lowerName = entryName.toLowerCase();
+  console.log("lowerName", lowerName);
 
-  if (lowerName.endsWith(".mp3")) {
-    return "mp3";
+  const dotIndex = lowerName.lastIndexOf(".");
+
+  console.log("dotIndex", dotIndex);
+
+  // If no dot exists or it is the very first character (hidden file), return an empty string
+  if (dotIndex <= 0) {
+    return "";
   }
 
-  if (lowerName.endsWith(".json")) {
-    return "json";
-  }
+  const fileType = lowerName.slice(dotIndex).slice(1); // Exclude the dot (e.g., ".json" => json)
+  console.log("fileType", fileType);
+  return fileType;
 }
 
 function getRelativePath(entryName, currentDirectory) {

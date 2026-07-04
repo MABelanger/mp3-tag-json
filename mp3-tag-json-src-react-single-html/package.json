@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "music-metadata": "^11.13.0",
+    "rc-select": "^14.16.8",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-hook-form": "^7.80.0",
