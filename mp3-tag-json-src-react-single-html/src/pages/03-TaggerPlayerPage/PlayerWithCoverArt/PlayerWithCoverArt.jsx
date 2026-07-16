@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { CoverArt } from "./CoverArt";
-import { AudioHtmlPlayer } from "./AudioHtmlPlayer";
-import { FormTagSection } from "./FormTagSection";
-import TapTempo from "./TapTempo/TapTempo";
+
 import { LeftSideBar } from "./LeftSideBar";
+import { RightMainPanel } from "./RightMainPanel";
 
 export function PlayerWithCoverArt(props) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
@@ -67,44 +65,13 @@ export function PlayerWithCoverArt(props) {
         onPlayTrack={handlePlayTrack}
       />
 
-      {/* MAIN LAYOUT CONTENT PANELS & INTEGRATED MEDIA DECK BAR */}
-      <div style={styles.mainPanel}>
-        <div style={styles.statusBox}>{status}</div>
-        <div style={styles.workspaceDisplay}>
-          {activeTrack ? (
-            <div style={styles.nowPlayingCard}>
-              <h3 style={{ margin: "10px 0 5px 0" }}>{activeTrack.path}</h3>
-              <div
-                style={{
-                  color: "#64748b",
-                  margin: 0,
-                  fontFamily: "monospace",
-                }}
-              >
-                <CoverArt audioUrl={activeAudioSrc} />
-                <AudioHtmlPlayer
-                  ref={audioPlayerRef}
-                  audioSrc={activeAudioSrc}
-                />
-                <TapTempo />
-                <FormTagSection
-                  mp3FilePath={activeTrack.path}
-                  jsonFilePath={activeTrack.path + ".json"}
-                  dirRootHandle={props.dirRootHandle}
-                />
-              </div>
-            </div>
-          ) : (
-            <div style={styles.emptyState}>
-              <h3>No Track Selected</h3>
-              <p>
-                Select a local media folder to sync files and build a dynamic
-                queue structure.
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+      <RightMainPanel
+        status={status}
+        activeTrack={activeTrack}
+        activeAudioSrc={activeAudioSrc}
+        audioPlayerRef={audioPlayerRef}
+        dirRootHandle={props.dirRootHandle}
+      />
     </div>
   );
 }

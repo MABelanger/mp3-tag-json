@@ -1,5 +1,5 @@
-import { useWriteFile } from "../../../../components/ReadWriteDirectory/hooks/useWriteFile";
-import { useReadFile } from "../../../../components/ReadWriteDirectory/hooks/useReadFile";
+import { useWriteFile } from "../../../../../components/ReadWriteDirectory/hooks/useWriteFile";
+import { useReadFile } from "../../../../../components/ReadWriteDirectory/hooks/useReadFile";
 import { DynamicForm } from "./DynamicForm";
 
 export function FormTagSection(props) {
