@@ -30,8 +30,9 @@ export const recursiveScanFolder = async (
     const fileType = getFileType(entry.name);
 
     if (entry.kind === "file" && (fileType == "mp3" || fileType == "json")) {
+      console.log("scanned type", fileType);
       scannedFiles.push({
-        fileType: fileType,
+        fileType,
         name: entry.name,
         path: relativePath,
         handle: entry, // Keep the raw handle reference to pull file bytes lazily later

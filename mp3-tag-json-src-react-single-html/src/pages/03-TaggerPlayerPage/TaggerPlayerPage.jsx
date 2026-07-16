@@ -7,8 +7,9 @@ export function TaggerPlayerPage(props) {
   const scannedFiles = location.state?.scannedFiles;
   const dirRootHandle = location.state?.dirRootHandle;
 
+  console.log("scannedFiles", scannedFiles);
   const mp3Tracks = scannedFiles.filter((scannedFile) => {
-    return (scannedFile.fileType = "mp3");
+    return scannedFile.fileType == "mp3";
   });
 
   function handleNext() {

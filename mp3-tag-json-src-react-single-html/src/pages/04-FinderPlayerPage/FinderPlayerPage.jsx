@@ -7,7 +7,7 @@ export function FinderPlayerPage(props) {
   const dirRootHandle = location.state?.dirRootHandle;
 
   const mp3Tracks = scannedFiles.filter((scannedFile) => {
-    return (scannedFile.fileType = "mp3");
+    return scannedFile.fileType == "mp3";
   });
   return (
     <div>
