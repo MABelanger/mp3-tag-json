@@ -3,6 +3,7 @@ import { CoverArt } from "./CoverArt";
 import { AudioHtmlPlayer } from "./AudioHtmlPlayer";
 import { FormTagSection } from "./FormTagSection";
 import TapTempo from "./TapTempo/TapTempo";
+import { LeftSideBar } from "./LeftSideBar";
 
 export function PlayerWithCoverArt(props) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
@@ -16,7 +17,7 @@ export function PlayerWithCoverArt(props) {
   }
 
   // 2. Lazy memory generation strategy triggered on user click or track progression
-  const playTrack = async (index) => {
+  const handlePlayTrack = async (index) => {
     if (index < 0 || index >= props.tracks.length) return;
 
     try {
@@ -60,39 +61,11 @@ export function PlayerWithCoverArt(props) {
 
   return (
     <div style={styles.appLayout}>
-      {/* LEFT SIDEBAR: Library & Queue Listings */}
-      <div style={styles.sidebar}>
-        <h3 style={styles.sidebarTitle}>🎵 My Music App</h3>
-
-        <div style={styles.trackListContainer}>
-          {props.tracks.map((track, i) => (
-            <div
-              key={i}
-              onClick={() => playTrack(i)}
-              style={{
-                ...styles.trackRow,
-                backgroundColor:
-                  currentTrackIndex === i ? "#3b82f6" : "transparent",
-                color: currentTrackIndex === i ? "#ffffff" : "#f1f5f9",
-              }}
-            >
-              <div style={styles.trackName} title={track.path}>
-                {track.name}
-              </div>
-              <div
-                style={{
-                  ...styles.trackSubtext,
-                  color: currentTrackIndex === i ? "#bfdbfe" : "#94a3b8",
-                }}
-              >
-                {track.path.includes("/")
-                  ? track.path.substring(0, track.path.lastIndexOf("/"))
-                  : "Root"}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <LeftSideBar
+        currentTrackIndex={currentTrackIndex}
+        tracks={props.tracks}
+        onPlayTrack={handlePlayTrack}
+      />
 
       {/* MAIN LAYOUT CONTENT PANELS & INTEGRATED MEDIA DECK BAR */}
       <div style={styles.mainPanel}>

@@ -22,6 +22,8 @@ export const DynamicForm = (props) => {
     hashTags = [],
   } = props.settings;
 
+  console.log("props.settings", props.settings);
+
   // Compute base fallbacks directly from config shapes
   const defaultValues = {};
   dropdowns.forEach((key) => (defaultValues[key] = dropdownRange?.min ?? 0));
