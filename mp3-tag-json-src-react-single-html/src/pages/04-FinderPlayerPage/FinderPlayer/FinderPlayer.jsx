@@ -6,14 +6,20 @@ import themeStyles from "./AppTheme.module.css";
 import styles from "./App.module.css";
 
 export function FinderPlayer(props) {
+  console.log("props.jsonTracks", props.jsonTracks);
   return (
-    <pre>
-      TODO : <br />
-      * Find a way to concatenate all json to do the search <br />
-      * From that result, pass array obj of (linkMp3 + linkJson)
-      <br />
-      * Result maximum 50 results ?<br />
-    </pre>
+    <div>
+      {props.jsonTracks && props.jsonTracks[0].path}
+      <pre>
+        TODO : <br />
+        * Take all list and filter json. Refilter the scanned file ?<br />
+        * From that json remove .json to get the .mp3 <br />
+        * Find a way to concatenate all json to do the search <br />
+        * From that result, pass array obj of (linkMp3 + linkJson)
+        <br />
+        * Result maximum 50 results ?<br />
+      </pre>
+    </div>
   );
 }
 // export function FinderPlayer(props) {

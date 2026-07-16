@@ -6,12 +6,13 @@ export function FinderPlayerPage(props) {
   const scannedFiles = location.state?.scannedFiles;
   const dirRootHandle = location.state?.dirRootHandle;
 
-  const mp3Tracks = scannedFiles.filter((scannedFile) => {
-    return scannedFile.fileType == "mp3";
+  const jsonTracks = scannedFiles.filter((scannedFile) => {
+    return scannedFile.fileType == "json";
   });
+
   return (
     <div>
-      <FinderPlayer tracks={mp3Tracks} dirRootHandle={dirRootHandle} />
+      <FinderPlayer jsonTracks={jsonTracks} dirRootHandle={dirRootHandle} />
     </div>
   );
 }
