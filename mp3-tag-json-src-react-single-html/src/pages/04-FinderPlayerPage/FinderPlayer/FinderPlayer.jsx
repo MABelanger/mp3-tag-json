@@ -6,7 +6,7 @@ import themeStyles from "./AppTheme.module.css";
 import styles from "./App.module.css";
 import { useConcatJson } from "./hooks/useConcatJson";
 import { useBuildIndexDb } from "./hooks/useBuildIndexDb4";
-import { useSearchIndexDb } from "./hooks/useSearchIndexDb";
+import { useSearchIndexDb } from "./hooks/useSearchIndexDb2";
 
 export function FinderPlayer(props) {
   console.log("props.jsonTracks", props.jsonTracks);

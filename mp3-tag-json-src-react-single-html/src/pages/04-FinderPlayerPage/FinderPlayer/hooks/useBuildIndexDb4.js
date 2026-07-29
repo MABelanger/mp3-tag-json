@@ -77,13 +77,22 @@ async function storeJsonTracksToIndexedDB(jsonTracks) {
       for (const item of rawItems) {
         const processedItem = {
           ...item,
+          //   instruments:
+          //     item.instruments && typeof item.instruments === "string"
+          //       ? item.instruments.split(",")
+          //       : item.instruments,
+          //   cues:
+          //     item.cues && typeof item.cues === "string"
+          //       ? item.cues.split(",")
+          //       : item.cues,
+
           instruments:
             item.instruments && typeof item.instruments === "string"
-              ? item.instruments.split(",")
+              ? item.instruments.split(",").map((str) => str.trim()) // <-- Added .map(str => str.trim())
               : item.instruments,
           cues:
             item.cues && typeof item.cues === "string"
-              ? item.cues.split(",")
+              ? item.cues.split(",").map((str) => str.trim()) // <-- Added .map(str => str.trim())
               : item.cues,
         };
         parsedItemsForThisFile.push(processedItem);
