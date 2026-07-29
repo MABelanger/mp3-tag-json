@@ -4,9 +4,35 @@ import { Mp3Sections } from "./Mp3Sections";
 import { Header } from "./Header";
 import themeStyles from "./AppTheme.module.css";
 import styles from "./App.module.css";
+import { useConcatJson } from "./hooks/useConcatJson";
+import { useBuildIndexDb } from "./hooks/useBuildIndexDb3";
+import { useSearchIndexDb } from "./hooks/useSearchIndexDb";
 
 export function FinderPlayer(props) {
   console.log("props.jsonTracks", props.jsonTracks);
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({
+    bpm: "120",
+    instrument: "",
+    minBass: "",
+  });
+  //useConcatJson(props.jsonTracks);
+  useBuildIndexDb(props.jsonTracks);
+
+  const { results, loading, error, hasMore } = useSearchIndexDb(
+    filters,
+    page,
+    20
+  );
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+    setPage(1); // Reset to first page when filtering
+  };
+
+  console.log("results", results);
+
   return (
     <div>
       {props.jsonTracks && props.jsonTracks[0].path}
