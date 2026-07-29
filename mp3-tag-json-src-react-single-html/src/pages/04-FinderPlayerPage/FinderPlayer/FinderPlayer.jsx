@@ -30,28 +30,60 @@ export function FinderPlayer(props) {
     20
   );
 
+  console.log("results", results);
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-    setPage(1); // Reset to first page when filtering
+    setPage(1);
   };
-
-  console.log("results", results);
 
   return (
     <div>
-      {props.jsonTracks && props.jsonTracks[0].path}
-      <pre>
-        TODO : <br />
-        * Take all list and filter json. Refilter the scanned file ?<br />
-        * From that json remove .json to get the .mp3 <br />
-        * Find a way to concatenate all json to do the search <br />
-        * From that result, pass array obj of (linkMp3 + linkJson)
-        <br />
-        * Result maximum 50 results ?<br />
-      </pre>
+      <h3>Track Explorer</h3>
+      <input
+        type="number"
+        name="bpm"
+        value={filters.bpm}
+        onChange={handleFilterChange}
+        placeholder="BPM"
+      />
+      <input
+        type="text"
+        name="instruments"
+        value={filters.instruments}
+        onChange={handleFilterChange}
+        placeholder="Instrument Key"
+      />
+
+      {loading && <p>Reading from IndexedDB...</p>}
+
+      <ul>
+        {results.map((track) => (
+          <li key={track.id}>
+            BPM: {track.bpm} | Instruments:{" "}
+            {Array.isArray(track.instruments)
+              ? track.instruments.join(",")
+              : track.instruments}
+          </li>
+        ))}
+      </ul>
     </div>
   );
+
+  // return (
+  //   <div>
+  //     {props.jsonTracks && props.jsonTracks[0].path}
+  //     <pre>
+  //       TODO : <br />
+  //       * Take all list and filter json. Refilter the scanned file ?<br />
+  //       * From that json remove .json to get the .mp3 <br />
+  //       * Find a way to concatenate all json to do the search <br />
+  //       * From that result, pass array obj of (linkMp3 + linkJson)
+  //       <br />
+  //       * Result maximum 50 results ?<br />
+  //     </pre>
+  //   </div>
+  // );
 }
 // export function FinderPlayer(props) {
 //   const { mp3TagJson, isLoading, error } = useMp3TagJson();
