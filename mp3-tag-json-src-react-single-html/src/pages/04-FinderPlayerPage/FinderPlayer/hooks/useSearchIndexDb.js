@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-// Helper to open the same database
 function openDatabase() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("TracksSearchDB", 1);
@@ -29,18 +28,26 @@ export function useSearchIndexDb(filters, page = 1, pageSize = 50) {
 
         let request;
 
-        // 1. CHOOSE STRATEGY: Use fast indexes for primary filters if provided
+        // 1. CHOOSE STRATEGY: Use fast indexes for primary filters
         if (filters.bpm) {
-          const index = objectStore.index("bpmIndex");
-          request = index.openCursor(IDBKeyRange.only(Number(filters.bpm)));
-        } else if (filters.instrument) {
-          const index = objectStore.index("instrumentsIndex");
-          request = index.openCursor(IDBKeyRange.only(filters.instrument));
-        } else if (filters.cue) {
-          const index = objectStore.index("cuesIndex");
-          request = index.openCursor(IDBKeyRange.only(filters.cue));
+          // Keep BPM as a number if it is stored as a number in your JSON
+          request = objectStore
+            .index("bpmIndex")
+            .openCursor(IDBKeyRange.only(Number(filters.bpm)));
+        } else if (filters.instrumentId) {
+          // Force string formatting here to match your split(",") string array
+          const searchStr = String(filters.instrumentId).trim();
+          request = objectStore
+            .index("instrumentsIndex")
+            .openCursor(IDBKeyRange.only(searchStr));
+        } else if (filters.cueId) {
+          // Force string formatting here to match your split(",") string array
+          const searchStr = String(filters.cueId).trim();
+          request = objectStore
+            .index("cuesIndex")
+            .openCursor(IDBKeyRange.only(searchStr));
         } else {
-          // Fallback: Scan everything if no indexed filter is selected
+          // Fallback scan
           request = objectStore.openCursor();
         }
 
@@ -55,32 +62,33 @@ export function useSearchIndexDb(filters, page = 1, pageSize = 50) {
             const item = cursor.value;
             let keepsItem = true;
 
-            // 2. IN-MEMORY FILTERING: Evaluate non-indexed or compound conditions
-            // (e.g., if we used bpmIndex, manually verify instruments here)
+            // 2. IN-MEMORY FILTERING: Evaluate combined conditions using string matching
             if (filters.bpm && item.bpm !== Number(filters.bpm))
               keepsItem = false;
             if (
-              filters.instrument &&
-              !item.instruments?.includes(Number(filters.instrument))
+              filters.instrumentId &&
+              !item.instruments?.includes(String(filters.instrumentId).trim())
             )
               keepsItem = false;
-            if (filters.cue && !item.cues?.includes(Number(filters.cue)))
+            if (
+              filters.cueId &&
+              !item.cues?.includes(String(filters.cueId).trim())
+            )
               keepsItem = false;
 
-            // Example range filters (e.g., bass scale 1-5)
+            // Numeric range slider exclusions (e.g., bass, festive, contact keys)
             if (filters.minBass && item.bass < Number(filters.minBass))
               keepsItem = false;
             if (filters.maxBass && item.bass > Number(filters.maxBass))
               keepsItem = false;
 
             if (keepsItem) {
-              // 3. PAGINATION: Only save items within the current page bounds
+              // 3. PAGINATION BOUNDS
               if (skipped < skipOffset) {
                 skipped++;
               } else if (matchedItems.length < pageSize) {
                 matchedItems.push(item);
               } else {
-                // Found an extra item beyond our limit, meaning there's a next page available
                 if (isMounted) setHasMore(true);
                 finalizeResults();
                 return;
@@ -88,7 +96,6 @@ export function useSearchIndexDb(filters, page = 1, pageSize = 50) {
             }
             cursor.continue();
           } else {
-            // Cursor exhausted all database elements
             if (isMounted) setHasMore(false);
             finalizeResults();
           }
@@ -116,7 +123,6 @@ export function useSearchIndexDb(filters, page = 1, pageSize = 50) {
 
     performSearch();
 
-    // Cleanup to prevent setting state on unmounted components if filters change rapidly
     return () => {
       isMounted = false;
     };

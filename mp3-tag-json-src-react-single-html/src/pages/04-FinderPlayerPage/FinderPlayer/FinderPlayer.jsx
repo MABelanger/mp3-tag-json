@@ -5,7 +5,7 @@ import { Header } from "./Header";
 import themeStyles from "./AppTheme.module.css";
 import styles from "./App.module.css";
 import { useConcatJson } from "./hooks/useConcatJson";
-import { useBuildIndexDb } from "./hooks/useBuildIndexDb3";
+import { useBuildIndexDb } from "./hooks/useBuildIndexDb4";
 import { useSearchIndexDb } from "./hooks/useSearchIndexDb";
 
 export function FinderPlayer(props) {
@@ -17,7 +17,12 @@ export function FinderPlayer(props) {
     minBass: "",
   });
   //useConcatJson(props.jsonTracks);
-  useBuildIndexDb(props.jsonTracks);
+
+  function handleCompleteBuildIndexDb(countItemAddedToIndexDb) {
+    console.log("item saved countItemAddedToIndexDb", countItemAddedToIndexDb);
+    setFilters((prev) => ({ ...prev, ["bpm"]: "120" }));
+  }
+  useBuildIndexDb(props.jsonTracks, handleCompleteBuildIndexDb);
 
   const { results, loading, error, hasMore } = useSearchIndexDb(
     filters,
