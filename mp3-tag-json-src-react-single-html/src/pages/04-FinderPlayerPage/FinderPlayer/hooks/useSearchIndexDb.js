@@ -34,15 +34,15 @@ export function useSearchIndexDb(filters, page = 1, pageSize = 50) {
           request = objectStore
             .index("bpmIndex")
             .openCursor(IDBKeyRange.only(Number(filters.bpm)));
-        } else if (filters.instrumentId) {
+        } else if (filters.instruments) {
           // Force string formatting here to match your split(",") string array
-          const searchStr = String(filters.instrumentId).trim();
+          const searchStr = String(filters.instruments).trim();
           request = objectStore
             .index("instrumentsIndex")
             .openCursor(IDBKeyRange.only(searchStr));
-        } else if (filters.cueId) {
+        } else if (filters.cues) {
           // Force string formatting here to match your split(",") string array
-          const searchStr = String(filters.cueId).trim();
+          const searchStr = String(filters.cues).trim();
           request = objectStore
             .index("cuesIndex")
             .openCursor(IDBKeyRange.only(searchStr));
@@ -66,13 +66,13 @@ export function useSearchIndexDb(filters, page = 1, pageSize = 50) {
             if (filters.bpm && item.bpm !== Number(filters.bpm))
               keepsItem = false;
             if (
-              filters.instrumentId &&
-              !item.instruments?.includes(String(filters.instrumentId).trim())
+              filters.instruments &&
+              !item.instruments?.includes(String(filters.instruments).trim())
             )
               keepsItem = false;
             if (
-              filters.cueId &&
-              !item.cues?.includes(String(filters.cueId).trim())
+              filters.cues &&
+              !item.cues?.includes(String(filters.cues).trim())
             )
               keepsItem = false;
 
