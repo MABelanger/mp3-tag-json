@@ -85,7 +85,7 @@ export function FinderPlayer(props) {
   //   </div>
   // );
 }
-// export function FinderPlayer(props) {
+// export function BuildDatabasePage(props) {
 //   const { mp3TagJson, isLoading, error } = useMp3TagJson();
 
 //   const [isDark, setIsDark] = useState(false);

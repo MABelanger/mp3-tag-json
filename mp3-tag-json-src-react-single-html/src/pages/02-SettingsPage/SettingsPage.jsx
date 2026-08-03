@@ -29,7 +29,6 @@ export function SettingsPage(props) {
         },
         dropdowns: [
           "expention",
-          "emotion",
           "festive",
           "contact",
           "rythmic",

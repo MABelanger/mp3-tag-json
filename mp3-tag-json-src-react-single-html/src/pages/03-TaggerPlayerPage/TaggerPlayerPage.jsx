@@ -13,7 +13,7 @@ export function TaggerPlayerPage(props) {
   });
 
   function handleNext() {
-    navigate("/finderPlayer", {
+    navigate("/buildDatabase", {
       state: {
         scannedFiles,
         dirRootHandle,
@@ -23,7 +23,7 @@ export function TaggerPlayerPage(props) {
 
   return (
     <div>
-      <button onClick={handleNext}>next finderPlayer</button>
+      <button onClick={handleNext}>next buildDatabase</button>
       <PlayerWithCoverArt tracks={mp3Tracks} dirRootHandle={dirRootHandle} />
     </div>
   );
