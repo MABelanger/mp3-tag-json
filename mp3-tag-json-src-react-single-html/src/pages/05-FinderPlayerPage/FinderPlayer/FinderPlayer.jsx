@@ -16,7 +16,7 @@ export function FinderPlayer(props) {
 
   const handleFilterChangeArrayText = (e) => {
     const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: [value] }));
+    setFilters((prev) => ({ ...prev, [name]: ["voix", "darbouka2"] }));
   };
 
   return (
