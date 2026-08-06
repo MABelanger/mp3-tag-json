@@ -8,8 +8,14 @@ function openDatabase() {
   });
 }
 
-// Added  to prevent the empty result race condition on mount
-export function useSearchIndexDb(filters, page = 1, pageSize = 20) {
+export function useSearchIndexDb(pageSize = 20) {
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({
+    bpm: "120",
+    instrument: "",
+    minBass: "",
+  });
+
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -134,5 +140,5 @@ export function useSearchIndexDb(filters, page = 1, pageSize = 20) {
     };
   }, [filters, page, pageSize]); // Listens to nonce changes to rerun search instantly
 
-  return { results, loading, error, hasMore };
+  return { setPage, setFilters, filters, results, loading, error, hasMore };
 }

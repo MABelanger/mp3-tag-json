@@ -1,40 +1,22 @@
-import { useEffect, useState } from "react";
-import { useMp3TagJson } from "./hooks/useMp3TagJson";
-import { Mp3Sections } from "./Mp3Sections";
-import { Header } from "./Header";
-import themeStyles from "./AppTheme.module.css";
-import styles from "./App.module.css";
-import { useConcatJson } from "./hooks/useConcatJson";
-import { useBuildIndexDb } from "./hooks/useBuildIndexDb4";
-import { useSearchIndexDb } from "./hooks/useSearchIndexDb2";
+import { useState } from "react";
+
+import { useSearchIndexDb } from "./hooks/useSearchIndexDb5";
 
 export function FinderPlayer(props) {
   console.log("props.jsonTracks", props.jsonTracks);
-  const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState({
-    bpm: "120",
-    instrument: "",
-    minBass: "",
-  });
-  //useConcatJson(props.jsonTracks);
 
-  function handleCompleteBuildIndexDb(countItemAddedToIndexDb) {
-    console.log("item saved countItemAddedToIndexDb", countItemAddedToIndexDb);
-    setFilters((prev) => ({ ...prev, ["bpm"]: "120" }));
-  }
-  useBuildIndexDb(props.jsonTracks, handleCompleteBuildIndexDb);
-
-  const { results, loading, error, hasMore } = useSearchIndexDb(
-    filters,
-    page,
-    20
-  );
+  const { setPage, setFilters, filters, results, loading, error, hasMore } =
+    useSearchIndexDb(20);
 
   console.log("results", results);
-  const handleFilterChange = (e) => {
+  const handleFilterChangeInputText = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-    setPage(1);
+  };
+
+  const handleFilterChangeArrayText = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: [value] }));
   };
 
   return (
@@ -44,14 +26,14 @@ export function FinderPlayer(props) {
         type="number"
         name="bpm"
         value={filters.bpm}
-        onChange={handleFilterChange}
+        onChange={handleFilterChangeInputText}
         placeholder="BPM"
       />
       <input
         type="text"
         name="instruments"
         value={filters.instruments}
-        onChange={handleFilterChange}
+        onChange={handleFilterChangeArrayText}
         placeholder="Instrument Key"
       />
 
