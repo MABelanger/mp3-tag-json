@@ -1,22 +1,37 @@
 import { useState } from "react";
 
 import { useSearchIndexDb } from "./hooks/useSearchIndexDb5";
+import {
+  getArrayFromHashtag,
+  getHashtagFromArray,
+} from "./utils/hashTagSearchUtils2";
 
 export function FinderPlayer(props) {
   console.log("props.jsonTracks", props.jsonTracks);
+
+  const [inputFilters, setInputFilters] = useState({
+    bpm: "",
+    instruments: "", // #hashtag
+    cues: "", // #hashtag
+    minBass: "",
+  });
 
   const { setPage, setFilters, filters, results, loading, error, hasMore } =
     useSearchIndexDb(20);
 
   console.log("results", results);
+
   const handleFilterChangeInputText = (e) => {
     const { name, value } = e.target;
+    setInputFilters((prev) => ({ ...prev, [name]: value }));
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
+  // 2. Allow any raw string modifications during active typing
   const handleFilterChangeArrayText = (e) => {
     const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: ["voix", "darbouka2"] }));
+    setInputFilters((prev) => ({ ...prev, [name]: value }));
+    setFilters((prev) => ({ ...prev, [name]: getArrayFromHashtag(value) }));
   };
 
   return (
@@ -25,14 +40,14 @@ export function FinderPlayer(props) {
       <input
         type="number"
         name="bpm"
-        value={filters.bpm}
+        value={inputFilters.bpm}
         onChange={handleFilterChangeInputText}
         placeholder="BPM"
       />
       <input
         type="text"
         name="instruments"
-        value={filters.instruments}
+        value={inputFilters.instruments}
         onChange={handleFilterChangeArrayText}
         placeholder="Instrument Key"
       />
