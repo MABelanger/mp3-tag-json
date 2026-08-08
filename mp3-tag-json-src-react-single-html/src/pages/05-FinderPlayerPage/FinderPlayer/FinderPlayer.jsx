@@ -1,19 +1,18 @@
 import { useState } from "react";
 
-import { useSearchIndexDb } from "./hooks/useSearchIndexDb5";
-import {
-  getArrayFromHashtag,
-  getHashtagFromArray,
-} from "./utils/hashTagSearchUtils2";
+import { useSearchIndexDb } from "./hooks/useSearchIndexDb6";
+import { RangeDropdown } from "./ui-form/RangeDropdown";
+import { getArrayFromHashtag } from "./utils/hashTagSearchUtils3";
 
 export function FinderPlayer(props) {
   console.log("props.jsonTracks", props.jsonTracks);
+  const rangeConfig = { min: 0, max: 5 };
 
   const [inputFilters, setInputFilters] = useState({
     bpm: "",
     instruments: "", // #hashtag
     cues: "", // #hashtag
-    minBass: "",
+    bass: "",
   });
 
   const { setPage, setFilters, filters, results, loading, error, hasMore } =
@@ -23,6 +22,7 @@ export function FinderPlayer(props) {
 
   const handleFilterChangeInputText = (e) => {
     const { name, value } = e.target;
+    console.log("name, value", name, value);
     setInputFilters((prev) => ({ ...prev, [name]: value }));
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
@@ -43,6 +43,13 @@ export function FinderPlayer(props) {
         value={inputFilters.bpm}
         onChange={handleFilterChangeInputText}
         placeholder="BPM"
+      />
+      <RangeDropdown
+        title="bass"
+        name="bass"
+        range={rangeConfig}
+        value={filters.bass}
+        onChange={handleFilterChangeInputText}
       />
       <input
         type="text"

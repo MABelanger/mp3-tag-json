@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import FormDropdowns from "./FormDropdowns";
+//mp3-tag-json-src-react-single-html/src/pages/03-TaggerPlayerPage/PlayerWithCoverArt/RightMainPanel/FormTagSection/DynamicForm/DynamicForm.jsx
+// import { FormDropdowns } from "../../../../../../components/ui/form/FormDropdowns";
+import { FormDropdowns } from "./FormDropdowns";
 import FormTextInputs from "./FormTextInputs";
 import FormHashTags from "./FormHashTags";
 import { useEffect } from "react";

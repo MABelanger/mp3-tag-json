@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
-const FormDropdowns = ({ fields, range }) => {
+export function FormDropdowns(props) {
   const {
     register,
     formState: { errors },
@@ -23,8 +23,8 @@ const FormDropdowns = ({ fields, range }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const min = range?.min ?? 0;
-  const max = range?.max ?? 10;
+  const min = props.range?.min ?? 0;
+  const max = props.range?.max ?? 10;
   const options = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
   const gridContainerStyle = {
@@ -67,12 +67,12 @@ const FormDropdowns = ({ fields, range }) => {
     maxWidth: "120px",
   };
 
-  if (!fields.length) return null;
+  if (!props.fields.length) return null;
 
   return (
     <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
       <div style={gridContainerStyle}>
-        {fields.map((name) => (
+        {props.fields.map((name) => (
           <div key={name} style={fieldStyle}>
             <label style={labelStyle}>{name.replace(/([A-Z])/g, " $1")}</label>
             <select
@@ -96,6 +96,6 @@ const FormDropdowns = ({ fields, range }) => {
       </div>
     </fieldset>
   );
-};
+}
 
 export default FormDropdowns;

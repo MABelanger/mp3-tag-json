@@ -15,6 +15,7 @@ function openDatabase() {
 
         // Setup matching indexes for your specific JSON keys
         objectStore.createIndex("bpmIndex", "bpm", { unique: false });
+        objectStore.createIndex("bassIndex", "bass", { unique: false });
 
         // FIXED: Removed the duplicate instrumentsIndex creation statement
         objectStore.createIndex("instrumentsIndex", "instruments", {

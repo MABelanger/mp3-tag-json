@@ -13,7 +13,7 @@ export function useSearchIndexDb(pageSize = 20) {
   const [filters, setFilters] = useState({
     bpm: "120",
     instrument: "",
-    minBass: "",
+    bass: "",
   });
 
   const [results, setResults] = useState([]);
@@ -89,7 +89,7 @@ export function useSearchIndexDb(pageSize = 20) {
             }
 
             // Numeric slider ranges
-            if (filters.minBass && Number(item.bass) < Number(filters.minBass))
+            if (filters.bass && Number(item.bass) < Number(filters.bass))
               keepsItem = false;
             if (filters.maxBass && Number(item.bass) > Number(filters.maxBass))
               keepsItem = false;

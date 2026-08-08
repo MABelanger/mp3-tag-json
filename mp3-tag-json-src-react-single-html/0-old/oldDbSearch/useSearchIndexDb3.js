@@ -12,9 +12,8 @@ export function useSearchIndexDb(pageSize = 20) {
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({
     bpm: "",
-    instruments: [], // Array e.g., ['Guitar', 'Piano']
-    cues: [], // Array e.g., ['Intro', 'Bridge']
-    minBass: "",
+    instruments: [], // Now expected to be an Array: ['Guitar', 'Piano']
+    bass: "",
   });
 
   const [results, setResults] = useState([]);
@@ -38,59 +37,43 @@ export function useSearchIndexDb(pageSize = 20) {
         const skipOffset = (page - 1) * pageSize;
         let matchedCount = 0;
 
-        // 1. Gather all individual target search terms across both multiEntry fields
-        const queryRequirements = []; // Format: { indexName, term }
+        // --- STRATEGY A: INTERSECT MULTIPLE INSTRUMENTS ---
+        if (
+          Array.isArray(filters.instruments) &&
+          filters.instruments.length > 0
+        ) {
+          const instruments = filters.instruments.map(String);
 
-        if (Array.isArray(filters.instruments)) {
-          filters.instruments.forEach((inst) => {
-            if (String(inst).trim())
-              queryRequirements.push({
-                index: "instrumentsIndex",
-                term: String(inst).trim(),
-              });
-          });
-        }
-        if (Array.isArray(filters.cues)) {
-          filters.cues.forEach((cue) => {
-            if (String(cue).trim())
-              queryRequirements.push({
-                index: "cuesIndex",
-                term: String(cue).trim(),
-              });
-          });
-        }
+          // Open parallel requests for each instrument index
+          const index = objectStore.index("instrumentsIndex");
+          const requests = instruments.map((inst) =>
+            index.openCursor(IDBKeyRange.only(inst))
+          );
 
-        // --- STRATEGY A: ADVANCED DATABASE INTERSECTION (Zero In-Memory Loops) ---
-        if (queryRequirements.length > 0) {
-          // Open parallel cursor requests for each individual rule
-          const cursorPromises = queryRequirements.map((req) => {
-            const idx = objectStore.index(req.index);
-            const request = idx.openCursor(IDBKeyRange.only(req.term));
-            return new Promise((res) => {
-              request.onsuccess = (e) => res(e.target.result);
-            });
-          });
+          let cursors = await Promise.all(
+            requests.map(
+              (req) =>
+                new Promise((res) => {
+                  req.onsuccess = (e) => res(e.target.result);
+                })
+            )
+          );
 
-          let cursors = await Promise.all(cursorPromises);
-
-          // Iterate natively using Zig-zag logic
+          // Primary loop to intersect keys natively without loading records
           while (cursors.every((c) => c !== null)) {
-            const primaryKeys = cursors.map((c) => c.primaryKey);
+            // Find the primary keys of the underlying tracks
+            const keys = cursors.map((c) => c.primaryKey);
 
-            // Check if all array indexes align on the same record ID
-            const allMatch = primaryKeys.every((k) => k === primaryKeys[0]);
+            // Check if all cursors currently point to the identical record ID
+            const allMatch = keys.every((k) => k === keys[0]);
 
             if (allMatch) {
-              // Extract the item entirely from the cursor point
               const item = cursors[0].value;
 
-              // Handle optional minor parameters (BPM / Range) if present
+              // Secondary non-indexed filter checks (in-memory, minimal footprint)
               let keepsItem = true;
               if (filters.bpm && item.bpm != filters.bpm) keepsItem = false;
-              if (
-                filters.minBass &&
-                Number(item.bass) < Number(filters.minBass)
-              )
+              if (filters.bass && Number(item.bass) < Number(filters.bass))
                 keepsItem = false;
 
               if (keepsItem) {
@@ -103,21 +86,21 @@ export function useSearchIndexDb(pageSize = 20) {
                 matchedCount++;
 
                 if (matchedItems.length === pageSize) {
-                  // Peeking next item natively to check pagination
-                  const peekPromises = cursors.map((c) => {
+                  // Look ahead exactly 1 row to accurately determine pagination availability
+                  const nextRequests = cursors.map((c) => {
                     c.continue();
                     return new Promise((res) => {
                       c.request.onsuccess = (e) => res(e.target.result);
                     });
                   });
-                  const nextCursors = await Promise.all(peekPromises);
+                  const nextCursors = await Promise.all(nextRequests);
                   if (isMounted)
                     setHasMore(nextCursors.every((c) => c !== null));
                   break;
                 }
               }
 
-              // Advance everything forward together
+              // Advance all iterators forward
               const advancePromises = cursors.map((c) => {
                 c.continue();
                 return new Promise((res) => {
@@ -126,24 +109,23 @@ export function useSearchIndexDb(pageSize = 20) {
               });
               cursors = await Promise.all(advancePromises);
             } else {
-              // --- THE NATIVE ZIG-ZAG SKIP ---
-              // Identify the largest primary record key among our current indices
-              const maxKey = primaryKeys.reduce(
+              // Zig-zag optimization: find the maximum primary key and jump trailing cursors to it
+              // Works natively if your primary keys are comparable (numbers/strings)
+              const maxKey = keys.reduce(
                 (max, current) => (current > max ? current : max),
-                primaryKeys[0]
+                keys[0]
               );
 
-              // Natively skip lagging pointers up to or past the maximum discovered key
-              const jumpPromises = cursors.map((c, i) => {
-                if (primaryKeys[i] < maxKey) {
-                  c.continue(maxKey); // IndexedDB moves directly to this entry via index b-tree
+              const advancePromises = cursors.map((c, i) => {
+                if (keys[i] < maxKey) {
+                  c.continue(maxKey); // Skip directly to or past the maximum key
                   return new Promise((res) => {
                     c.request.onsuccess = (e) => res(e.target.result);
                   });
                 }
-                return Promise.resolve(c); // Pointers already matching or exceeding maxKey wait
+                return Promise.resolve(c);
               });
-              cursors = await Promise.all(jumpPromises);
+              cursors = await Promise.all(advancePromises);
             }
           }
 
@@ -151,8 +133,10 @@ export function useSearchIndexDb(pageSize = 20) {
             if (isMounted) setHasMore(false);
           }
           finalizeResults();
-        } else {
-          // --- STRATEGY B: FALLBACK STANDARD SCANS (When arrays are completely empty) ---
+        }
+
+        // --- STRATEGY B: FALLBACK SINGLE INDEX SCANS (BPM Or Sequential) ---
+        else {
           let request;
           if (filters.bpm) {
             request = objectStore
@@ -167,10 +151,8 @@ export function useSearchIndexDb(pageSize = 20) {
             if (cursor) {
               const item = cursor.value;
               let keepsItem = true;
-              if (
-                filters.minBass &&
-                Number(item.bass) < Number(filters.minBass)
-              )
+
+              if (filters.bass && Number(item.bass) < Number(filters.bass))
                 keepsItem = false;
 
               if (keepsItem) {
@@ -181,6 +163,7 @@ export function useSearchIndexDb(pageSize = 20) {
                   matchedItems.push(item);
                 }
                 matchedCount++;
+
                 if (matchedItems.length > pageSize) {
                   if (isMounted) setHasMore(true);
                   finalizeResults();

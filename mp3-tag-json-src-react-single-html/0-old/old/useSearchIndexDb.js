@@ -77,7 +77,7 @@ export function useSearchIndexDb(filters, page = 1, pageSize = 50) {
               keepsItem = false;
 
             // Numeric range slider exclusions (e.g., bass, festive, contact keys)
-            if (filters.minBass && item.bass < Number(filters.minBass))
+            if (filters.bass && item.bass < Number(filters.bass))
               keepsItem = false;
             if (filters.maxBass && item.bass > Number(filters.maxBass))
               keepsItem = false;

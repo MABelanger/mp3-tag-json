@@ -14,7 +14,7 @@ export function useSearchIndexDb(pageSize = 20) {
     bpm: "",
     instruments: [], // Array format: ['Guitar', 'Piano']
     cues: [], // Array format: ['Intro', 'Bridge']
-    bass: "",
+    bass: "", // Target value e.g. "3" -> searches 2, 3, 4
   });
 
   const [results, setResults] = useState([]);
@@ -37,6 +37,15 @@ export function useSearchIndexDb(pageSize = 20) {
         const matchedItems = [];
         const skipOffset = (page - 1) * pageSize;
         let matchedCount = 0;
+
+        // Calculate Bass boundaries (+-1 range) if filter value exists
+        const hasBassFilter =
+          filters.bass !== "" &&
+          filters.bass !== null &&
+          filters.bass !== undefined;
+        const targetBassNum = hasBassFilter ? Number(filters.bass) : 0;
+        const minBassBound = targetBassNum - 1;
+        const maxBassBound = targetBassNum + 1;
 
         // 1. Gather all explicit search terms across both multiEntry fields
         const queryRequirements = [];
@@ -62,7 +71,7 @@ export function useSearchIndexDb(pageSize = 20) {
           });
         }
 
-        // --- STRATEGY A: ADVANCED DATABASE INTERSECTION (Zero In-Memory Loops) ---
+        // --- STRATEGY A: ADVANCED DATABASE INTERSECTION (Zero In-Memory Loops for Arrays) ---
         if (queryRequirements.length > 0) {
           // Open parallel cursor streams for each required term
           const cursorPromises = queryRequirements.map((req) => {
@@ -86,11 +95,17 @@ export function useSearchIndexDb(pageSize = 20) {
               // Extract the item entirely from the first matched cursor point
               const item = cursors[0].value;
 
-              // Handle optional non-array parameters (BPM / Range) if present
+              // Handle optional non-array parameters (BPM / +-1 Bass Range)
               let keepsItem = true;
               if (filters.bpm && item.bpm != filters.bpm) keepsItem = false;
-              if (filters.bass && Number(item.bass) < Number(filters.bass))
-                keepsItem = false;
+
+              // Validate +-1 bass variance
+              if (hasBassFilter) {
+                const itemBassNum = Number(item.bass);
+                if (itemBassNum < minBassBound || itemBassNum > maxBassBound) {
+                  keepsItem = false;
+                }
+              }
 
               if (keepsItem) {
                 if (
@@ -126,18 +141,17 @@ export function useSearchIndexDb(pageSize = 20) {
               cursors = await Promise.all(advancePromises);
             } else {
               // --- THE NATIVE ZIG-ZAG SKIP ---
-              // Identify the largest numeric primary record key among our current indices
               const maxKey = Math.max(...primaryKeys);
 
               // Natively skip lagging pointers up to or past the maximum discovered key
               const jumpPromises = cursors.map((c, i) => {
                 if (primaryKeys[i] < maxKey) {
-                  c.continue(maxKey); // Skip directly to this entry via index b-tree
+                  c.continue(maxKey);
                   return new Promise((res) => {
                     c.request.onsuccess = (e) => res(e.target.result);
                   });
                 }
-                return Promise.resolve(c); // Pointers already matching or exceeding maxKey wait
+                return Promise.resolve(c);
               });
               cursors = await Promise.all(jumpPromises);
             }
@@ -151,28 +165,15 @@ export function useSearchIndexDb(pageSize = 20) {
           // --- STRATEGY B: FALLBACK STANDARD SCANS (When arrays are completely empty) ---
           let request;
 
-          const hasBpm = !!filters.bpm;
-          const hasBass = !!filters.bass;
-
-          if (hasBpm && hasBass) {
-            // Query both fields simultaneously using your new compound index
-            const keyRange = IDBKeyRange.only([
-              Number(filters.bpm),
-              Number(filters.bass),
-            ]);
-            request = objectStore.index("bpm_bass_Index").openCursor(keyRange);
-          } else if (hasBpm) {
-            // Query only BPM
+          if (hasBassFilter) {
+            // Native database range match: minBassBound <= value <= maxBassBound
+            const bassRange = IDBKeyRange.bound(minBassBound, maxBassBound);
+            request = objectStore.index("bassIndex").openCursor(bassRange);
+          } else if (filters.bpm) {
             request = objectStore
               .index("bpmIndex")
               .openCursor(IDBKeyRange.only(Number(filters.bpm)));
-          } else if (hasBass) {
-            // Query only Bass
-            request = objectStore
-              .index("bassIndex")
-              .openCursor(IDBKeyRange.only(Number(filters.bass)));
           } else {
-            // Clear fallback table scan if no simple parameters are specified
             request = objectStore.openCursor();
           }
 
@@ -181,8 +182,21 @@ export function useSearchIndexDb(pageSize = 20) {
             if (cursor) {
               const item = cursor.value;
               let keepsItem = true;
-              if (filters.bass && Number(item.bass) < Number(filters.bass))
+
+              // If we are filtering by Bass index, verify cross-filtering constraints like BPM
+              if (hasBassFilter && filters.bpm && item.bpm != filters.bpm) {
                 keepsItem = false;
+              }
+              // If we are filtering by BPM index or general scan, check the Bass range criteria
+              if (!hasBassFilter && hasBassFilter) {
+                // Safe guard condition fallback
+                const itemBassNum = Number(item.bass);
+                if (itemBassNum < minBassBound || itemBassNum > maxBassBound)
+                  keepsItem = false;
+              }
+              if (!hasBassFilter && filters.bpm && item.bpm != filters.bpm) {
+                keepsItem = false;
+              }
 
               if (keepsItem) {
                 if (
