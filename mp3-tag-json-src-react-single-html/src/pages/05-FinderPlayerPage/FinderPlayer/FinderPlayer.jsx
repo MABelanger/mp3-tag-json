@@ -49,7 +49,14 @@ export function FinderPlayer(props) {
         name="instruments"
         value={inputFilters.instruments}
         onChange={handleFilterChangeArrayText}
-        placeholder="Instrument Key"
+        placeholder="Instruments #"
+      />
+      <input
+        type="text"
+        name="cues"
+        value={inputFilters.cues}
+        onChange={handleFilterChangeArrayText}
+        placeholder="Cues #"
       />
 
       {loading && <p>Reading from IndexedDB...</p>}
@@ -61,6 +68,8 @@ export function FinderPlayer(props) {
             {Array.isArray(track.instruments)
               ? track.instruments.join(",")
               : track.instruments}
+            | cues:{" "}
+            {Array.isArray(track.cues) ? track.cues.join(",") : track.cues}
           </li>
         ))}
       </ul>
