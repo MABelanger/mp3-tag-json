@@ -1,4 +1,5 @@
-import { db } from "./db";
+import { db } from "../../../../db/db";
+
 export async function executeSearch({ filters, page, pageSize }) {
   const skipOffset = (page - 1) * pageSize;
 
@@ -28,9 +29,12 @@ export async function executeSearch({ filters, page, pageSize }) {
 
   // 4. Index Selection Strategy (Pick the most specific index first)
   if (activeInstruments.length > 0) {
-    collection = db.tracks.where("instruments").anyOf(activeInstruments);
+    collection = db.tracks
+      .where("instruments")
+      .anyOf(activeInstruments)
+      .distinct();
   } else if (activeCues.length > 0) {
-    collection = db.tracks.where("cues").anyOf(activeCues);
+    collection = db.tracks.where("cues").anyOf(activeCues).distinct();
   } else if (hasBassFilter) {
     // Primary database range scan for Bass
     collection = db.tracks.where("bass").between(minBass, maxBass, true, true);
