@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { executeSearch } from "./dbQueries";
+import { executeSearch } from "./dbQueries2";
 
 export function useSearchIndexDb(pageSize = 20) {
   const [page, setPage] = useState(1);
