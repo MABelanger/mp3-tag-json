@@ -1,51 +1,6 @@
 import { useEffect } from "react";
-
-// 1. Helper to open or upgrade IndexedDB
-function openDatabase() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open("TracksSearchDB", 1);
-
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      if (!db.objectStoreNames.contains("tracks")) {
-        const objectStore = db.createObjectStore("tracks", {
-          keyPath: "id",
-          autoIncrement: true,
-        });
-
-        // Setup matching indexes for your specific JSON keys
-        objectStore.createIndex("bpmIndex", "bpm", { unique: false });
-        objectStore.createIndex("bassIndex", "bass", { unique: false });
-
-        // FIXED: Removed the duplicate instrumentsIndex creation statement
-        objectStore.createIndex("instrumentsIndex", "instruments", {
-          unique: false,
-          multiEntry: true,
-        });
-
-        objectStore.createIndex("cuesIndex", "cues", {
-          unique: false,
-          multiEntry: true,
-        });
-      }
-    };
-
-    request.onsuccess = (event) => resolve(event.target.result);
-    request.onerror = (event) => reject(event.target.error);
-  });
-}
-
-// 2. Helper to clear the database safely before starting a full import
-async function clearDatabase(db) {
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(["tracks"], "readwrite");
-    const objectStore = transaction.objectStore("tracks");
-    const request = objectStore.clear();
-
-    transaction.oncomplete = () => resolve();
-    transaction.onerror = (event) => reject(event.target.error);
-  });
-}
+import { getDatabase } from "../../../../db/db";
+import { clearTracksDatabase } from "../../../../db/clearDb";
 
 // 3. Helper to write a single file's contents into IndexedDB synchronously
 async function saveSingleFileToDB(db, itemsToStore) {
@@ -62,8 +17,9 @@ async function saveSingleFileToDB(db, itemsToStore) {
   });
 }
 async function storeJsonTracksToIndexedDB(jsonTracks) {
-  const db = await openDatabase();
-  await clearDatabase(db);
+  const db = await getDatabase();
+  clearTracksDatabase(db);
+
   let totalStoredCount = 0;
 
   for (const jsonTrack of jsonTracks) {

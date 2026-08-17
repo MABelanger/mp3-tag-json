@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useBuildIndexDb } from "./hooks/useBuildIndexDb5";
+import { useBuildIndexDb } from "./hooks/useBuildIndexDb6";
 
 export function BuildDatabase(props) {
   useBuildIndexDb(props.jsonTracks, handleCompleteBuildIndexDb);
