@@ -192,6 +192,10 @@ export async function executeNativeDynamicSearch({
   });
 }
 
+/*
+TODO : rename verifyCustomFilter to verifyHasValue
+and spit into 3 verify function ie:. range, inArray, exact
+*/
 // Updated memory-friendly inline property matching validation utility
 function verifyCustomFilter(item, filterConfig) {
   const itemValue = item[filterConfig.key];

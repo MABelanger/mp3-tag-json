@@ -36,6 +36,25 @@ export function useSearchIndexDb(pageSize = 20) {
         // 2. Transform the local state object into the dynamic array format required by the native engine
         const customFilters = [];
 
+        /*
+         TODO : make it dynamic inside a config
+         the config can be an array of range like 
+          {
+            key: "bpm",
+            type: "range",
+            variance: 5,
+          },
+          {
+            key: "bass",
+            type: "range",
+            variance: 5,
+          },
+          {
+              key: "instruments",
+              type: "hashtag",
+          }
+
+        */
         if (filters.bpm) {
           customFilters.push({
             key: "bpm",
