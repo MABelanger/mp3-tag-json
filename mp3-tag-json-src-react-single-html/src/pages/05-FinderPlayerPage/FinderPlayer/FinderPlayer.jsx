@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useSearchIndexDb } from "./hooks/useSearchIndexDb9";
+import { useSearchIndexDb } from "./hooks/useSearchIndexDb10";
 import { RangeDropdown } from "./ui-form/RangeDropdown";
 import { getArrayFromHashtag } from "./utils/hashTagSearchUtils3";
 
