@@ -1,14 +1,7 @@
 import { useState, useEffect } from "react";
 import { getDatabase } from "../../../../db/db";
+import { SEARCH_CONFIG } from "../../../../db/config";
 import { executeNativeDynamicSearch } from "./nativeDynamicSearch.js";
-
-// 1. Centralized dynamic configuration file matching your TODO blueprint
-const SEARCH_CONFIG = [
-  { key: "bpm", type: "range", variance: 5 },
-  { key: "bass", type: "range", variance: 1 },
-  { key: "instruments", type: "exact" }, // maps 'hashtag' matching style to engine
-  { key: "cues", type: "exact" },
-];
 
 export function useSearchIndexDb(pageSize = 20) {
   const [page, setPage] = useState(1);
