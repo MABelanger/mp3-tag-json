@@ -1,27 +1,35 @@
-// db.js - Add this function to your existing file
-
-/**
- * Completely clears all records from the 'tracks' store while preserving indexes.
- * @returns {Promise<void>} Resolves when the database is successfully cleared.
- */
 export async function clearTracksDatabase(db) {
-  // 1. Get the current active database instance securely
-  //   const db = await getDatabase();
-
   return new Promise((resolve, reject) => {
-    // 2. Open a readwrite transaction specifically on the tracks store
-    const transaction = db.transaction("tracks", "readwrite");
-    const store = transaction.objectStore("tracks");
+    // 1. Defensively check if the database connection is dead or closing
+    if (!db || db.closed || (db.readyState && db.readyState === "closing")) {
+      console.warn(
+        "Skipping clear: The database connection is closed or closing."
+      );
+      return resolve();
+    }
 
-    // 3. Issue the native clear instruction
-    const request = store.clear();
+    // 2. Check if the object store actually exists
+    if (!db.objectStoreNames.contains("tracks")) {
+      console.warn("Skipping clear: 'tracks' object store does not exist yet.");
+      return resolve();
+    }
 
-    request.onsuccess = () => {
-      resolve();
-    };
+    try {
+      // 3. Open a readwrite transaction safely
+      const transaction = db.transaction("tracks", "readwrite");
+      const store = transaction.objectStore("tracks");
 
-    request.onerror = (event) => {
-      reject(event.target.error);
-    };
+      // 4. Issue the native clear instruction
+      const request = store.clear();
+
+      request.onsuccess = () => resolve();
+      request.onerror = (event) => reject(event.target.error);
+
+      transaction.onerror = (event) => reject(event.target.error);
+    } catch (error) {
+      // Catches DOMException errors if the connection dies right at this millisecond
+      console.error("Failed to clear store due to transaction crash:", error);
+      resolve(); // Resolve early so it doesn't break your entire app execution chain
+    }
   });
 }
