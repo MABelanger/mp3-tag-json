@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useBuildIndexDb } from "./hooks/useBuildIndexDb6";
+import { useBuildIndexDb } from "./hooks/useBuildIndexDb7";
 
 export function BuildDatabase(props) {
   useBuildIndexDb(props.jsonTracks, handleCompleteBuildIndexDb);
   const [isDbReady, setIsDbReady] = useState(false);
 
   function handleCompleteBuildIndexDb(countItemAddedToIndexDb) {
-    console.log("item saved countItemAddedToIndexDb", countItemAddedToIndexDb);
+    console.log(" item saved countItemAddedToIndexDb", countItemAddedToIndexDb);
     setIsDbReady(true);
   }
 

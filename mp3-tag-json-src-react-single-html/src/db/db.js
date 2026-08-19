@@ -1,42 +1,51 @@
 import { SEARCH_CONFIG } from "./config";
 
-let dbInstance = null;
+// Keep a reference to the active promise, not just the raw instance.
+// This prevents multiple overlapping requests from opening parallel databases.
+let dbPromise = null;
 
 export function getDatabase() {
-  if (dbInstance) return Promise.resolve(dbInstance);
+  // If a connection attempt is already running or succeeded, return that promise chain
+  if (dbPromise) return dbPromise;
 
-  return new Promise((resolve, reject) => {
+  dbPromise = new Promise((resolve, reject) => {
     const request = indexedDB.open("TracksSearchDB", 1);
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
 
-      // 1. Create the main tracks store
+      // Fresh initialization setup
       const store = db.createObjectStore("tracks", {
         keyPath: "id",
         autoIncrement: true,
       });
 
-      // 2. Loop through your configuration safely
       SEARCH_CONFIG.forEach((config) => {
         const options = { unique: false };
-
         if (config.multiEntry) {
           options.multiEntry = true;
         }
-
-        // Directly create the index without using the brittle .contains() check
         store.createIndex(config.key, config.key, options);
       });
     };
 
     request.onsuccess = (event) => {
-      dbInstance = event.target.result;
-      resolve(dbInstance);
+      const db = event.target.result;
+
+      // Defensive Fix: If the browser closes this connection later (or on hot-reload),
+      // wipe our cache out so the next query re-opens a fresh connection pipeline.
+      db.onclose = () => {
+        dbPromise = null;
+      };
+
+      resolve(db);
     };
 
     request.onerror = (event) => {
+      dbPromise = null; // Clear cache on error
       reject(event.target.error);
     };
   });
+
+  return dbPromise;
 }

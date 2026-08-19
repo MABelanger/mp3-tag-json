@@ -48,6 +48,7 @@ function processItemDynamically(item, config) {
 
 async function storeJsonTracksToIndexedDB(jsonTracks) {
   const db = await getDatabase();
+  console.log("reload db debug 3!!!", db);
   clearTracksDatabase(db);
 
   let totalStoredCount = 0;
