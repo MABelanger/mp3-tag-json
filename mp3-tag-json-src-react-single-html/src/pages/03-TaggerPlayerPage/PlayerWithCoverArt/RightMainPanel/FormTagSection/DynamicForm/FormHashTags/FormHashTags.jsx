@@ -5,6 +5,7 @@ import { FieldHashTag } from "./FieldHashTag2";
 export const FormHashTags = ({ fields }) => {
   const {
     register,
+    control,
     formState: { errors },
   } = useFormContext();
 
@@ -27,7 +28,7 @@ export const FormHashTags = ({ fields }) => {
           <FieldHashTag
             errorMessage={errors[name]?.message}
             name={name}
-            register={register}
+            control={control}
           />
         ))}
       </div>
