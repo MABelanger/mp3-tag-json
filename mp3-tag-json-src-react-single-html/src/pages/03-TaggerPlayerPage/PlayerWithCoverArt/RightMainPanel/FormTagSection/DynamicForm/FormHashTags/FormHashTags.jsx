@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { FieldHashTag } from "./FieldHashTag";
+import { FieldHashTag } from "./FieldHashTag2";
 
 export const FormHashTags = ({ fields }) => {
   const {
