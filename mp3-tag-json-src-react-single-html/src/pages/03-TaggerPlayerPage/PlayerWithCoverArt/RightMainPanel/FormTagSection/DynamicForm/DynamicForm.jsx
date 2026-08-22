@@ -4,7 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 // import { FormDropdowns } from "../../../../../../components/ui/form/FormDropdowns";
 import { FormDropdowns } from "./FormDropdowns";
 import FormTextInputs from "./FormTextInputs";
-import FormHashTags from "./FormHashTags";
+import { FormHashTags } from "./FormHashTags";
 import { useEffect } from "react";
 
 function getIsObjEmpty(obj) {
