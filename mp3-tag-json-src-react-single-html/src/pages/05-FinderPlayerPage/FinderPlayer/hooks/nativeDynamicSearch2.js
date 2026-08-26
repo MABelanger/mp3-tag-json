@@ -1,3 +1,11 @@
+/**
+ * Executes a high-performance dynamic zig-zag search using raw IndexedDB.
+ *
+ * @param {IDBDatabase} rawDb - Your open native IDBDatabase instance.
+ * @param {Array} customFilters - Array of user-selected custom filters.
+ * @param {number} page - Current page number (1-indexed).
+ * @param {number} pageSize - Number of items per page.
+ */
 export async function executeNativeDynamicSearch({
   rawDb,
   customFilters,
