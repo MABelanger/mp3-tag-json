@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getDatabase } from "../../../../db/db";
 import { SEARCH_CONFIG } from "../../../../db/config";
-import { executeNativeDynamicSearch } from "./nativeDynamicSearch4.js";
+import { executeNativeDynamicSearch } from "./nativeDynamicSearch4";
 
 export function useSearchIndexDb(pageSize = 20) {
   const [page, setPage] = useState(1);
