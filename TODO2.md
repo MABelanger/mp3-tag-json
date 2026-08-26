@@ -1,2 +1,3 @@
-- from the array in json, update the db accordingly
 - Do not save with the # in th#e json
+- Save into lowercase to the db.
+- Make sure that the search lowercase.
