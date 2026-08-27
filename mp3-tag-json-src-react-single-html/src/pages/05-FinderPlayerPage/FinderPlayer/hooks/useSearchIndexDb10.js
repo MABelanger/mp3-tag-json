@@ -11,7 +11,7 @@ export function useSearchIndexDb(pageSize = 20) {
   const [error, setError] = useState(null);
   const [hasMore, setHasMore] = useState(false);
 
-  const updateFilters = (newFilters) => {
+  const handleSetFilters = (newFilters) => {
     setFilters(newFilters);
     setPage(1);
   };
@@ -87,7 +87,7 @@ export function useSearchIndexDb(pageSize = 20) {
   return {
     page,
     setPage,
-    setFilters: updateFilters,
+    setFilters: handleSetFilters,
     filters,
     results,
     loading,
