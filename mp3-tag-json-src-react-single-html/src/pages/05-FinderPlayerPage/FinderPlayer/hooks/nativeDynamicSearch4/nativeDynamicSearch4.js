@@ -3,7 +3,7 @@ import {
   streamFallbackStore,
 } from "./searchTypes";
 
-import { classifyFilters } from "./classifyFilters";
+import { classifyFilters } from "./classifyFilters2";
 
 /**
  * Executes a high-performance dynamic search using raw IndexedDB.

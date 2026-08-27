@@ -1,5 +1,7 @@
-- Do not save with the # in th#e json
-- Save into lowercase to the db.
-- Make sure that the search lowercase.
+- Do not save with the # in the json
+- Make search hastag as the form
 
-Verify that filterUtils2.js and classifyFilters2.js work with the lowercase
+- Avoid putting all json that has no sound into the db. Maybe add a property inside de json to recornise that is a json from a mp3
+
+Make dynamic property of text or number:
+mp3-tag-json-src-react-single-html/src/pages/03-TaggerPlayerPage/PlayerWithCoverArt/RightMainPanel/FormTagSection/DynamicForm/FormTextInputs.jsx
