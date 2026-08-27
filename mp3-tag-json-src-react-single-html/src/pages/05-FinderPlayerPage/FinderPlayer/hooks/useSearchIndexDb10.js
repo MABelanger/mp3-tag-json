@@ -5,12 +5,7 @@ import { executeNativeDynamicSearch } from "./nativeDynamicSearch4";
 
 export function useSearchIndexDb(pageSize = 20) {
   const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState({
-    bpm: "",
-    instruments: [],
-    cues: [],
-    bass: "",
-  });
+  const [filters, setFilters] = useState({});
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

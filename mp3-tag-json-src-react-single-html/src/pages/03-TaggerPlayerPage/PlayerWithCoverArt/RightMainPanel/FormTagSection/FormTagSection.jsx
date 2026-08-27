@@ -1,6 +1,6 @@
 import { useWriteFile } from "../../../../../components/ReadWriteDirectory/hooks/useWriteFile";
 import { useReadFile } from "../../../../../components/ReadWriteDirectory/hooks/useReadFile";
-import { DynamicForm } from "./DynamicForm";
+import { DynamicForm } from "../../../../../components/ui/DynamicForm/DynamicForm";
 
 export function FormTagSection(props) {
   const { writeNestedFile, isSaving } = useWriteFile();
