@@ -1,1 +1,1 @@
-export { DynamicForm } from "./DynamicForm";
+export { DynamicForm } from "./DynamicForm2";
