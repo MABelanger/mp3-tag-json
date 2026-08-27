@@ -50,23 +50,45 @@ const FormTextInputs = ({ fields }) => {
     <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
       {/* Structural layout wrapper mapping text nodes side-by-side */}
       <div style={gridContainerStyle}>
-        {fields.map((name) => (
-          <div key={name} style={fieldStyle}>
-            <label style={labelStyle}>{name === "bpm" ? "BPM" : name}</label>
-            <input
-              type={name === "bpm" ? "number" : "text"}
-              {...register(name, { valueAsNumber: name === "bpm" })}
-              placeholder={`Enter ${name}...`}
-              style={{
-                ...inputStyle,
-                borderColor: errors[name] ? "#dc2626" : "#ccc",
-              }}
-            />
-            {errors[name] && (
-              <span style={errorStyle}>{errors[name]?.message}</span>
-            )}
-          </div>
-        ))}
+        {fields.map((name) => {
+          {
+            /* 
+              TODO : add a propriety to know if is the field is a text or number
+              right now only the bpm is number but need to be more precise
+              */
+          }
+          const isNumber = name === "bpm";
+
+          return (
+            <div key={name} style={fieldStyle}>
+              <label style={labelStyle}>{name}</label>
+              <input
+                type={isNumber ? "number" : "text"}
+                {...register(name, {
+                  valueAsNumber: isNumber,
+                })}
+                placeholder={`Enter ${name}...`}
+                onChange={(e) => {
+                  // 1. Skip transformation if this is the numerical BPM field
+                  if (isNumber) return;
+
+                  // 2. Intercept the typed value and instantly force it lowercase
+                  const lowercasedValue = e.target.value.toLowerCase();
+
+                  // 3. Manually update the input field value on screen
+                  e.target.value = lowercasedValue;
+                }}
+                style={{
+                  ...inputStyle,
+                  borderColor: errors[name] ? "#dc2626" : "#ccc",
+                }}
+              />
+              {errors[name] && (
+                <span style={errorStyle}>{errors[name]?.message}</span>
+              )}
+            </div>
+          );
+        })}
       </div>
     </fieldset>
   );

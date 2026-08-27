@@ -47,7 +47,7 @@ export function FieldHashTag(props) {
           const handleKeyDown = (e) => {
             if (e.key === "Enter" || e.key === ",") {
               e.preventDefault();
-              let tag = inputValue.trim().replace(/\s+/g, "");
+              let tag = inputValue.trim().replace(/\s+/g, "").toLowerCase();
               if (!tag) return;
               if (!tag.startsWith("#")) tag = `#${tag}`;
 

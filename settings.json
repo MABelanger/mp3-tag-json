@@ -1,0 +1,22 @@
+{
+  "dropdownRange": {
+    "min": 0,
+    "max": 10
+  },
+  "dropdowns": [
+    "expention",
+    "festive",
+    "contact",
+    "rythmic",
+    "bass",
+    "curve"
+  ],
+  "textInputs": [
+    "bpm",
+    "notes"
+  ],
+  "hashTags": [
+    "instruments",
+    "cues"
+  ]
+}
