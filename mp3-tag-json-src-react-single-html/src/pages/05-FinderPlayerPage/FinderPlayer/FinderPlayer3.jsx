@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { useReadFile } from "../../../components/ReadWriteDirectory/hooks/useReadFile";
 
-import { useSearchIndexDb } from "./hooks/useSearchIndexDb10";
+import { useSearchIndexDb } from "./hooks/useSearchIndexDb11";
 import { DynamicForm } from "../../../components/ui/DynamicForm";
 
 export function FinderPlayer(props) {
@@ -21,7 +21,7 @@ export function FinderPlayer(props) {
   function handleChange(filters) {
     const jsonData = JSON.stringify(filters, null, 2);
     console.log("jsonData", jsonData);
-    //setFilters(filters);
+    setFilters(filters);
   }
 
   return (
