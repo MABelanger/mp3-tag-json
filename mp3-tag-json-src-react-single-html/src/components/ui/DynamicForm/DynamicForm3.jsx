@@ -21,8 +21,6 @@ export const DynamicForm = (props) => {
     hashTags = [],
   } = props.settings;
 
-  console.log("props.settings", props.settings);
-
   // Compute base fallbacks directly from config shapes
   const defaultValues = {};
   dropdowns.forEach((key) => (defaultValues[key] = dropdownRange?.min ?? 0));
@@ -58,7 +56,6 @@ export const DynamicForm = (props) => {
 
   // 3. Keep form tree synchronized when initial track datasets arrive asynchronously
   useEffect(() => {
-    console.log("props.initFormData", props.initFormData);
     const isObjEmpty = getIsObjEmpty(props.initFormData);
 
     if (isObjEmpty) {

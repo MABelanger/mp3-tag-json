@@ -49,4 +49,3 @@ function generateSearchConfig(uiLayout) {
 
 // Generate the configuration
 export const SEARCH_CONFIG = generateSearchConfig(rawUiLayout);
-console.log(SEARCH_CONFIG);

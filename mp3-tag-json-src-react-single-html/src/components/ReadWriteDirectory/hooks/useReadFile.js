@@ -52,6 +52,5 @@ export function useReadFile(dirRootHandle, filePath) {
     doGetFile();
   }, [dirRootHandle, filePath]);
 
-  console.log("fileData", fileData);
   return { fileData };
 }

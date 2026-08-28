@@ -5,7 +5,6 @@ import { RangeDropdown } from "./ui-form/RangeDropdown";
 import { getArrayFromHashtag } from "./utils/hashTagSearchUtils3";
 
 export function FinderPlayer(props) {
-  console.log("props.jsonTracks", props.jsonTracks);
   const rangeConfig = { min: 0, max: 5 };
 
   const [inputFilters, setInputFilters] = useState({
@@ -18,11 +17,8 @@ export function FinderPlayer(props) {
   const { setPage, setFilters, filters, results, loading, error, hasMore } =
     useSearchIndexDb(20);
 
-  console.log("results", results);
-
   const handleFilterChangeInputText = (e) => {
     const { name, value } = e.target;
-    console.log("name, value", name, value);
     setInputFilters((prev) => ({ ...prev, [name]: value }));
     setFilters((prev) => ({ ...prev, [name]: value }));
   };

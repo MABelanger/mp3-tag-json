@@ -21,8 +21,6 @@ export const DynamicForm = (props) => {
     hashTags = [],
   } = props.settings;
 
-  console.log("props.settings", props.settings);
-
   // Compute base fallbacks directly from config shapes
   const defaultValues = {};
   dropdowns.forEach((key) => (defaultValues[key] = dropdownRange?.min ?? 0));
@@ -42,7 +40,6 @@ export const DynamicForm = (props) => {
   }, [formValues, props.onChange]);
 
   useEffect(() => {
-    console.log("props.initFormData", props.initFormData);
     const isObjEmpty = getIsObjEmpty(props.initFormData);
 
     if (isObjEmpty) {

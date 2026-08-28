@@ -36,7 +36,6 @@ export function FormTagSection(props) {
 
   function handleSave(data) {
     const jsonData = JSON.stringify(data, null, 2);
-    console.log("jsonData", jsonData);
     const jsonFilePath = props.jsonFilePath;
     writeNestedFile(props.dirRootHandle, jsonFilePath, jsonData);
   }

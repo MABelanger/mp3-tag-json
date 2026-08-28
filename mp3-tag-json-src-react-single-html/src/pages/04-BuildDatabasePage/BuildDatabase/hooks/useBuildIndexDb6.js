@@ -67,9 +67,6 @@ async function storeJsonTracksToIndexedDB(jsonTracks) {
     }
   }
 
-  console.log(
-    `IndexedDB import complete! Stored ${totalStoredCount} total records.`
-  );
   return totalStoredCount;
 }
 
@@ -79,7 +76,6 @@ export function useBuildIndexDb(jsonTracks, onComplete) {
     async function doBuildIndexDb() {
       if (!jsonTracks || jsonTracks.length === 0) return;
 
-      console.log("Starting IndexedDB population...");
       try {
         const count = await storeJsonTracksToIndexedDB(jsonTracks);
         if (onComplete) onComplete(count); // Trigger state change in parent component
