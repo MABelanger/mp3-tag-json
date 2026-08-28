@@ -23,6 +23,7 @@ export function classifyFilters({ customFilters, indexedKeys }) {
       const targetVal = isNum
         ? Number(filter.value)
         : String(filter.value).toLowerCase();
+      console.log("---targetVal", targetVal);
       keyRange = IDBKeyRange.only(targetVal);
     }
 

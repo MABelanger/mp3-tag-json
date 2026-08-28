@@ -25,6 +25,7 @@ export async function fetchParallelIdIntersection({
 
   try {
     const idLists = await Promise.all(idListsPromises);
+    console.log("idLists", idLists);
 
     // Intersect the ID arrays to find primary keys that match ALL indexed fields
     let intersectedIds = idLists[0];

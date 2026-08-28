@@ -20,5 +20,6 @@ export function verifyCustomFilter(item, filterConfig) {
   }
 
   // Fallback for flat strings/exact values
-  return String(itemValue).toLowerCase() === target;
+  const fallback = String(itemValue).toLowerCase() === target;
+  return fallback;
 }

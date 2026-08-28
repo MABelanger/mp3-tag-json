@@ -68,16 +68,16 @@ const FormTextInputs = ({ fields }) => {
                   valueAsNumber: isNumber,
                 })}
                 placeholder={`Enter ${name}...`}
-                onChange={(e) => {
-                  // 1. Skip transformation if this is the numerical BPM field
-                  if (isNumber) return;
+                // onChange={(e) => {
+                //   // 1. Skip transformation if this is the numerical BPM field
+                //   if (isNumber) return;
 
-                  // 2. Intercept the typed value and instantly force it lowercase
-                  const lowercasedValue = e.target.value.toLowerCase();
+                //   // 2. Intercept the typed value and instantly force it lowercase
+                //   const lowercasedValue = e.target.value.toLowerCase();
 
-                  // 3. Manually update the input field value on screen
-                  e.target.value = lowercasedValue;
-                }}
+                //   // 3. Manually update the input field value on screen
+                //   e.target.value = lowercasedValue;
+                // }}
                 style={{
                   ...inputStyle,
                   borderColor: errors[name] ? "#dc2626" : "#ccc",

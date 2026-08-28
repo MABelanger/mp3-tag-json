@@ -4,6 +4,7 @@ import { useReadFile } from "../../../components/ReadWriteDirectory/hooks/useRea
 
 import { useSearchIndexDb } from "./hooks/useSearchIndexDb11";
 import { DynamicForm } from "../../../components/ui/DynamicForm";
+import { Results } from "./Results";
 
 export function FinderPlayer(props) {
   const { setPage, setFilters, filters, results, loading, error, hasMore } =
@@ -30,18 +31,7 @@ export function FinderPlayer(props) {
 
       {loading && <p>Reading from IndexedDB...</p>}
 
-      <ul>
-        {results.map((track) => (
-          <li key={track.id}>
-            BPM: {track.bpm} | Instruments:{" "}
-            {Array.isArray(track.instruments)
-              ? track.instruments.join(",")
-              : track.instruments}
-            | cues:{" "}
-            {Array.isArray(track.cues) ? track.cues.join(",") : track.cues}
-          </li>
-        ))}
-      </ul>
+      <Results results={results} />
     </div>
   );
 }
