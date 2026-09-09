@@ -12,6 +12,7 @@ export function useSearchIndexDb(pageSize = 20) {
   const [hasMore, setHasMore] = useState(false);
 
   const handleSetFilters = (newFilters) => {
+    console.log("newFilters", newFilters);
     setFilters(newFilters);
     setPage(1);
   };
@@ -32,8 +33,14 @@ export function useSearchIndexDb(pageSize = 20) {
         SEARCH_CONFIG.forEach((config) => {
           const userValue = filters[config.key];
 
-          console.log("userValue", userValue);
-          if (userValue === "" || userValue === null || userValue === undefined)
+          console.log("config.key: userValue", config.key, ":", userValue);
+          if (
+            userValue === "" ||
+            userValue === null ||
+            userValue === undefined ||
+            userValue === 0 ||
+            Number.isNaN(userValue) // TODO: maybe avoid the NaN from the source
+          )
             return;
 
           if (Array.isArray(userValue)) {
