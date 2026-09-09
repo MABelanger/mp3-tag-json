@@ -1,11 +1,11 @@
 const SKIP_TIME_SECONDS = 2;
 
 export function pause(audio) {
-  audio.pause();
+  audio && audio.pause();
 }
 
 export function play() {
-  audio.play();
+  audio && audio.play();
 }
 
 export function tooglePlayPause(audio) {

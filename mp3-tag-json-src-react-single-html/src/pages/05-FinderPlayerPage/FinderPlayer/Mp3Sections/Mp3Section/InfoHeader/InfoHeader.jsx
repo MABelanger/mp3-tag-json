@@ -5,19 +5,18 @@ import { Title } from "./Title";
 import { Labels } from "./Labels";
 
 export function InfoHeader(props) {
-  const { mp3RelativePath } = props.mp3TagJson;
-  const soundName = getSoundName(mp3RelativePath);
-  const audioUrl = getAudioUrl(mp3RelativePath);
+  console.log("props.audioUrl", props.audioUrl);
+  const soundName = getSoundName(props.path);
 
   return (
     <table>
       <tr>
         <td>
-          <CoverArt audioUrl={audioUrl} />
+          <CoverArt audioUrl={props.audioUrl} />
         </td>
         <td>
           <Title soundName={soundName} />
-          <Labels mp3TagJson={props.mp3TagJson} />
+          {/* <Labels mp3TagJson={props.mp3TagJson} /> */}
         </td>
       </tr>
     </table>

@@ -16,14 +16,10 @@ export function BuildDatabasePage(props) {
     });
   }
 
-  const jsonTracks = scannedFiles.filter((scannedFile) => {
-    return scannedFile.fileType == "json";
-  });
-
   return (
     <div>
       <BuildDatabase
-        jsonTracks={jsonTracks}
+        scannedFiles={scannedFiles}
         dirRootHandle={dirRootHandle}
         onNext={handleNext}
       />

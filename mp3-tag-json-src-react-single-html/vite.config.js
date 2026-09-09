@@ -6,6 +6,7 @@ import path from "path";
 import { resolve } from "path";
 
 export default defineConfig({
+  appType: "mpa",
   plugins: [
     react(),
     cssInjectedByJsPlugin(),

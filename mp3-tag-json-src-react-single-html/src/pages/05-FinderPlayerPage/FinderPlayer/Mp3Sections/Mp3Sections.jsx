@@ -7,7 +7,7 @@ import { Mp3Section } from "./Mp3Section";
         dirRootHandle={props.dirRootHandle}
 */
 export function Mp3Sections(props) {
-  const numberOfSection = props.mp3TagJsons.length - 1;
+  const numberOfSection = props.results.length - 1;
 
   const [playingIndex, setPlayingIndex] = useState(0);
 
@@ -16,7 +16,7 @@ export function Mp3Sections(props) {
 
   const mp3SectionsWrapperRef = useRef(null);
 
-  const mp3Sections = props.mp3TagJsons.map((mp3TagJson, i) => {
+  const mp3Sections = props.results.map((result, i) => {
     return (
       <div key={i}>
         <Mp3Section
@@ -25,7 +25,7 @@ export function Mp3Sections(props) {
           onClick={() => setSelectedIndex(i)}
           onPlay={() => setPlayingIndex(i)}
           playingIndex={playingIndex}
-          mp3TagJson={mp3TagJson}
+          result={result}
         />
       </div>
     );

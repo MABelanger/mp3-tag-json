@@ -5,6 +5,7 @@ import { useReadFile } from "../../../components/ReadWriteDirectory/hooks/useRea
 import { useSearchIndexDb } from "./hooks/useSearchIndexDb11";
 import { DynamicForm } from "../../../components/ui/DynamicForm";
 import { Results } from "./Results";
+import { Mp3Sections } from "./Mp3Sections";
 
 export function FinderPlayer(props) {
   const { setPage, setFilters, filters, results, loading, error, hasMore } =
@@ -32,6 +33,8 @@ export function FinderPlayer(props) {
       {loading && <p>Reading from IndexedDB...</p>}
 
       <Results results={results} />
+
+      <Mp3Sections results={results} />
     </div>
   );
 }
