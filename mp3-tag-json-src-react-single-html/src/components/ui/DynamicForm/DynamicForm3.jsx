@@ -66,7 +66,9 @@ export const DynamicForm = (props) => {
   }, [useFormmethods.reset, props.initFormData]);
 
   const handleSave = (data) => {
-    props.onSave(data);
+    if (typeof props.onSave === "function") {
+      props.onSave(data);
+    }
   };
 
   const containerStyle = {
@@ -111,9 +113,11 @@ export const DynamicForm = (props) => {
 
           <FormHashTags fields={hashTags} />
 
-          <button type="submit" style={buttonStyle}>
-            Save Setup
-          </button>
+          {props.onSave && (
+            <button type="submit" style={buttonStyle}>
+              Save Tag
+            </button>
+          )}
         </form>
       </FormProvider>
     </div>
