@@ -14,7 +14,7 @@ export function Body(props) {
           };
           return (
             <td key={key} style={cellStyle}>
-              {props.mp3TagJson[key]}
+              {props.result[key]}
             </td>
           );
         })}

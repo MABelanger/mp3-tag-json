@@ -25,6 +25,7 @@ export function Mp3Sections(props) {
           onClick={() => setSelectedIndex(i)}
           onPlay={() => setPlayingIndex(i)}
           playingIndex={playingIndex}
+          dirRootHandle={props.dirRootHandle}
           result={result}
         />
       </div>

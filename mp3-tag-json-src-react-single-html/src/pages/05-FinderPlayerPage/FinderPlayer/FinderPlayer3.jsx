@@ -34,7 +34,7 @@ export function FinderPlayer(props) {
 
       <Results results={results} />
 
-      <Mp3Sections results={results} />
+      <Mp3Sections results={results} dirRootHandle={props.dirRootHandle} />
     </div>
   );
 }

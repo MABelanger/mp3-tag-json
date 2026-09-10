@@ -6,7 +6,8 @@ import { Labels } from "./Labels";
 
 export function InfoHeader(props) {
   console.log("props.audioUrl", props.audioUrl);
-  const soundName = getSoundName(props.path);
+  const { mp3Path } = props.result;
+  const soundName = getSoundName(mp3Path);
 
   return (
     <table>
@@ -16,7 +17,7 @@ export function InfoHeader(props) {
         </td>
         <td>
           <Title soundName={soundName} />
-          {/* <Labels mp3TagJson={props.mp3TagJson} /> */}
+          <Labels result={props.result} />
         </td>
       </tr>
     </table>

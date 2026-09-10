@@ -2,19 +2,35 @@ import { Body } from "./Body";
 import { Header } from "./Header";
 import { Note } from "./Note";
 
+function isObject(variable) {
+  return (
+    typeof variable === "object" &&
+    variable !== null &&
+    !Array.isArray(variable)
+  );
+}
+
 export function Labels(props) {
-  const { mp3TagJson } = props;
   // Define headers for easy maintenance
-  const dataKeys = [
-    "bpm",
-    "expention",
-    "festive",
-    "contact",
-    "rythmic",
-    "bass",
-    "curve",
-    "instrumentOrTypes",
-  ];
+  // const dataKeys = [
+  //   "bpm",
+  //   "expention",
+  //   "festive",
+  //   "contact",
+  //   "rythmic",
+  //   "bass",
+  //   "curve",
+  //   "instrumentOrTypes",
+  // ];
+
+  const dataKeys = Object.keys(props.result).filter((key) => {
+    console.log("h3llo");
+    const value = props.result[key];
+    console.log("hi");
+    return key !== "mp3Handle" && !Array.isArray(value) && !isObject(value);
+  });
+
+  console.log("=dataKeys", dataKeys);
 
   return (
     <div style={{ overflowX: "auto", border: "1px solid #ddd" }}>
@@ -26,9 +42,9 @@ export function Labels(props) {
         }}
       >
         <Header headers={dataKeys} />
-        <Body dataKeys={dataKeys} mp3TagJson={mp3TagJson} />
+        <Body dataKeys={dataKeys} result={props.result} />
       </table>
-      {mp3TagJson["note"] && <Note note={mp3TagJson["note"]} />}
+      {/* {mp3TagJson["note"] && <Note note={mp3TagJson["note"]} />} */}
     </div>
   );
 }

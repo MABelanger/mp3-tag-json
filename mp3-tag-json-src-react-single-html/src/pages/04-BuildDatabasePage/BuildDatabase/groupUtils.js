@@ -24,6 +24,7 @@ export function getWithMp3HandleJsonTracks(scannedFiles) {
       jsonHandle: handle,
       handle: handle,
       mp3Handle: getMp3Handle(scannedFiles, mp3Path),
+      mp3Path,
     };
   });
 }

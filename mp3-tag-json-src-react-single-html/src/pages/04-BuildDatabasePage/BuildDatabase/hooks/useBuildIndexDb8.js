@@ -56,8 +56,6 @@ async function storeJsonTracksToIndexedDB(scannedFiles) {
 
   const withMp3HandleJsonTracks = getWithMp3HandleJsonTracks(scannedFiles);
 
-  console.log("yo withMp3HandleJsonTracks", withMp3HandleJsonTracks);
-
   for (const withMp3HandleJsonTrack of withMp3HandleJsonTracks) {
     try {
       const file = await withMp3HandleJsonTrack.jsonHandle.getFile();
@@ -72,10 +70,9 @@ async function storeJsonTracksToIndexedDB(scannedFiles) {
         const processedItem = processItemDynamically(item, SEARCH_CONFIG);
         const withMp3HandleProcessedItem = {
           mp3Handle: withMp3HandleJsonTrack.mp3Handle,
+          mp3Path: withMp3HandleJsonTrack.mp3Path,
           ...processedItem,
         };
-
-        console.log("withMp3HandleProcessedItem", withMp3HandleProcessedItem);
 
         parsedItemsForThisFile.push(withMp3HandleProcessedItem);
       }

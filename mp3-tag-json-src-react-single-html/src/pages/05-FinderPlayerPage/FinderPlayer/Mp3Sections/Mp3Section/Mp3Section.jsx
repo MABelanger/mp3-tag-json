@@ -7,6 +7,17 @@ import { UseMp3Section } from "./hooks/UseMp3Section";
 
 import React, { useState, useEffect } from "react";
 
+// async function getRelativePath(dirRootHandle, mp3Handle) {
+//   const relativePathArray = await dirRootHandle.resolve(mp3Handle);
+//   if (relativePathArray !== null) {
+//     // .resolve() returns an array of folder/file names leading up to the file
+//     const relativePath = relativePathArray.join("/");
+//     console.log("relativePath", relativePath); // Output: "music/rock/audio.mp3"
+//     return relativePath;
+
+//     // Now you can easily strip extensions or manipulate this relative string path!
+//   }
+// }
 export function Mp3Section(props) {
   const { mp3SectionRef, audioRef } = UseMp3Section(
     props.index,
@@ -16,7 +27,7 @@ export function Mp3Section(props) {
   );
 
   console.log("props.result", props.result);
-  const { mp3Handle, path } = props.result;
+  const { mp3Handle, mp3Path } = props.result;
   const isPlayingIndex = props.playingIndex == props.index;
 
   // 1. Initialize state for both the audio URL and the loading status
@@ -31,7 +42,7 @@ export function Mp3Section(props) {
     async function fetchAudioUrl() {
       try {
         const url = await utils.getAudioUrl(mp3Handle);
-        console.log("url", url);
+
         if (active) {
           setAudioUrl(url);
           setIsLoading(false); // Finished loading successfully
@@ -55,6 +66,7 @@ export function Mp3Section(props) {
     };
   }, [mp3Handle]);
 
+  console.log("mp3Path3", mp3Path);
   return (
     <div
       ref={mp3SectionRef}
@@ -63,22 +75,21 @@ export function Mp3Section(props) {
       style={{}}
       className={`${styles.focusableDiv}`}
     >
-      <div inert={true}>
-        {/* <InfoHeader path={path} audioUrl={audioUrl} /> */}
+      {isLoading ? (
+        <div className={styles.loadingPlaceholder}>Loading audio track...</div>
+      ) : (
+        <div inert={true}>
+          <InfoHeader result={props.result} audioUrl={audioUrl} />
 
-        {/* 3. Use the isLoading flag to conditionally render the player or a placeholder */}
-        {isLoading ? (
-          <div className={styles.loadingPlaceholder}>
-            Loading audio track...
-          </div>
-        ) : (
+          {/* 3. Use the isLoading flag to conditionally render the player or a placeholder */}
+
           <Player
             ref={audioRef}
             isPlayingIndex={isPlayingIndex}
             audioUrl={audioUrl}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
