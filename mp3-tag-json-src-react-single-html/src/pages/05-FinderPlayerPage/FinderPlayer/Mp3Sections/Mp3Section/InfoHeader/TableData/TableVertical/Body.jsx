@@ -1,5 +1,4 @@
 export function Body(props) {
-  const lastElementIndex = props.dataKeys.length - 1;
   return (
     <tbody>
       <tr>
@@ -7,7 +6,7 @@ export function Body(props) {
           const cellStyle = {
             padding: "5px",
             fontSize: "22px",
-            width: index == lastElementIndex ? "300px" : "65px",
+            width: "65px",
             borderRight: "1px solid #DDD",
             borderBottom: "1px solid #DDD",
             textAlign: "center",

@@ -1,5 +1,3 @@
-import { IconSvg } from "./IconSvg";
-
 export function Header(props) {
   return (
     <thead>
@@ -14,7 +12,6 @@ export function Header(props) {
               key={header}
               style={{
                 padding: "8px",
-                textAlign: "left",
                 fontSize: "18px",
                 borderRight: "1px solid #DDD",
                 textAlign: "center",

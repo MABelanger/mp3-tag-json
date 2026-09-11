@@ -10,7 +10,7 @@ export function InfoHeader(props) {
   const soundName = getSoundName(mp3Path);
 
   return (
-    <table>
+    <table style={{ width: "900px" }}>
       <tr>
         <td>
           <CoverArt audioUrl={props.audioUrl} />

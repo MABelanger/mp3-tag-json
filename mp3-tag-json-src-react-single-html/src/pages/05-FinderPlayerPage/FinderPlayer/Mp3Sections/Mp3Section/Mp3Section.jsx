@@ -80,9 +80,6 @@ export function Mp3Section(props) {
       ) : (
         <div inert={true}>
           <InfoHeader result={props.result} audioUrl={audioUrl} />
-
-          {/* 3. Use the isLoading flag to conditionally render the player or a placeholder */}
-
           <Player
             ref={audioRef}
             isPlayingIndex={isPlayingIndex}
