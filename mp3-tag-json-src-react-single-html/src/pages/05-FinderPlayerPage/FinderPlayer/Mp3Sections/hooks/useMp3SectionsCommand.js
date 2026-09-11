@@ -33,21 +33,21 @@ export function useMp3SectionsCommand(numberOfSection) {
     event.preventDefault(); // Prevent page scrolling
     const command = getCommand(event.key);
     if (command == COMMAND_SELECT_NEXT) {
-      setSelectedIndex((prev) => {
-        if (prev < numberOfSection) {
-          const current = prev + 1;
-          return current;
-        }
-        return prev;
-      });
+      // setSelectedIndex((prev) => {
+      //   if (prev < numberOfSection) {
+      //     const current = prev + 1;
+      //     return current;
+      //   }
+      //   return prev;
+      // });
     } else if (command == COMMAND_SELECT_PREVIOUS) {
-      setSelectedIndex((prev) => {
-        const current = prev - 1;
-        if (prev > 0) {
-          return current;
-        }
-        return prev;
-      });
+      // setSelectedIndex((prev) => {
+      //   const current = prev - 1;
+      //   if (prev > 0) {
+      //     return current;
+      //   }
+      //   return prev;
+      // });
     }
   }
 

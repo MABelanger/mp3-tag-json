@@ -1,1 +1,1 @@
-export { FinderPlayer } from "./FinderPlayer7"; // 7 working
+export { FinderPlayer } from "./FinderPlayer10"; // 7 working
