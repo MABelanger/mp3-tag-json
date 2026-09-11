@@ -32,8 +32,6 @@ export function FinderPlayer(props) {
 
       {loading && <p>Reading from IndexedDB...</p>}
 
-      <Results results={results} />
-
       <Mp3Sections results={results} dirRootHandle={props.dirRootHandle} />
     </div>
   );
