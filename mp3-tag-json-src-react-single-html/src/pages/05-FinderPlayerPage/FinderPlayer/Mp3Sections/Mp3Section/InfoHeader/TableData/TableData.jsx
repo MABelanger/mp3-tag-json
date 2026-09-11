@@ -1,39 +1,34 @@
-import { Body } from "./Body";
-import { Header } from "./Header";
-import { Note } from "./Note";
+import { TableVertical } from "./TableVertical";
 
-function isObject(variable) {
-  return (
-    typeof variable === "object" &&
-    variable !== null &&
-    !Array.isArray(variable)
-  );
+function isObject(value) {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-export function TableData(props) {
-  const dataKeys = Object.keys(props.result).filter((key) => {
-    const value = props.result[key];
+function isValueHorizontalTable(value) {
+  const isString = typeof value === "string";
+  const isArray = Array.isArray(value);
+
+  return isString || isArray;
+}
+
+function getVerticalDataKeys(result) {
+  const dataKeys = Object.keys(result).filter((key) => {
+    const value = result[key];
     return (
       key !== "mp3Handle" &&
       key !== "id" &&
-      !Array.isArray(value) &&
+      !isValueHorizontalTable(value) &&
       !isObject(value)
     );
   });
+  return dataKeys;
+}
 
+export function TableData(props) {
+  const verticalDataKeys = getVerticalDataKeys(props.result);
   return (
-    <div style={{ overflowX: "auto", border: "1px solid #ddd" }}>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          fontFamily: "sans-serif",
-        }}
-      >
-        <Header headers={dataKeys} />
-        <Body dataKeys={dataKeys} result={props.result} />
-      </table>
-      {/* {mp3TagJson["note"] && <Note note={mp3TagJson["note"]} />} */}
+    <div>
+      <TableVertical dataKeys={verticalDataKeys} result={props.result} />
     </div>
   );
 }

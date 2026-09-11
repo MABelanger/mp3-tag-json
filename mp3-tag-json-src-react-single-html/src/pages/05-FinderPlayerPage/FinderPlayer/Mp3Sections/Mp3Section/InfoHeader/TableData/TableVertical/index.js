@@ -1,0 +1,1 @@
+export { TableVertical } from "./TableVertical";
