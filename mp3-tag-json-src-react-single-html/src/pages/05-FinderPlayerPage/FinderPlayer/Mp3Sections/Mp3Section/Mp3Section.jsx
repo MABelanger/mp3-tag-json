@@ -80,11 +80,7 @@ export function Mp3Section(props) {
       ) : (
         <div inert={true}>
           <InfoHeader result={props.result} audioUrl={audioUrl} />
-          <Player
-            ref={audioRef}
-            isPlayingIndex={isPlayingIndex}
-            audioUrl={audioUrl}
-          />
+          <Player ref={audioRef} isPlayingIndex={true} audioUrl={audioUrl} />
         </div>
       )}
     </div>
