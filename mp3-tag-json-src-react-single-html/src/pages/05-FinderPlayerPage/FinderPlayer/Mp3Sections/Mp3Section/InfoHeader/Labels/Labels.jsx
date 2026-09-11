@@ -24,13 +24,9 @@ export function Labels(props) {
   // ];
 
   const dataKeys = Object.keys(props.result).filter((key) => {
-    console.log("h3llo");
     const value = props.result[key];
-    console.log("hi");
     return key !== "mp3Handle" && !Array.isArray(value) && !isObject(value);
   });
-
-  console.log("=dataKeys", dataKeys);
 
   return (
     <div style={{ overflowX: "auto", border: "1px solid #ddd" }}>
