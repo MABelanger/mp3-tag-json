@@ -10,22 +10,15 @@ function isObject(variable) {
   );
 }
 
-export function Labels(props) {
-  // Define headers for easy maintenance
-  // const dataKeys = [
-  //   "bpm",
-  //   "expention",
-  //   "festive",
-  //   "contact",
-  //   "rythmic",
-  //   "bass",
-  //   "curve",
-  //   "instrumentOrTypes",
-  // ];
-
+export function TableData(props) {
   const dataKeys = Object.keys(props.result).filter((key) => {
     const value = props.result[key];
-    return key !== "mp3Handle" && !Array.isArray(value) && !isObject(value);
+    return (
+      key !== "mp3Handle" &&
+      key !== "id" &&
+      !Array.isArray(value) &&
+      !isObject(value)
+    );
   });
 
   return (

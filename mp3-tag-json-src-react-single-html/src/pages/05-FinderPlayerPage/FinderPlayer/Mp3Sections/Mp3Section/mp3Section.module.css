@@ -2,7 +2,7 @@
 .focusableDiv:focus {
   outline: none; /* Optional: removes the default browser outline */
   border: solid 0.1rem white;
-  background-color: gray;
+  background-color: gainsboro;
 }
 
 /* Optional: initial styles for the div */

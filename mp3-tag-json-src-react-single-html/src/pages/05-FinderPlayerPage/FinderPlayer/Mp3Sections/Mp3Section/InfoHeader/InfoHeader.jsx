@@ -2,7 +2,7 @@ import { getSoundName } from "./utils";
 import { CoverArt } from "./CoverArt";
 import { getAudioUrl } from "../utils";
 import { Title } from "./Title";
-import { Labels } from "./Labels";
+import { TableData } from "./TableData";
 
 export function InfoHeader(props) {
   console.log("props.audioUrl", props.audioUrl);
@@ -17,7 +17,7 @@ export function InfoHeader(props) {
         </td>
         <td>
           <Title soundName={soundName} />
-          <Labels result={props.result} />
+          <TableData result={props.result} />
         </td>
       </tr>
     </table>
