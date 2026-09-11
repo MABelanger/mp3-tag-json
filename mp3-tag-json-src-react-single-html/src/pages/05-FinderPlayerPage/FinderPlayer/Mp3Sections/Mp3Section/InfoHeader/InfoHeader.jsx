@@ -12,7 +12,7 @@ export function InfoHeader(props) {
   return (
     <table style={{ width: "900px" }}>
       <tr>
-        <td>
+        <td style={{ width: "125px" }}>
           <CoverArt audioUrl={props.audioUrl} />
         </td>
         <td>
