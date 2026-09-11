@@ -1163,6 +1163,16 @@ react-router@7.18.0:
     cookie "^1.0.1"
     set-cookie-parser "^2.6.0"
 
+react-virtuoso@^4.18.13:
+  version "4.18.13"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-4.18.13.tgz#bce98859a172ce99b7863c55c0832c2a8568a354"
+  integrity sha512-M4kP7zbV7JmLrnJYs0X2FBA8gnNlHisSYuKMyeJVYtWz31CAJeP57dgPJzfneUdKDKmL9SiqvcBQ32si8CfQSQ==
+
+react-window@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-window/-/react-window-2.3.1.tgz#92fd42d7a3704644f56f31a4e829ab74f87126f5"
+  integrity sha512-x/+N6b7FNVtlKE7ZQlfOY2bYdA7VXvT2B1Emo/ndAsFsSQ98FBIO88MsatNELbSIlYJgkCd7unBps5XMfv0Eyg==
+
 react@^19.2.6:
   version "19.2.7"
   resolved "https://registry.yarnpkg.com/react/-/react-19.2.7.tgz#1f47a1bfc06f8ec885752c6f4af14369a9f8260b"
