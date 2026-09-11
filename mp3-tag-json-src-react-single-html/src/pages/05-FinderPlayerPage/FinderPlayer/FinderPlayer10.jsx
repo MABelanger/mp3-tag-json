@@ -19,8 +19,7 @@ export function FinderPlayer(props) {
   );
   const virtuosoRef = useRef(null);
 
-  // Subscribe safely to properties.
-  // React will only re-render if these exact data selections change string addresses!
+  // Subscribe to changes safely. Parent won't re-render on selection shifts!
   const accumulatedResults = useSyncExternalStore(
     finderStore.subscribe,
     finderStore.getAccumulatedResults
@@ -35,12 +34,24 @@ export function FinderPlayer(props) {
   // Key navigation hook
   const { onKeyDown } = useMp3SectionsCommand(numberOfSection);
 
-  // Triggered when form fields change
+  // Auto-scroll follow layout
+  useEffect(() => {
+    const unsubscribe = finderStore.subscribe(() => {
+      const selectedIndex = finderStore.getSelectedIndex();
+      if (virtuosoRef.current) {
+        virtuosoRef.current.scrollToIndex({
+          index: selectedIndex,
+          behavior: "auto",
+          align: "center",
+        });
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   function handleFilterChange(newFilters) {
     finderStore.applyFilters(newFilters);
-    if (virtuosoRef.current) {
-      virtuosoRef.current.scrollToIndex({ index: 0 });
-    }
+    if (virtuosoRef.current) virtuosoRef.current.scrollToIndex({ index: 0 });
   }
 
   // 100% Static Row Renderer
@@ -51,8 +62,8 @@ export function FinderPlayer(props) {
         <div style={{ height: "300px" }}>
           <Mp3Section
             index={i}
-            dirRootHandle={props.dirRootHandle}
             result={result}
+            dirRootHandle={props.dirRootHandle}
           />
         </div>
       );

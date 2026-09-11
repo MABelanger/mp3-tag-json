@@ -1,90 +1,102 @@
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import { InfoHeader } from "./InfoHeader";
-import styles from "./mp3Section.module.css"; // Import the CSS module
-
+import styles from "./mp3Section.module.css";
 import { Player } from "./Player";
 import * as utils from "./utils";
 import { UseMp3Section } from "./hooks/UseMp3Section";
+import { finderStore } from "../../hooks/finderStore"; // Ensure correct relative path
 
-import React, { useState, useEffect } from "react";
+function Mp3SectionComponent(props) {
+  const { index, result, dirRootHandle } = props;
 
-// async function getRelativePath(dirRootHandle, mp3Handle) {
-//   const relativePathArray = await dirRootHandle.resolve(mp3Handle);
-//   if (relativePathArray !== null) {
-//     // .resolve() returns an array of folder/file names leading up to the file
-//     const relativePath = relativePathArray.join("/");
-//     console.log("relativePath", relativePath); // Output: "music/rock/audio.mp3"
-//     return relativePath;
-
-//     // Now you can easily strip extensions or manipulate this relative string path!
-//   }
-// }
-export function Mp3Section(props) {
-  const { mp3SectionRef, audioRef } = UseMp3Section(
-    props.index,
-    props.onPlay,
-    props.selectedIndex,
-    props.playingIndex
+  // 1. Compute primitive boolean states natively outside the parent rendering chain.
+  // Unaffected rows calculate false === false and completely skip updating.
+  const isActive = useSyncExternalStore(
+    finderStore.subscribe,
+    () => finderStore.getSelectedIndex() === index
   );
 
-  console.log("props.result", props.result);
-  const { mp3Handle, mp3Path } = props.result;
-  const isPlayingIndex = props.playingIndex == props.index;
+  const isPlaying = useSyncExternalStore(
+    finderStore.subscribe,
+    () => finderStore.getPlayingIndex() === index
+  );
 
-  // 1. Initialize state for both the audio URL and the loading status
+  // Map setters directly to your store configuration triggers
+  const setSelectedIndex = finderStore.setSelectedIndex.bind(finderStore);
+  const setPlayingIndex = finderStore.setPlayingIndex.bind(finderStore);
+
+  // Sync internal hooks seamlessly with the store parameters
+  const { mp3SectionRef, audioRef } = UseMp3Section(
+    index,
+    setPlayingIndex,
+    isActive ? index : -1,
+    isPlaying ? index : -1
+  );
+
+  console.log("DOM execution painting for index position:", index);
+
+  const { mp3Handle, mp3Path } = result;
   const [audioUrl, setAudioUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [loadedPath, setLoadedPath] = useState(null);
 
-  // 2. Fetch the audioUrl asynchronously when the mp3Handle changes
   useEffect(() => {
+    if (mp3Path === loadedPath) return;
+
     let active = true;
-    setIsLoading(true); // Reset loading state when mp3Handle changes
+    setIsLoading(true);
 
     async function fetchAudioUrl() {
       try {
         const url = await utils.getAudioUrl(mp3Handle, mp3Path);
-
         if (active) {
           setAudioUrl(url);
-          setIsLoading(false); // Finished loading successfully
+          setLoadedPath(mp3Path);
+          setIsLoading(false);
         }
       } catch (error) {
-        console.error("Error fetching audio URL in Mp3Section:", error);
-        if (active) {
-          setIsLoading(false); // Stop loading even if it fails
-        }
+        console.error("Error fetching audio URL:", error);
+        if (active) setIsLoading(false);
       }
     }
 
     if (mp3Handle) {
       fetchAudioUrl();
     } else {
-      setIsLoading(false); // No mp3Handle to load
+      setIsLoading(false);
     }
 
     return () => {
       active = false;
     };
-  }, [mp3Handle]);
+  }, [mp3Handle, mp3Path, loadedPath]);
 
-  console.log("mp3Path3", mp3Path);
   return (
     <div
       ref={mp3SectionRef}
-      onClick={props.onClick}
-      tabIndex="0"
-      style={{}}
-      className={`${styles.focusableDiv}`}
+      onClick={() => setSelectedIndex(index)}
+      tabIndex="-1"
+      className={`${styles.focusableDiv} ${isActive ? styles.selectedRow : ""}`}
     >
       {isLoading ? (
         <div className={styles.loadingPlaceholder}>Loading audio track...</div>
       ) : (
         <div inert={true}>
-          <InfoHeader result={props.result} audioUrl={audioUrl} />
-          <Player ref={audioRef} isPlayingIndex={true} audioUrl={audioUrl} />
+          <InfoHeader result={result} audioUrl={audioUrl} />
+          <Player
+            ref={audioRef}
+            isPlayingIndex={isPlaying}
+            audioUrl={audioUrl}
+          />
         </div>
       )}
     </div>
   );
 }
 
-//export const Mp3Section = React.memo(Mp3SectionComponent);
+export const Mp3Section = React.memo(
+  Mp3SectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.result.mp3Path === nextProps.result.mp3Path;
+  }
+);
