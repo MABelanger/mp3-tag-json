@@ -34,7 +34,7 @@ export function FieldHashTag(props) {
 
   return (
     <div key={props.name} style={fieldStyle}>
-      <label style={labelStyle}>#{props.name}Allo</label>
+      <label style={labelStyle}>#{props.name}</label>
 
       {/* Inject Controller here so the parent stays completely unchanged */}
       <Controller
