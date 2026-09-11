@@ -1,9 +1,8 @@
-import { useEffect, useState, useRef } from "react";
-import { Virtuoso } from "react-virtuoso"; // Replacement for react-window
+import { useEffect, useState, useRef, useCallback } from "react"; // Added useCallback
+import { Virtuoso } from "react-virtuoso";
 import { useReadFile } from "../../../components/ReadWriteDirectory/hooks/useReadFile";
 import { useSearchIndexDb } from "./hooks/useSearchIndexDb11";
 import { DynamicForm } from "../../../components/ui/DynamicForm";
-import { Mp3Sections } from "./Mp3Sections";
 import { Mp3Section } from "./Mp3Sections/Mp3Section";
 import { useMp3SectionsCommand } from "./Mp3Sections/hooks/useMp3SectionsCommand";
 
@@ -17,9 +16,7 @@ export function FinderPlayer(props) {
   );
 
   const [accumulatedResults, setAccumulatedResults] = useState([]);
-
   const numberOfSection = accumulatedResults.length - 1;
-
   const [playingIndex, setPlayingIndex] = useState(0);
 
   const { onKeyDown, selectedIndex, setSelectedIndex } =
@@ -27,12 +24,22 @@ export function FinderPlayer(props) {
 
   const virtuosoRef = useRef(null);
 
+  // 1. SCROLL AUTO-FOLLOW FIX: Whenever selectedIndex shifts via keyboard, tell Virtuoso to snap to it smoothly
+  useEffect(() => {
+    if (virtuosoRef.current) {
+      virtuosoRef.current.scrollToIndex({
+        index: selectedIndex,
+        behavior: "smooth",
+        align: "center", // Keeps the active element centered on viewport lines
+      });
+    }
+  }, [selectedIndex]);
+
   // Clear accumulated data when filters change
   useEffect(() => {
     setAccumulatedResults([]);
     setPage(1);
     if (virtuosoRef.current) {
-      // Snaps virtualization window back to the top
       virtuosoRef.current.scrollToIndex({ index: 0 });
     }
   }, [filters, setPage]);
@@ -50,7 +57,6 @@ export function FinderPlayer(props) {
     }
   }, [results]);
 
-  // Handler for loading next page when scrolling near the end
   const loadMore = () => {
     if (hasMore && !loading) {
       setPage((currentPage) => currentPage + 1);
@@ -61,53 +67,58 @@ export function FinderPlayer(props) {
     setFilters(filters);
   }
 
+  // 2. FIXED: itemContent is now memoized so it NEVER forces layout recalculations.
+  // It consumes dynamic states out of Virtuoso's 'context' container object instead.
+  const renderItem = useCallback((i, result, context) => {
+    if (!result) return <div>Loading track data...</div>;
+    return (
+      <div style={{ height: "300px" }}>
+        <Mp3Section
+          index={i}
+          selectedIndex={context.selectedIndex}
+          onClick={() => context.setSelectedIndex(i)}
+          onPlay={() => context.setPlayingIndex(i)}
+          playingIndex={context.playingIndex}
+          dirRootHandle={context.dirRootHandle}
+          result={result}
+        />
+      </div>
+    );
+  }, []);
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <DynamicForm settings={settings} onChange={handleChange} />
 
-      {/* The Virtualized Windowing container */}
       <div style={{ flex: 1, width: "100%" }}>
         <Virtuoso
           ref={virtuosoRef}
           style={{ height: "650px", width: "100%" }}
           data={accumulatedResults}
           overscan={2000}
+          // 3. CRUCIAL: Pass the changing state variables into Virtuoso context
+          context={{
+            selectedIndex,
+            setSelectedIndex,
+            playingIndex,
+            setPlayingIndex,
+            dirRootHandle: props.dirRootHandle,
+          }}
           components={{
-            Scroller: ({ children, ...props }) => (
+            Scroller: ({ children, ...scrollerProps }) => (
               <div
-                {...props}
-                //tabIndex={0} // Makes the scroll wrapper focusable so it registers keys
+                {...scrollerProps}
+                tabIndex={0} // Allows list container focus context capture
                 onKeyDown={(e) => {
                   onKeyDown(e);
-                  // console.log("Key pressed inside list wrapper:", e.key);
-                  // if (e.key === "ArrowDown") {
-                  //   // Your custom navigation logic here
-                  // }
                 }}
               >
                 {children}
               </div>
             ),
           }}
-          endReached={loadMore} // Triggers when the user gets near the bottom
-          itemContent={(i, result) => {
-            if (!result) return <div>Loading track data...</div>;
-            return (
-              <div style={{ height: "300px" }}>
-                <div key={i}>
-                  <Mp3Section
-                    index={i}
-                    selectedIndex={selectedIndex}
-                    //onClick={() => setSelectedIndex(i)}
-                    onPlay={() => setPlayingIndex(i)}
-                    playingIndex={playingIndex}
-                    dirRootHandle={props.dirRootHandle}
-                    result={result}
-                  />
-                </div>
-              </div>
-            );
-          }}
+          endReached={loadMore}
+          itemContent={renderItem} // Pointing to stable function reference
         />
       </div>
 

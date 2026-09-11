@@ -1,0 +1,108 @@
+import React, { useState, useEffect } from "react";
+import { InfoHeader } from "./InfoHeader";
+import styles from "./mp3Section.module.css";
+import { Player } from "./Player";
+import * as utils from "./utils";
+import { UseMp3Section } from "./hooks/UseMp3Section";
+
+function Mp3SectionComponent(props) {
+  const {
+    index,
+    isActive,
+    isPlaying, // Received as a clean primitive boolean
+    setPlayingIndex,
+    setSelectedIndex,
+    result,
+    dirRootHandle,
+  } = props;
+
+  // Sync your internal layout hook parameters safely
+  const { mp3SectionRef, audioRef } = UseMp3Section(
+    index,
+    setPlayingIndex,
+    isActive ? index : -1,
+    isPlaying ? index : -1
+  );
+
+  // DEBUG OUTPUT WATCH WINDOW:
+  // When hitting arrow keys, this will now only print for the exact items transitioning!
+  console.log("DOM execution painting for index position:", index);
+
+  const { mp3Handle, mp3Path } = result;
+  const [audioUrl, setAudioUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedPath, setLoadedPath] = useState(null);
+
+  // File Handle Data Provider Cache Guard Layer
+  useEffect(() => {
+    if (mp3Path === loadedPath) return;
+
+    let active = true;
+    setIsLoading(true);
+
+    async function fetchAudioUrl() {
+      try {
+        const url = await utils.getAudioUrl(mp3Handle, mp3Path);
+        if (active) {
+          setAudioUrl(url);
+          setLoadedPath(mp3Path);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching audio URL:", error);
+        if (active) setIsLoading(false);
+      }
+    }
+
+    if (mp3Handle) {
+      fetchAudioUrl();
+    } else {
+      setIsLoading(false);
+    }
+
+    return () => {
+      active = false;
+    };
+  }, [mp3Handle, mp3Path, loadedPath]);
+
+  return (
+    <div
+      ref={mp3SectionRef}
+      onClick={() => setSelectedIndex(index)}
+      tabIndex="-1"
+      className={`${styles.focusableDiv} ${isActive ? styles.selectedRow : ""}`}
+    >
+      {isLoading ? (
+        <div className={styles.loadingPlaceholder}>Loading audio track...</div>
+      ) : (
+        <div inert={true}>
+          <InfoHeader result={result} audioUrl={audioUrl} />
+          <Player
+            ref={audioRef}
+            isPlayingIndex={isPlaying} // Pass boolean directly down to your player shell
+            audioUrl={audioUrl}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ATOMIC MEMOIZATION RULES
+// This stops Virtuoso changes from bubbling down unless something actively toggled
+export const Mp3Section = React.memo(
+  Mp3SectionComponent,
+  (prevProps, nextProps) => {
+    // 1. Did selection state toggle?
+    const activityChanged = prevProps.isActive !== nextProps.isActive;
+
+    // 2. Did playback state toggle?
+    const playingChanged = prevProps.isPlaying !== nextProps.isPlaying;
+
+    // 3. Did underlying file structural contents alter?
+    const dataChanged = prevProps.result.mp3Path !== nextProps.result.mp3Path;
+
+    // Returns true to completely FREEZE the component unless one of these values updates
+    return !activityChanged && !playingChanged && !dataChanged;
+  }
+);

@@ -1,7 +1,7 @@
 import React from "react";
 import { useAudioMetadataReader } from "./hooks/AudioMetadataReaderHooks";
 
-export function CoverArt(props) {
+export function CoverArtComponent(props) {
   const { metadata, coverArt, fetchError } = useAudioMetadataReader(
     props.audioUrl
   );
@@ -30,3 +30,10 @@ export function CoverArt(props) {
     </div>
   );
 }
+
+export const CoverArt = React.memo(
+  CoverArtComponent,
+  (prevProps, nextProps) => {
+    return prevProps.audioUrl === nextProps.audioUrl;
+  }
+);

@@ -41,7 +41,7 @@ export function Mp3Section(props) {
 
     async function fetchAudioUrl() {
       try {
-        const url = await utils.getAudioUrl(mp3Handle);
+        const url = await utils.getAudioUrl(mp3Handle, mp3Path);
 
         if (active) {
           setAudioUrl(url);
@@ -90,3 +90,5 @@ export function Mp3Section(props) {
     </div>
   );
 }
+
+//export const Mp3Section = React.memo(Mp3SectionComponent);

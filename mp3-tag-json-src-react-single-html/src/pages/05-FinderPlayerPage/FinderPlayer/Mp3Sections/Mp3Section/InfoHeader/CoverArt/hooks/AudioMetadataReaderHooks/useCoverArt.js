@@ -20,9 +20,7 @@ export function useCoverArt(metadata) {
 
   useEffect(() => {
     if (metadata) {
-      setTimeout(() => {
-        doSetCoverArt();
-      }, 100);
+      doSetCoverArt();
     }
   }, [metadata]);
 
