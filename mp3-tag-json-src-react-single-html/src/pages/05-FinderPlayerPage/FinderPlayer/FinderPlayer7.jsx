@@ -61,8 +61,25 @@ export function FinderPlayer(props) {
           ref={virtuosoRef}
           style={{ height: "650px", width: "100%" }}
           data={accumulatedResults}
+          components={{
+            Scroller: ({ children, ...props }) => (
+              <div
+                {...props}
+                tabIndex={0} // Makes the scroll wrapper focusable so it registers keys
+                onKeyDown={(e) => {
+                  console.log("Key pressed inside list wrapper:", e.key);
+                  if (e.key === "ArrowDown") {
+                    // Your custom navigation logic here
+                  }
+                }}
+              >
+                {children}
+              </div>
+            ),
+          }}
           endReached={loadMore} // Triggers when the user gets near the bottom
           itemContent={(index, item) => {
+            console.log("index", index);
             if (!item) return <div>Loading track data...</div>;
             return (
               <div style={{ height: "300px" }}>

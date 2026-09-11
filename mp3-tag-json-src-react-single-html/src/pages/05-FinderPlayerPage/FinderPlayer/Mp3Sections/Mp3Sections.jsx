@@ -8,6 +8,8 @@ import { Mp3Section } from "./Mp3Section";
 */
 export function Mp3Sections(props) {
   const numberOfSection = props.results.length - 1;
+  console.log("numberOfSection", numberOfSection);
+  console.log("props.results.length", props.results.length);
 
   const [playingIndex, setPlayingIndex] = useState(0);
 

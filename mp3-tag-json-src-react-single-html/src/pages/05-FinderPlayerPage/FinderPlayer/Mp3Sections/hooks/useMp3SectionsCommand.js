@@ -29,6 +29,7 @@ export function useMp3SectionsCommand(numberOfSection) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   function onKeyDown(event) {
+    console.log("selectedIndex", selectedIndex);
     event.preventDefault(); // Prevent page scrolling
     const command = getCommand(event.key);
     if (command == COMMAND_SELECT_NEXT) {
