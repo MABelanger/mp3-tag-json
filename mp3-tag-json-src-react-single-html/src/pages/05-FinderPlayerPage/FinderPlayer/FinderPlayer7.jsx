@@ -52,17 +52,14 @@ export function FinderPlayer(props) {
   }
 
   return (
-    <div
-      className="list-container"
-      style={{ height: "100vh", display: "flex", flexDirection: "column" }}
-    >
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <DynamicForm settings={settings} onChange={handleChange} />
 
       {/* The Virtualized Windowing container */}
       <div style={{ flex: 1, width: "100%" }}>
         <Virtuoso
           ref={virtuosoRef}
-          style={{ height: "600px", width: "100%" }}
+          style={{ height: "650px", width: "100%" }}
           data={accumulatedResults}
           endReached={loadMore} // Triggers when the user gets near the bottom
           itemContent={(index, item) => {
