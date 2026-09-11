@@ -9,11 +9,38 @@ find "$TARGET_DIR" -type f -iname "*.mp3" -print0 | while IFS= read -r -d '' mp3
     # Define the new json filename (e.g., path/to/mysound.mp3.json)
     json_file="${mp3_file}.json"
     
-    # Create the empty json file (or updates its timestamp if it exists)
-    touch "$json_file"
+    # Generate random numbers from 1 to 3 for each property
+    expention=$((RANDOM % 3 + 1))
+    festive=$((RANDOM % 3 + 1))
+    contact=$((RANDOM % 3 + 1))
+    rythmic=$((RANDOM % 3 + 1))
+    bass=$((RANDOM % 3 + 1))
+    curve=$((RANDOM % 3 + 1))
+
+    instrument=$((RANDOM % 10 + 1))
     
-    echo "Created: $json_file"
+    # Write the randomized JSON data into the file
+    cat << EOF > "$json_file"
+{
+  "expention": $expention,
+  "festive": $festive,
+  "contact": $contact,
+  "rythmic": $rythmic,
+  "bass": $bass,
+  "curve": $curve,
+  "bpm": 97,
+  "notes": "",
+  "instruments": [
+    "#i$instrument"
+  ],
+  "cues": [
+    "#c1",
+    "#c2"
+  ]
+}
+EOF
+
+    echo "Created with random data: $json_file"
 done
 
-echo "Done! All JSON files have been generated."
-
+echo "Done! All randomized JSON files have been generated."
