@@ -38,9 +38,9 @@ export function UseMp3Section(index, onPlay, selectedIndex, playingIndex) {
       if (isPlaying) {
         onPlay();
       }
-    } else if (command === COMMAND_SKIP_FORWARD && isPlayingIndex) {
+    } else if (command === COMMAND_SKIP_FORWARD) {
       audioUtils.skipForward(audio);
-    } else if (command === COMMAND_SKIP_BACKWARD && isPlayingIndex) {
+    } else if (command === COMMAND_SKIP_BACKWARD) {
       audioUtils.skipBackward(audio);
     }
   }

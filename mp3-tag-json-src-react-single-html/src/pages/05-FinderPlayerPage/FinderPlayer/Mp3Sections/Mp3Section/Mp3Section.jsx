@@ -83,11 +83,7 @@ function Mp3SectionComponent(props) {
       ) : (
         <div inert={true}>
           <InfoHeader result={result} audioUrl={audioUrl} />
-          <Player
-            ref={audioRef}
-            isPlayingIndex={isPlaying}
-            audioUrl={audioUrl}
-          />
+          <Player ref={audioRef} isPlayingIndex={true} audioUrl={audioUrl} />
         </div>
       )}
     </div>
