@@ -22,7 +22,7 @@ export function useCoverArt(metadata) {
     if (metadata) {
       setTimeout(() => {
         doSetCoverArt();
-      }, 100);
+      }, 1);
     }
   }, [metadata]);
 
