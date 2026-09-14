@@ -6,7 +6,7 @@ import { verifyCustomFilter } from "./filterUtils2";
 export async function fetchParallelIdIntersection({
   rawDb,
   activeIndexedFilters,
-  activeIndexedPartialSearchFilters = [], // 👈 New variable for OR indexed filters
+  activeIndexedOrFilters = [], // 👈 New variable for OR indexed filters
   activeUnindexedFilters,
   skipOffset,
   targetLimit,
@@ -25,7 +25,7 @@ export async function fetchParallelIdIntersection({
   });
 
   // 2. Fetch matching primary keys for OR filters in parallel
-  const orPromises = activeIndexedPartialSearchFilters.map((f) => {
+  const orPromises = activeIndexedOrFilters.map((f) => {
     return new Promise((res, rej) => {
       const request = store.index(f.key).getAllKeys(f.range);
       request.onerror = () => rej(request.error);
@@ -49,7 +49,7 @@ export async function fetchParallelIdIntersection({
 
     // --- STEP B: Process the OR Filters (Union) ---
     let orUnionedIds = null;
-    if (activeIndexedPartialSearchFilters.length > 0) {
+    if (activeIndexedOrFilters.length > 0) {
       const orSet = new Set();
       for (const list of orIdLists) {
         for (const id of list) {

@@ -94,6 +94,7 @@ export const finderStore = {
             userValue
           );
           userValue.forEach((val) => {
+            console.log("config.partialSearch", config.partialSearch);
             if (val) {
               customFilters.push({
                 key: config.key,

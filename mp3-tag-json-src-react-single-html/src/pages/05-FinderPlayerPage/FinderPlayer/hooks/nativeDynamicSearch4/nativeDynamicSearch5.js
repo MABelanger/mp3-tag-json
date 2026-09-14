@@ -7,7 +7,6 @@ import { classifyFilters } from "./classifyFilters2";
 
 /**
  * Executes a high-performance dynamic search using raw IndexedDB.
- * Supports strict intersection (AND) alongside multi-value selections (OR).
  */
 export async function executeNativeDynamicSearch({
   rawDb,
@@ -24,38 +23,52 @@ export async function executeNativeDynamicSearch({
   const indexedKeys = new Set(storeCheck.indexNames);
   txCheck.abort();
 
-  // 2. Separate OR filters from standard pipeline mapping
-  // If a custom filter contains an explicit marker or is derived from an array breakdown, map it to OR logic
+  // 2. Isolate OR filters (your array of filenames) from the standard list
   const orFiltersSource = customFilters.filter((f) => f.isOrFilter === true);
-  console.log("orFiltersSource", orFiltersSource);
   const remainingFilters = customFilters.filter((f) => !f.isOrFilter);
 
-  // 3. Classify standard filters using your existing utility
-  const { activeIndexedFilters, activeUnindexedFilters } = classifyFilters({
+  // 3. Classify standard remaining filters (Genre, BPM, etc.) as AND criteria
+  const {
+    activeIndexedFilters,
+    activeUnindexedFilters,
+    activeIndexedPartialSearchFilters = [], // 👈 Destructure this here so it's not swallowed
+  } = classifyFilters({
     customFilters: remainingFilters,
     indexedKeys,
   });
 
-  // 4. Cleanly classify your new OR filters against schema index visibility
+  // 4. Safely wrap fileNames into IDBKeyRange matches for the pipeline's OR logic
   const activeIndexedOrFilters = [];
+
   for (const f of orFiltersSource) {
     if (indexedKeys.has(f.key)) {
-      // Create IDBKeyRange matches for the OR options
-      activeIndexedOrFilters.push({
-        key: f.key,
-        range: IDBKeyRange.only(f.value),
-      });
+      // 💡 Crucial Fix: If partialSearch is true, we build a bounding range
+      // so it matches prefixes correctly, otherwise we look for an exact match.
+      if (f.partialSearch) {
+        // Creates a bounds lookup matching strings starting with f.value
+        activeIndexedOrFilters.push({
+          key: f.key,
+          range: IDBKeyRange.bound(f.value, f.value),
+        });
+      } else {
+        // Fallback to strict exact match lookup
+        activeIndexedOrFilters.push({
+          key: f.key,
+          range: IDBKeyRange.only(f.value),
+        });
+      }
     } else {
-      // If the index doesn't exist, treat it as an unindexed fallback matching criteria
+      // If the field isn't indexed at all, send it to unindexed cursor filtering
       activeUnindexedFilters.push(f);
     }
   }
 
-  console.log("AND Indexed Filters:", activeIndexedFilters);
-  console.log("OR Indexed Filters:", activeIndexedOrFilters);
-  console.log("Unindexed Filters:", activeUnindexedFilters);
+  console.log("---------------");
+  console.log("Strict AND constraints:", activeIndexedFilters);
+  console.log("Loose OR filename matching list:", activeIndexedOrFilters);
+  console.log("Unindexed filters:", activeUnindexedFilters);
 
-  // 5. Fallback Lane: No indexed filters of any type are active
+  // 5. Fallback Lane: No indexed filters chosen
   if (
     activeIndexedFilters.length === 0 &&
     activeIndexedOrFilters.length === 0
@@ -69,11 +82,11 @@ export async function executeNativeDynamicSearch({
     );
   }
 
-  // 6. Fast Lane: Forward both AND and OR arrays down to your intersection controller
+  // 6. Fast Lane: Intersection pipeline (AND parameters mixed with OR arrays)
   return fetchParallelIdIntersection({
     rawDb,
     activeIndexedFilters,
-    activeIndexedOrFilters, // 👈 Hooked directly into your performance pipeline!
+    activeIndexedOrFilters,
     activeUnindexedFilters,
     skipOffset,
     targetLimit,
