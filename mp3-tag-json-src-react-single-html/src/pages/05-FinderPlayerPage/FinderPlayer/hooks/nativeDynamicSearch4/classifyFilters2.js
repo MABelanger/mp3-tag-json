@@ -20,9 +20,7 @@ export function classifyFilters({ customFilters, indexedKeys }) {
     } else {
       const isNum = !isNaN(filter.value);
       // FIX: If the search term is a string, force it lowercase to match the normalized index keys
-      const targetVal = isNum
-        ? Number(filter.value)
-        : String(filter.value).toLowerCase();
+      const targetVal = isNum ? Number(filter.value) : String(filter.value); //.toLowerCase();
       console.log("---targetVal", targetVal);
       keyRange = IDBKeyRange.only(targetVal);
     }

@@ -115,6 +115,8 @@ export const finderStore = {
         pageSize,
       });
 
+      console.log("output", output);
+
       // Filter out duplicate IDs from old pages safely
       const existingIds = new Set(accumulatedResults.map((item) => item.id));
       const uniqueNewResults = output.matchedItems.filter(

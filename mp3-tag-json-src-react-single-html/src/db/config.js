@@ -17,6 +17,7 @@
 export const SEARCH_CONFIG = [
   { key: "bpm", type: "range", variance: 5 },
   { key: "notes", type: "exact", multiEntry: false },
+  { key: "fileName", type: "exact", multiEntry: false },
   { key: "expention", type: "range", variance: 1 },
   { key: "festive", type: "range", variance: 1 },
   { key: "contact", type: "range", variance: 1 },

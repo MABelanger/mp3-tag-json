@@ -34,6 +34,12 @@ export async function executeNativeDynamicSearch({
     indexedKeys,
   });
 
+  console.log(
+    "activeIndexedFilters, activeUnindexedFilters",
+    activeIndexedFilters,
+    activeUnindexedFilters
+  );
+
   // 3. Fallback Lane: No indexed filters chosen. Stream directly via cursor.
   if (activeIndexedFilters.length === 0) {
     return streamFallbackStore(

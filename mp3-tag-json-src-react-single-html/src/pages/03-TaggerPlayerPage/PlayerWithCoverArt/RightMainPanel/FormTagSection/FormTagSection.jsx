@@ -35,10 +35,22 @@ export function FormTagSection(props) {
   //   cues: "tropical",
   // };
 
+  /*
+    function getDataWithFileName(data, mp3FilePath) {
+    console.log("data, mp3FilePath", data, mp3FilePath);
+    // TODO : work only in mac/linux
+    const fileNameCamelCase = mp3FilePath && mp3FilePath.split("/").pop();
+    const fileNameLower = fileNameCamelCase && fileNameCamelCase.toLowerCase();
+    return {
+      ...data,
+      fileName: fileNameLower,
+    };
+  }
+  */
   function getDataWithFileName(data, mp3FilePath) {
     console.log("data, mp3FilePath", data, mp3FilePath);
     // TODO : work only in mac/linux
-    const fileName = mp3FilePath.split("/").pop();
+    const fileName = mp3FilePath && mp3FilePath.split("/").pop();
 
     return {
       ...data,

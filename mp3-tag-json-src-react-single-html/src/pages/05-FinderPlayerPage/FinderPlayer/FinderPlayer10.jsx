@@ -50,6 +50,7 @@ export function FinderPlayer(props) {
   }, []);
 
   function handleFilterChange(newFilters) {
+    console.log("newFilters", newFilters);
     finderStore.applyFilters(newFilters);
     if (virtuosoRef.current) virtuosoRef.current.scrollToIndex({ index: 0 });
   }
