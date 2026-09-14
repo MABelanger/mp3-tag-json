@@ -16,6 +16,7 @@ export function verifyCustomFilter(item, filterConfig) {
 
   // Handle arrays natively (e.g., instruments, tags)
   if (Array.isArray(itemValue)) {
+    console.log("itemValue", itemValue);
     return itemValue.map((v) => String(v).toLowerCase()).includes(target); // Now comparing lowercase to lowercase!
   }
 

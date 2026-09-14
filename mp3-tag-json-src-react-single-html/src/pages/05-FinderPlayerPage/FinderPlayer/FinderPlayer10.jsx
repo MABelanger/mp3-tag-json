@@ -10,7 +10,7 @@ import { useReadFile } from "../../../components/ReadWriteDirectory/hooks/useRea
 import { DynamicForm } from "../../../components/ui/DynamicForm";
 import { Mp3Section } from "./Mp3Sections/Mp3Section";
 import { useMp3SectionsCommand } from "./Mp3Sections/hooks/useMp3SectionsCommand";
-import { finderStore } from "./hooks/finderStore";
+import { finderStore } from "./hooks/finderStore2";
 
 export function FinderPlayer(props) {
   const { fileData: settings } = useReadFile(
@@ -51,6 +51,13 @@ export function FinderPlayer(props) {
 
   function handleFilterChange(newFilters) {
     console.log("newFilters", newFilters);
+    newFilters = {
+      ...newFilters,
+      fileName: [
+        "norah jones - sunrise.mp3",
+        "half moon run - crawl back in (live from the treehouse)2.mp3",
+      ],
+    };
     finderStore.applyFilters(newFilters);
     if (virtuosoRef.current) virtuosoRef.current.scrollToIndex({ index: 0 });
   }

@@ -29,7 +29,11 @@ export async function executeNativeDynamicSearch({
   txCheck.abort();
 
   // 2. Classify filters (Extracted Function)
-  const { activeIndexedFilters, activeUnindexedFilters } = classifyFilters({
+  const {
+    activeIndexedFilters,
+    activeIndexedPartialSearchFilters,
+    activeUnindexedFilters,
+  } = classifyFilters({
     customFilters,
     indexedKeys,
   });
@@ -55,6 +59,7 @@ export async function executeNativeDynamicSearch({
   return fetchParallelIdIntersection({
     rawDb,
     activeIndexedFilters,
+    activeIndexedPartialSearchFilters,
     activeUnindexedFilters,
     skipOffset,
     targetLimit,

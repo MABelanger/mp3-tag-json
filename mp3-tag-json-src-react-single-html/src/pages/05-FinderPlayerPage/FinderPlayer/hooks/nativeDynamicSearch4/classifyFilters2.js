@@ -1,5 +1,6 @@
 export function classifyFilters({ customFilters, indexedKeys }) {
   const activeIndexedFilters = [];
+  const activeIndexedPartialSearchFilters = [];
   const activeUnindexedFilters = [];
 
   for (const filter of customFilters) {
@@ -11,6 +12,10 @@ export function classifyFilters({ customFilters, indexedKeys }) {
       continue;
 
     const isIndexed = indexedKeys.has(filter.key);
+    const isPartialSearch = filter.partialSearch === true;
+
+    console.log("++++++filter", filter);
+
     let keyRange;
 
     if (filter.type === "range") {
@@ -32,12 +37,21 @@ export function classifyFilters({ customFilters, indexedKeys }) {
       raw: filter,
     };
 
+    console.log("partialSearch", isPartialSearch);
     if (isIndexed) {
-      activeIndexedFilters.push(compiledFilter);
+      if (isPartialSearch) {
+        activeIndexedPartialSearchFilters.push(compiledFilter);
+      } else {
+        activeIndexedFilters.push(compiledFilter);
+      }
     } else {
       activeUnindexedFilters.push(compiledFilter);
     }
   }
 
-  return { activeIndexedFilters, activeUnindexedFilters };
+  return {
+    activeIndexedFilters,
+    activeIndexedPartialSearchFilters,
+    activeUnindexedFilters,
+  };
 }
