@@ -99,9 +99,9 @@ export const finderStore = {
               customFilters.push({
                 key: config.key,
                 type: config.type,
-                partialSearch: config.partialSearch,
+                //partialSearch: config.partialSearch,
                 value: val,
-                isOrFilter: true, // 👈 Flag added here to cleanly pipe into fetchParallelIdIntersection OR logic
+                isOrFilter: config.partialSearch, // 👈 Flag added here to cleanly pipe into fetchParallelIdIntersection OR logic
               });
             }
           });

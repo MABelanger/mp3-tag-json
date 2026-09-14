@@ -24,6 +24,6 @@ export const SEARCH_CONFIG = [
   { key: "rythmic", type: "range", variance: 1 },
   { key: "bass", type: "range", variance: 1 },
   { key: "curve", type: "range", variance: 1 },
-  { key: "instruments", type: "exact", multiEntry: true },
-  { key: "cues", type: "exact", multiEntry: true },
+  { key: "instruments", type: "exact", multiEntry: true, partialSearch: false },
+  { key: "cues", type: "exact", multiEntry: true, partialSearch: false },
 ];
