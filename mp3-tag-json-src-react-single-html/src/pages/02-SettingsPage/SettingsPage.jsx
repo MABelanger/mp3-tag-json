@@ -35,7 +35,7 @@ export function SettingsPage(props) {
           "bass",
           "curve",
         ],
-        textInputs: ["bpm", "notes"],
+        textInputs: ["bpm", "notes", "fileName"],
         hashTags: ["instruments", "cues"],
       },
       null,

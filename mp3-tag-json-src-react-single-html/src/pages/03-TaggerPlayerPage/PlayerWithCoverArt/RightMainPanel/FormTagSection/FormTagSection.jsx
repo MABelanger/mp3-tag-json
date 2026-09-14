@@ -3,6 +3,7 @@ import { useReadFile } from "../../../../../components/ReadWriteDirectory/hooks/
 import { DynamicForm } from "../../../../../components/ui/DynamicForm";
 
 export function FormTagSection(props) {
+  console.log("hello");
   const { writeNestedFile, isSaving } = useWriteFile();
   const { fileData: settings } = useReadFile(
     props.dirRootHandle,
@@ -34,8 +35,21 @@ export function FormTagSection(props) {
   //   cues: "tropical",
   // };
 
+  function getDataWithFileName(data, mp3FilePath) {
+    console.log("data, mp3FilePath", data, mp3FilePath);
+    // TODO : work only in mac/linux
+    const fileName = mp3FilePath.split("/").pop();
+
+    return {
+      ...data,
+      fileName,
+    };
+  }
+
   function handleSave(data) {
-    const jsonData = JSON.stringify(data, null, 2);
+    const dataWithMp3FileName = getDataWithFileName(data, props.mp3FilePath);
+    const jsonData = JSON.stringify(dataWithMp3FileName, null, 2);
+
     const jsonFilePath = props.jsonFilePath;
     writeNestedFile(props.dirRootHandle, jsonFilePath, jsonData);
   }
