@@ -52,14 +52,27 @@ export function FinderPlayer(props) {
 
   function handleFilterChange(newFilters) {
     console.log("newFilters", newFilters);
-    newFilters = {
-      ...newFilters,
-      fileName: [
-        "norah jones - sunrise.mp3",
-        //"half moon run - crawl back in (live from the treehouse).mp3",
-      ],
-    };
+    // newFilters = {
+    //   ...newFilters,
+    //   fileName: [
+    //     "norah jones - sunrise.mp3",
+    //     //"half moon run - crawl back in (live from the treehouse).mp3",
+    //   ],
+    // };
     finderStore.applyFilters(newFilters);
+    if (virtuosoRef.current) virtuosoRef.current.scrollToIndex({ index: 0 });
+  }
+
+  function handleFilteredFileNames(newFilterFileNames) {
+    console.log("newFilterFileNames", newFilterFileNames);
+    // newFilters = {
+    //   ...newFilters,
+    //   fileName: [
+    //     "norah jones - sunrise.mp3",
+    //     //"half moon run - crawl back in (live from the treehouse).mp3",
+    //   ],
+    // };
+    finderStore.applyFilterFileNames(newFilterFileNames);
     if (virtuosoRef.current) virtuosoRef.current.scrollToIndex({ index: 0 });
   }
 
@@ -97,7 +110,7 @@ export function FinderPlayer(props) {
     <div style={{ display: "flex", flexDirection: "column" }}>
       <DynamicForm settings={settings} onChange={handleFilterChange} />
 
-      <FileNamesForm />
+      <FileNamesForm onFilteredFileNames={handleFilteredFileNames} />
 
       <div style={{ flex: 1, width: "100%" }}>
         <Virtuoso

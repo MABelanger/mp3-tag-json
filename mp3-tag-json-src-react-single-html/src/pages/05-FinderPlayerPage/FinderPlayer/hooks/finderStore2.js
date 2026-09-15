@@ -7,6 +7,7 @@ let playingIndex = 0;
 let accumulatedResults = [];
 let page = 1;
 let filters = {};
+let filterFileNames = [];
 let loading = false;
 let error = null;
 let hasMore = false;
@@ -51,7 +52,29 @@ export const finderStore = {
 
   // --- Core Database Engine ---
   async applyFilters(newFilters) {
-    filters = newFilters;
+    filters = {
+      ...newFilters,
+      fileName: filterFileNames,
+    };
+
+    page = 1;
+    accumulatedResults = [];
+    hasMore = false;
+    error = null;
+    loading = false;
+    emitChange();
+
+    // Kick off the initial query pass
+    await this.fetchNextPage();
+  },
+
+  async applyFilterFileNames(newFilterFileNames) {
+    filterFileNames = newFilterFileNames;
+    filters = {
+      ...filters,
+      fileName: filterFileNames,
+    };
+
     page = 1;
     accumulatedResults = [];
     hasMore = false;

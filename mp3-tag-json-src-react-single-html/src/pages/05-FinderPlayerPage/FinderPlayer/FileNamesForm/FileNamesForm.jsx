@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFileNamesForm } from "./hooks/useFileNamesForm"; // Adjust import path as needed
 
-export function FileNamesForm({ onChange }) {
+export function FileNamesForm(props) {
   const { filteredFileNames, searchFileName, isLoading } = useFileNamesForm();
   const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    props.onFilteredFileNames(filteredFileNames);
+  }, [filteredFileNames]);
 
   // Handle typing into the instant search filter
   function handleSearchChange(e) {
@@ -32,7 +36,6 @@ export function FileNamesForm({ onChange }) {
       <label style={{ fontWeight: "bold", fontSize: "14px" }}>
         Filter Tracks by Name (OR matching)
       </label>
-
       {/* Input box to filter down the choices */}
       <input
         type="text"
