@@ -11,6 +11,7 @@ import { DynamicForm } from "../../../components/ui/DynamicForm";
 import { Mp3Section } from "./Mp3Sections/Mp3Section";
 import { useMp3SectionsCommand } from "./Mp3Sections/hooks/useMp3SectionsCommand";
 import { finderStore } from "./hooks/finderStore2";
+import { FileNamesForm } from "./FileNamesForm";
 
 export function FinderPlayer(props) {
   const { fileData: settings } = useReadFile(
@@ -95,6 +96,8 @@ export function FinderPlayer(props) {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <DynamicForm settings={settings} onChange={handleFilterChange} />
+
+      <FileNamesForm />
 
       <div style={{ flex: 1, width: "100%" }}>
         <Virtuoso
