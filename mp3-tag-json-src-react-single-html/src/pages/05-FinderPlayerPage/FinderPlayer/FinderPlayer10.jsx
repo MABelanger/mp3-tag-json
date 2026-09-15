@@ -55,7 +55,7 @@ export function FinderPlayer(props) {
       ...newFilters,
       fileName: [
         "norah jones - sunrise.mp3",
-        "half moon run - crawl back in (live from the treehouse).mp3",
+        //"half moon run - crawl back in (live from the treehouse).mp3",
       ],
     };
     finderStore.applyFilters(newFilters);
