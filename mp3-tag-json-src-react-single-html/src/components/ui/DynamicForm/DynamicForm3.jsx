@@ -124,4 +124,3 @@ export const DynamicForm = (props) => {
   );
 };
 
-export default DynamicForm;

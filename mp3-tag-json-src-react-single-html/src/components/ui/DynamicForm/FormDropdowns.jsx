@@ -98,4 +98,3 @@ export function FormDropdowns(props) {
   );
 }
 
-export default FormDropdowns;

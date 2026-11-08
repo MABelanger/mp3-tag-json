@@ -4,7 +4,7 @@ export function pause(audio) {
   audio && audio.pause();
 }
 
-export function play() {
+function play() {
   audio && audio.play();
 }
 

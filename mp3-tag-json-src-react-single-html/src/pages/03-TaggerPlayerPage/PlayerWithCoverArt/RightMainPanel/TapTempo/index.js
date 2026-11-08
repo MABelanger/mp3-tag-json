@@ -1,1 +1,0 @@
-export { TapTempo } from "./TapTempo";
