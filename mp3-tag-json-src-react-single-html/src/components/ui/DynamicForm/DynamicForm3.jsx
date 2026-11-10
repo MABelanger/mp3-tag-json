@@ -103,7 +103,11 @@ export const DynamicForm = (props) => {
         <form onSubmit={useFormmethods.handleSubmit(handleSave)}>
           <div style={rowContainerStyle}>
             <div style={{ flex: "0 0 auto" }}>
-              <FormDropdowns fields={dropdowns} range={dropdownRange} />
+              <FormDropdowns
+                fields={dropdowns}
+                range={dropdownRange}
+                isSearchFocused={props.isSearchFocused}
+              />
             </div>
 
             <div style={{ flex: "0 0 auto" }}>
@@ -123,4 +127,3 @@ export const DynamicForm = (props) => {
     </div>
   );
 };
-

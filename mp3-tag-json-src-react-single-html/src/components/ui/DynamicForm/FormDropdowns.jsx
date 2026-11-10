@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 
 export function FormDropdowns(props) {
@@ -6,6 +6,14 @@ export function FormDropdowns(props) {
     register,
     formState: { errors },
   } = useFormContext();
+
+  const firstSelectRef = useRef(null);
+
+  useEffect(() => {
+    if (props.isSearchFocused && firstSelectRef.current) {
+      firstSelectRef.current.focus();
+    }
+  }, [props.isSearchFocused]);
 
   // Track mobile state for absolute responsive control
   const [isMobile, setIsMobile] = useState(false);
@@ -72,29 +80,39 @@ export function FormDropdowns(props) {
   return (
     <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
       <div style={gridContainerStyle}>
-        {props.fields.map((name) => (
-          <div key={name} style={fieldStyle}>
-            <label style={labelStyle}>{name.replace(/([A-Z])/g, " $1")}</label>
-            <select
-              {...register(name, { valueAsNumber: true })}
-              style={{
-                ...inputStyle,
-                borderColor: errors[name] ? "#dc2626" : "#ccc",
-              }}
-            >
-              {options.map((num) => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
-              ))}
-            </select>
-            {errors[name] && (
-              <span style={errorStyle}>{errors[name]?.message}</span>
-            )}
-          </div>
-        ))}
+        {props.fields.map((name, index) => {
+          const { ref: registerRef, ...rest } = register(name, {
+            valueAsNumber: true,
+          });
+          return (
+            <div key={name} style={fieldStyle}>
+              <label style={labelStyle}>
+                {name.replace(/([A-Z])/g, " $1")}
+              </label>
+              <select
+                {...rest}
+                ref={(el) => {
+                  registerRef(el);
+                  if (index === 0) firstSelectRef.current = el;
+                }}
+                style={{
+                  ...inputStyle,
+                  borderColor: errors[name] ? "#dc2626" : "#ccc",
+                }}
+              >
+                {options.map((num) => (
+                  <option key={num} value={num}>
+                    {num}
+                  </option>
+                ))}
+              </select>
+              {errors[name] && (
+                <span style={errorStyle}>{errors[name]?.message}</span>
+              )}
+            </div>
+          );
+        })}
       </div>
     </fieldset>
   );
 }
-
