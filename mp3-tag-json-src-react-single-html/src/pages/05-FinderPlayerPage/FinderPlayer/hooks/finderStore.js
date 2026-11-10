@@ -37,6 +37,11 @@ export const finderStore = {
     return hasMore;
   },
 
+  resetSelectionState() {
+    selectedIndex = 0;
+    emitChange();
+  },
+
   // --- Selection Setters ---
   setSelectedIndex(index) {
     if (selectedIndex === index) return;

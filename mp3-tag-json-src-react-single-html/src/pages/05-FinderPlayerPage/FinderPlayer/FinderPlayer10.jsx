@@ -101,6 +101,7 @@ export function FinderPlayer(props) {
     console.log("handleOnEscapeFromDynamicForm");
     setIsSearchFocused(false);
     setSelectedFirstElement();
+    finderStore.resetSelectionState();
   }
 
   return (
