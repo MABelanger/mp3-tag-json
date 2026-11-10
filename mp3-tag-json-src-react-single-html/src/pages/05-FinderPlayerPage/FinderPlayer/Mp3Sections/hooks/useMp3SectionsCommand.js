@@ -3,22 +3,25 @@ import { finderStore } from "../../hooks/finderStore"; // Ensure the path points
 import {
   COMMAND_SELECT_NEXT,
   COMMAND_SELECT_PREVIOUS,
+  COMMAND_ESCAPE,
 } from "./commandConstant";
 
 const SELECT_NEXT_KEY = "j";
 const SELECT_PREVIOUS_KEY = "k";
 const SELECT_NEXT_ARROW = "ArrowDown";
 const SELECT_PREVIOUS_ARROW = "ArrowUp";
+const SELECT_ESCAPE = "Escape";
 
 function getCommand(key) {
   if (key === SELECT_NEXT_KEY || key === SELECT_NEXT_ARROW)
     return COMMAND_SELECT_NEXT;
-  if (key === SELECT_PREVIOUS_KEY || key === SELECT_PREVIOUS_ARROW)
+  else if (key === SELECT_PREVIOUS_KEY || key === SELECT_PREVIOUS_ARROW)
     return COMMAND_SELECT_PREVIOUS;
+  else if (key === SELECT_ESCAPE) return COMMAND_ESCAPE;
   return null;
 }
 
-export function useMp3SectionsCommand(numberOfSection) {
+export function useMp3SectionsCommand(numberOfSection, onEscape) {
   // 1. Swap useState to a mutable reference object
   // Changing a ref's .current value NEVER triggers a React re-render.
   const selectedIndexRef = useRef(0);
@@ -50,6 +53,9 @@ export function useMp3SectionsCommand(numberOfSection) {
       if (selectedIndexRef.current > 0) {
         nextIndex = selectedIndexRef.current - 1;
       }
+    } else if (command === COMMAND_ESCAPE) {
+      onEscape();
+      console.log("ESCAPE");
     }
 
     // 3. Update memory instantly (0% rendering overhead)

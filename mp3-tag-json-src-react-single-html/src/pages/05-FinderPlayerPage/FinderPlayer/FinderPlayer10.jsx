@@ -36,7 +36,7 @@ export function FinderPlayer(props) {
   const numberOfSection = accumulatedResults.length - 1;
 
   // Key navigation hook
-  const { onKeyDown } = useMp3SectionsCommand(numberOfSection);
+  const { onKeyDown } = useMp3SectionsCommand(numberOfSection, handleOnEscape);
 
   // Auto-scroll follow layout
   useEffect(() => {
@@ -89,6 +89,11 @@ export function FinderPlayer(props) {
 
   console.log("This will log ON MOUNT and never again!");
 
+  function handleOnEscape() {
+    console.log("handleOnEscape");
+    setIsSearchFocused(true);
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       {/* Capture focus/blur on the entire search form area */}
@@ -96,30 +101,28 @@ export function FinderPlayer(props) {
         onFocus={() => setIsSearchFocused(true)}
         //onBlur={() => setIsSearchFocused(false)}
       >
-        <DynamicForm settings={settings} onChange={handleFilterChange} />
+        <DynamicForm
+          settings={settings}
+          isSearchFocused={isSearchFocused}
+          onChange={handleFilterChange}
+        />
       </div>
 
       {/* inert=true while typing: prevents Virtuoso's scroller from stealing focus */}
+
       <div
-        onMouseDown={() => {
-          console.log("onMouseDown");
-          setIsSearchFocused(false);
-        }}
+        inert={isSearchFocused ? true : undefined}
+        style={{ flex: 1, width: "100%" }}
       >
-        <div
-          inert={isSearchFocused ? true : undefined}
-          style={{ flex: 1, width: "100%" }}
-        >
-          <Virtuoso
-            ref={virtuosoRef}
-            style={{ height: "650px", width: "100%" }}
-            data={accumulatedResults}
-            overscan={400}
-            components={virtuosoComponents}
-            endReached={() => finderStore.fetchNextPage(20)}
-            itemContent={renderItem}
-          />
-        </div>
+        <Virtuoso
+          ref={virtuosoRef}
+          style={{ height: "650px", width: "100%" }}
+          data={accumulatedResults}
+          overscan={400}
+          components={virtuosoComponents}
+          endReached={() => finderStore.fetchNextPage(20)}
+          itemContent={renderItem}
+        />
       </div>
 
       {loading && <p style={{ textAlign: "center" }}>Loading tracks...</p>}
