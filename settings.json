@@ -13,7 +13,8 @@
   ],
   "textInputs": [
     "bpm",
-    "notes"
+    "notes",
+    "fileName"
   ],
   "hashTags": [
     "instruments",

@@ -14,6 +14,11 @@ export function verifyCustomFilter(item, filterConfig) {
     );
   }
 
+  // Partial match: check if the field contains the search term (case-insensitive)
+  if (filterConfig.type === "contains") {
+    return String(itemValue).toLowerCase().includes(target);
+  }
+
   // Handle arrays natively (e.g., instruments, tags)
   if (Array.isArray(itemValue)) {
     return itemValue.map((v) => String(v).toLowerCase()).includes(target); // Now comparing lowercase to lowercase!

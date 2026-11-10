@@ -10,6 +10,17 @@ export function classifyFilters({ customFilters, indexedKeys }) {
     )
       continue;
 
+    // "contains" type always goes to unindexed (cursor scan) — IndexedDB can't do partial string matching
+    if (filter.type === "contains") {
+      activeUnindexedFilters.push({
+        key: filter.key,
+        type: filter.type,
+        range: null,
+        raw: filter,
+      });
+      continue;
+    }
+
     const isIndexed = indexedKeys.has(filter.key);
     let keyRange;
 
