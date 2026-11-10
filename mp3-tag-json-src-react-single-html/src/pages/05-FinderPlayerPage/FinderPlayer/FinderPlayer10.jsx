@@ -3,6 +3,7 @@ import {
   useRef,
   useCallback,
   useMemo,
+  useState,
   useSyncExternalStore,
 } from "react";
 import { Virtuoso } from "react-virtuoso";
@@ -18,6 +19,9 @@ export function FinderPlayer(props) {
     "settings.json"
   );
   const virtuosoRef = useRef(null);
+
+  // true while the user has focus inside any search input — keeps Virtuoso inert
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   // Subscribe to changes safely. Parent won't re-render on selection shifts!
   const accumulatedResults = useSyncExternalStore(
@@ -87,18 +91,35 @@ export function FinderPlayer(props) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <DynamicForm settings={settings} onChange={handleFilterChange} />
+      {/* Capture focus/blur on the entire search form area */}
+      <div
+        onFocus={() => setIsSearchFocused(true)}
+        //onBlur={() => setIsSearchFocused(false)}
+      >
+        <DynamicForm settings={settings} onChange={handleFilterChange} />
+      </div>
 
-      <div style={{ flex: 1, width: "100%" }}>
-        <Virtuoso
-          ref={virtuosoRef}
-          style={{ height: "650px", width: "100%" }}
-          data={accumulatedResults}
-          overscan={400}
-          components={virtuosoComponents}
-          endReached={() => finderStore.fetchNextPage(20)}
-          itemContent={renderItem}
-        />
+      {/* inert=true while typing: prevents Virtuoso's scroller from stealing focus */}
+      <div
+        onMouseDown={() => {
+          console.log("onMouseDown");
+          setIsSearchFocused(false);
+        }}
+      >
+        <div
+          inert={isSearchFocused ? true : undefined}
+          style={{ flex: 1, width: "100%" }}
+        >
+          <Virtuoso
+            ref={virtuosoRef}
+            style={{ height: "650px", width: "100%" }}
+            data={accumulatedResults}
+            overscan={400}
+            components={virtuosoComponents}
+            endReached={() => finderStore.fetchNextPage(20)}
+            itemContent={renderItem}
+          />
+        </div>
       </div>
 
       {loading && <p style={{ textAlign: "center" }}>Loading tracks...</p>}
