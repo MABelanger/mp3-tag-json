@@ -36,7 +36,10 @@ export function FinderPlayer(props) {
   const numberOfSection = accumulatedResults.length - 1;
 
   // Key navigation hook
-  const { onKeyDown } = useMp3SectionsCommand(numberOfSection, handleOnEscape);
+  const { onKeyDown, setSelectedFirstElement } = useMp3SectionsCommand(
+    numberOfSection,
+    handleOnEscapeFromMp3Section
+  );
 
   // Auto-scroll follow layout
   useEffect(() => {
@@ -89,9 +92,15 @@ export function FinderPlayer(props) {
 
   console.log("This will log ON MOUNT and never again!");
 
-  function handleOnEscape() {
-    console.log("handleOnEscape");
+  function handleOnEscapeFromMp3Section() {
+    console.log("handleOnEscapeFromMp3Section");
     setIsSearchFocused(true);
+  }
+
+  function handleOnEscapeFromDynamicForm() {
+    console.log("handleOnEscapeFromDynamicForm");
+    setIsSearchFocused(false);
+    setSelectedFirstElement();
   }
 
   return (
@@ -104,6 +113,7 @@ export function FinderPlayer(props) {
         <DynamicForm
           settings={settings}
           isSearchFocused={isSearchFocused}
+          onEscapeFromDynamicForm={handleOnEscapeFromDynamicForm}
           onChange={handleFilterChange}
         />
       </div>

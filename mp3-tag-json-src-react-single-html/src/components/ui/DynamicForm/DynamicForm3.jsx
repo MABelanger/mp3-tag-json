@@ -97,10 +97,22 @@ export const DynamicForm = (props) => {
     marginBottom: "1rem",
   };
 
+  function handleKeyDown(e) {
+    if (
+      e.key === "Escape" &&
+      typeof props.onEscapeFromDynamicForm === "function"
+    ) {
+      props.onEscapeFromDynamicForm();
+    }
+  }
+
   return (
     <div style={containerStyle}>
       <FormProvider {...useFormmethods}>
-        <form onSubmit={useFormmethods.handleSubmit(handleSave)}>
+        <form
+          onSubmit={useFormmethods.handleSubmit(handleSave)}
+          onKeyDown={handleKeyDown}
+        >
           <div style={rowContainerStyle}>
             <div style={{ flex: "0 0 auto" }}>
               <FormDropdowns

@@ -70,7 +70,12 @@ export function useMp3SectionsCommand(numberOfSection, onEscape) {
     finderStore.setSelectedIndex(nextIndex);
   }
 
+  function setSelectedFirstElement() {
+    selectedIndexRef.current = 0;
+  }
+
   return {
     onKeyDown,
+    setSelectedFirstElement,
   };
 }
