@@ -1,6 +1,17 @@
 import { forwardRef, useEffect, useRef } from "react";
 
 export const Player = forwardRef((props, ref) => {
+  const handleStop = () => {
+    if (ref.current) {
+      ref.current.pause();
+      ref.current.currentTime = 0; // Rewinds to the beginning
+    }
+  };
+
+  if (props.isPlayingIndex) {
+    handleStop();
+  }
+
   return (
     <audio
       controls
