@@ -1,0 +1,10 @@
+Supprimer mp3-tag-json-src-react, mp3-tag-json-step
+
+TODO : enlever les hashtag "#guitar" dans la bd, 
+save only : guitar, voix et non #guitar, #voix dans le json
+
+Arreter le player quand play autre toune
+
+
+
+10 nov : Faire le menage dans handleOnEscapeFromDynamicForm

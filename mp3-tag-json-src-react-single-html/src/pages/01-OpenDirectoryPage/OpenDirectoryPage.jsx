@@ -12,7 +12,10 @@ export function OpenDirectoryPage(props) {
 
   return (
     <div>
-      <ReadWriteDirectory onScannedFiles={handleScannedFiles} />;
+      make sure that your browser is started with the flag
+      --allow-file-access-from-files
+      <pre>./brave-browser-1.84.141/brave --allow-file-access-from-files</pre>
+      <ReadWriteDirectory onScannedFiles={handleScannedFiles} />
     </div>
   );
 }
