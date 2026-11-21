@@ -33,7 +33,7 @@ export function PlayerWithCoverArt(props) {
       setCurrentTrackIndex(index);
       setActiveAudioSrc(dynamicUrl);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setStatus(`Failed to read track file: ${err.message}`);
     }
   };
@@ -42,7 +42,7 @@ export function PlayerWithCoverArt(props) {
   useEffect(() => {
     if (activeAudioSrc && audioPlayerRef.current) {
       audioPlayerRef.current.play().catch((err) => {
-        console.log(
+        console.error(
           "Autoplay blocked by browser privacy. Click play manually.",
           err
         );
