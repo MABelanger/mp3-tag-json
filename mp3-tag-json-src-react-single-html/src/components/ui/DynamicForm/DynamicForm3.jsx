@@ -45,7 +45,6 @@ export const DynamicForm = (props) => {
 
     // Monitor internal form execution without forcing rendering loop teardowns
     const subscription = useFormmethods.watch((value) => {
-      console.log("Form genuinely changed via user input event:", value);
       if (onChangeRef.current) {
         onChangeRef.current(value);
       }
