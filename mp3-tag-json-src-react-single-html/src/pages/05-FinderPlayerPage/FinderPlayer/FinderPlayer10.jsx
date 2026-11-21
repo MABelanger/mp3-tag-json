@@ -38,7 +38,8 @@ export function FinderPlayer(props) {
   // Key navigation hook
   const { onKeyDown, setSelectedFirstElement } = useMp3SectionsCommand(
     numberOfSection,
-    handleOnEscapeFromMp3Section
+    handleOnEscapeFromMp3Section,
+    handleEnter
   );
 
   // Auto-scroll follow layout
@@ -91,6 +92,16 @@ export function FinderPlayer(props) {
 
   function handleOnEscapeFromMp3Section() {
     setIsSearchFocused(true);
+  }
+
+  async function handleEnter() {
+    const selectedIndex = finderStore.getSelectedIndex();
+    const result = finderStore.getAccumulatedResults()[selectedIndex];
+    const mp3Path = result?.mp3Path ?? "unknown";
+    const mp3Handle = result?.mp3Handle;
+    const file = await mp3Handle.getFile();
+    console.log("file", file);
+    alert(mp3Path);
   }
 
   function handleOnEscapeFromDynamicForm() {

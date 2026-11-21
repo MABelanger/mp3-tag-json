@@ -4,6 +4,7 @@ import {
   COMMAND_SELECT_NEXT,
   COMMAND_SELECT_PREVIOUS,
   COMMAND_ESCAPE,
+  COMMAND_ENTER,
 } from "./commandConstant";
 
 const SELECT_NEXT_KEY = "j";
@@ -11,17 +12,22 @@ const SELECT_PREVIOUS_KEY = "k";
 const SELECT_NEXT_ARROW = "ArrowDown";
 const SELECT_PREVIOUS_ARROW = "ArrowUp";
 const SELECT_ESCAPE = "Escape";
+const SELECT_ENTER = "Enter";
 
 function getCommand(key) {
-  if (key === SELECT_NEXT_KEY || key === SELECT_NEXT_ARROW)
+  if (key === SELECT_NEXT_KEY || key === SELECT_NEXT_ARROW) {
     return COMMAND_SELECT_NEXT;
-  else if (key === SELECT_PREVIOUS_KEY || key === SELECT_PREVIOUS_ARROW)
+  } else if (key === SELECT_PREVIOUS_KEY || key === SELECT_PREVIOUS_ARROW) {
     return COMMAND_SELECT_PREVIOUS;
-  else if (key === SELECT_ESCAPE) return COMMAND_ESCAPE;
+  } else if (key === SELECT_ESCAPE) {
+    return COMMAND_ESCAPE;
+  } else if (key === SELECT_ENTER) {
+    return COMMAND_ENTER;
+  }
   return null;
 }
 
-export function useMp3SectionsCommand(numberOfSection, onEscape) {
+export function useMp3SectionsCommand(numberOfSection, onEscape, onEnter) {
   // 1. Swap useState to a mutable reference object
   // Changing a ref's .current value NEVER triggers a React re-render.
   const selectedIndexRef = useRef(0);
@@ -55,6 +61,8 @@ export function useMp3SectionsCommand(numberOfSection, onEscape) {
       }
     } else if (command === COMMAND_ESCAPE) {
       onEscape();
+    } else if (command === COMMAND_ENTER) {
+      onEnter();
     }
 
     // 3. Update memory instantly (0% rendering overhead)
