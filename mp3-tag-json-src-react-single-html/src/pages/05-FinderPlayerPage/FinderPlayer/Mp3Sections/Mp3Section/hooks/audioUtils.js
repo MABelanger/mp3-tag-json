@@ -4,7 +4,7 @@ export function pause(audio) {
   audio && audio.pause();
 }
 
-function play() {
+function play(audio) {
   audio && audio.play();
 }
 
@@ -25,6 +25,14 @@ export function skipForward(audio) {
   } else {
     // Optionally jump to the end or duration limit
     audio.currentTime = audio.duration;
+  }
+}
+
+export function playAndSkipForward(audio) {
+  if (audio.paused) {
+    audio.play();
+  } else {
+    skipForward(audio);
   }
 }
 

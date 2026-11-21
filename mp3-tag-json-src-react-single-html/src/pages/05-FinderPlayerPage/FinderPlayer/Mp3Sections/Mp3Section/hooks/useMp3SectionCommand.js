@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import {
   COMMAND_PLAY_PAUSE,
   COMMAND_SKIP_BACKWARD,
-  COMMAND_SKIP_FORWARD,
+  COMMAND_PLAY_AND_SKIP_FORWARD,
 } from "./commandConstant";
 
 const PLAY_PAUSE_KEY = " ";
@@ -18,11 +18,11 @@ function getCommand(key) {
     return COMMAND_PLAY_PAUSE;
   }
 
-  const isKeySkipForward =
+  const isKeyPlayAndSkipForward =
     key === SKIP_PLAY_FORWARD_KEY || key === SKIP_PLAY_FORWARD_ARROW;
 
-  if (isKeySkipForward) {
-    return COMMAND_SKIP_FORWARD;
+  if (isKeyPlayAndSkipForward) {
+    return COMMAND_PLAY_AND_SKIP_FORWARD;
   }
 
   const isKeySkipBackward =
@@ -57,6 +57,6 @@ export function useMp3SectionCommand(mp3SectionRef, onCommand) {
   return {
     COMMAND_PLAY_PAUSE,
     COMMAND_SKIP_BACKWARD,
-    COMMAND_SKIP_FORWARD,
+    COMMAND_PLAY_AND_SKIP_FORWARD,
   };
 }
