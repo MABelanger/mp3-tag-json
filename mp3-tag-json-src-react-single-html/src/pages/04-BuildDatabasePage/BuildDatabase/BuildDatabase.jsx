@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { useBuildIndexDb } from "./hooks/useBuildIndexDb9";
 
 export function BuildDatabase(props) {
@@ -13,9 +14,7 @@ export function BuildDatabase(props) {
   if (!isDbReady) {
     return <div>Loading db in progress...</div>;
   }
-  return (
-    <div>
-      DB READY !<button onClick={props.onNext}>Next find sound</button>
-    </div>
-  );
+
+  // DB READY !
+  props.onNext();
 }
