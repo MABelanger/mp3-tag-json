@@ -33,8 +33,6 @@ function Mp3SectionComponent(props) {
     isPlaying ? index : -1
   );
 
-  console.log("DOM execution painting for index position:", index);
-
   const { mp3Handle, mp3Path } = result;
   const [audioUrl, setAudioUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);

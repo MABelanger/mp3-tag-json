@@ -57,7 +57,6 @@ export function FinderPlayer(props) {
   }, []);
 
   function handleFilterChange(newFilters) {
-    console.log("newFilters", newFilters);
     finderStore.applyFilters(newFilters);
     if (virtuosoRef.current) virtuosoRef.current.scrollToIndex({ index: 0 });
   }
@@ -90,15 +89,11 @@ export function FinderPlayer(props) {
     [onKeyDown]
   );
 
-  console.log("This will log ON MOUNT and never again!");
-
   function handleOnEscapeFromMp3Section() {
-    console.log("handleOnEscapeFromMp3Section");
     setIsSearchFocused(true);
   }
 
   function handleOnEscapeFromDynamicForm() {
-    console.log("handleOnEscapeFromDynamicForm");
     setIsSearchFocused(false);
     setSelectedFirstElement();
     finderStore.resetSelectionState();

@@ -7,7 +7,6 @@ export function BuildDatabase(props) {
   const [isDbReady, setIsDbReady] = useState(false);
 
   function handleCompleteBuildIndexDb(countItemAddedToIndexDb) {
-    console.log(" item saved countItemAddedToIndexDb", countItemAddedToIndexDb);
     setIsDbReady(true);
   }
 

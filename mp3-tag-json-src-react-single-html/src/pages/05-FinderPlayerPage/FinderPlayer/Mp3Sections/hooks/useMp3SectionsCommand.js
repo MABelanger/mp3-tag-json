@@ -55,15 +55,10 @@ export function useMp3SectionsCommand(numberOfSection, onEscape) {
       }
     } else if (command === COMMAND_ESCAPE) {
       onEscape();
-      console.log("ESCAPE");
     }
 
     // 3. Update memory instantly (0% rendering overhead)
     selectedIndexRef.current = nextIndex;
-    console.log(
-      "Keyboard shifted index reference to:",
-      selectedIndexRef.current
-    );
 
     // 4. Push the new value straight into the external store channel.
     // This updates ONLY the 2 rows changing states, bypassing the parent completely!

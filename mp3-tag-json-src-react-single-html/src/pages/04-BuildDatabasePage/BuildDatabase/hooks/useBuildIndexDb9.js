@@ -39,7 +39,6 @@ function processItemDynamically(item, config) {
 
     // If it's a multi-entry field and already an array, lowercase all its elements
     if (conf.multiEntry && Array.isArray(value)) {
-      console.log("conf.multiEntry, value", conf.multiEntry, value);
       processedItem[conf.key] = value.map((str) =>
         typeof str === "string" ? str.trim().toLowerCase() : str
       );
@@ -47,13 +46,7 @@ function processItemDynamically(item, config) {
 
     // Handle single-value strings if needed (non-multiEntry, non-numeric)
     else if (typeof value === "string" && conf.type !== "range") {
-      console.log(
-        "Handle single-value strings if needed (non-multiEntry, non-numeric)",
-        value
-      );
-
       processedItem[conf.key] = value.toLowerCase(); // 👈  Added .toLowerCase() here
-      console.log("processedItem[conf.key]", processedItem[conf.key]);
     }
     // Optional: Cast numeric ranges to actual numbers if they come as strings
     else if (
@@ -73,7 +66,6 @@ function processItemDynamically(item, config) {
 
 async function storeJsonTracksToIndexedDB(scannedFiles) {
   const db = await getDatabase();
-  console.log("reload db debug 3!!!", db);
   clearTracksDatabase(db);
 
   let totalStoredCount = 0;
@@ -115,9 +107,6 @@ async function storeJsonTracksToIndexedDB(scannedFiles) {
     }
   }
 
-  console.log(
-    `IndexedDB import complete! Stored ${totalStoredCount} total records.`
-  );
   return totalStoredCount;
 }
 
@@ -127,7 +116,6 @@ export function useBuildIndexDb(jsonTracks, onComplete) {
     async function doBuildIndexDb() {
       if (!jsonTracks || jsonTracks.length === 0) return;
 
-      console.log("Starting IndexedDB population...");
       try {
         const count = await storeJsonTracksToIndexedDB(jsonTracks);
         if (onComplete) onComplete(count);

@@ -5,7 +5,6 @@ import { Title } from "./Title";
 import { TableData } from "./TableData";
 
 export function InfoHeader(props) {
-  console.log("props.audioUrl", props.audioUrl);
   const { mp3Path } = props.result;
   const soundName = getSoundName(mp3Path);
 
